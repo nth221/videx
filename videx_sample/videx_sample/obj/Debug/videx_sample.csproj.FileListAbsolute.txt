@@ -1,0 +1,15 @@
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\bin\Debug\videx_sample.exe.config
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\bin\Debug\videx_sample.exe
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\bin\Debug\videx_sample.pdb
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\videx_sample.csproj.AssemblyReference.cache
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\videx_sample.Form1.resources
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\videx_sample.Properties.Resources.resources
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\videx_sample.csproj.GenerateResource.cache
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\videx_sample.csproj.CoreCompileInputs.cache
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\videx_sample.exe
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\videx_sample.pdb
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\bin\Debug\Interop.WMPLib.dll
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\Interop.WMPLib.dll
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\psy\Desktop\capstone\C# sample\videx_sample\videx_sample\obj\Debug\videx_sample.csproj.ResolveComReference.cache
