@@ -1,0 +1,63 @@
+﻿<Window x:Class="videx.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:videx"
+        xmlns:vm="clr-namespace:videx.MVVM.ViewModels"
+        mc:Ignorable="d"
+        Title="Videx" Height="750" Width="1280" Icon="/cctv.ico"
+        ResizeMode="NoResize"
+        Background="Transparent">
+
+    <Window.DataContext>
+        <vm:NavigationViewModel />
+    </Window.DataContext>
+
+    <Border Background="#272537">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="159*"/>
+                <ColumnDefinition Width="97*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <RadioButton Content="분석설정"
+                         IsChecked="True"
+                         Command="{Binding SettingCommand}"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Height="50"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Foreground="White"
+                         FontSize="14" Width="90" Margin="10,0,0,0"/>
+
+            <RadioButton Content="분석결과"
+                         Command="{Binding AnalysisCommand}"
+             HorizontalAlignment="Left"
+             VerticalAlignment="Center"
+             Height="50"
+             Style="{StaticResource MenuButtonTheme}"
+             Foreground="White"
+             FontSize="14" Margin="105,0,0,0" Width="90"/>
+
+            <Grid x:Name="settingPage" Grid.Row="1" Visibility="Visible" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="93*"/>
+                    <ColumnDefinition Width="547*"/>
+                </Grid.ColumnDefinitions>
+                <ContentControl x:Name="Pages"
+                Content="{Binding CurrentView}" Margin="0,10,0,0" Grid.ColumnSpan="2" Height="666" />
+            </Grid>
+
+        </Grid>
+
+
+
+
+    </Border>
+</Window>
