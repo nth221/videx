@@ -3,23 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "videx", "videx\videx.csproj", "{BEA72752-3790-4234-8B99-FAD51A5FDB04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "videx", "videx.csproj", "{228B31E6-882D-43D0-9659-38F30723EC3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BEA72752-3790-4234-8B99-FAD51A5FDB04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEA72752-3790-4234-8B99-FAD51A5FDB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEA72752-3790-4234-8B99-FAD51A5FDB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEA72752-3790-4234-8B99-FAD51A5FDB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{228B31E6-882D-43D0-9659-38F30723EC3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{228B31E6-882D-43D0-9659-38F30723EC3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{228B31E6-882D-43D0-9659-38F30723EC3B}.Debug|x64.ActiveCfg = Debug|x64
+		{228B31E6-882D-43D0-9659-38F30723EC3B}.Debug|x64.Build.0 = Debug|x64
+		{228B31E6-882D-43D0-9659-38F30723EC3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{228B31E6-882D-43D0-9659-38F30723EC3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{228B31E6-882D-43D0-9659-38F30723EC3B}.Release|x64.ActiveCfg = Release|x64
+		{228B31E6-882D-43D0-9659-38F30723EC3B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FD3ED1AB-8839-44C6-84C3-544BFE50E78E}
+		SolutionGuid = {A312531E-C0BB-4FBD-B2C0-8E9632B05AD6}
 	EndGlobalSection
 EndGlobal
