@@ -28,7 +28,7 @@ namespace videx.Model.YOLOv5
             // DB Connection & Create Table
             CreateTable();
 
-            var detector = new YoloDetector("C:\\Users\\psy\\Desktop\\wpf_ver\\c#\\OnnxSample\\model\\yolov5s.onnx");
+            var detector = new YoloDetector("C:\\Users\\psy\\Desktop\\yolov5s.onnx");
             List<string> outputFilePaths = new List<string>();
 
             string final_path = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output_video.avi";

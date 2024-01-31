@@ -1,4 +1,5 @@
 ﻿using Microsoft.ML.OnnxRuntime;
+
 using Microsoft.ML.OnnxRuntime.Tensors;
 using OpenCvSharp;
 using OpenCvSharp.Dnn;
@@ -37,8 +38,8 @@ namespace videx.Model.YOLOv5
             sess = new InferenceSession(model_path, option);
 
             //GPU
-            //using var gpuSessionOptoins = SessionOptions.MakeSessionOptionWithCudaProvider(0);
-            //sess = new InferenceSession(model_path, gpuSessionOptoins);
+            /*using var gpuSessionOptoins = SessionOptions.MakeSessionOptionWithCudaProvider(0);
+            sess = new InferenceSession(model_path, gpuSessionOptoins);*/
 
             imageFloat = new Mat();
             debugImage = new Mat();

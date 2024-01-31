@@ -34,6 +34,23 @@ namespace videx.ViewModel
 
         public ObservableCollection<string> CheckedItems { get; set; }
         public ObservableCollection<CheckBoxItem> CheckBoxItems { get; set; }
+        public ICommand SelectCategoryCommand { get; set; }
+
+
+        private bool isChecking;
+
+        public bool IsChecking
+        {
+            get { return isChecking; }
+            set
+            {
+                if (isChecking != value)
+                {
+                    isChecking = value;
+                    OnPropertyChanged(nameof(IsChecking));
+                }
+            }
+        }
 
         public AnalysisViewModel()
         {
@@ -42,6 +59,7 @@ namespace videx.ViewModel
             playCommand = new RelayCommand(ExecutePlayCommand, CanExecutePlayCommand);
             pauseCommand = new RelayCommand(ExecutePauseCommand, CanExecutePauseCommand);
             stopCommand = new RelayCommand(ExecuteStopCommand, CanExecuteStopCommand);
+            SelectCategoryCommand = new RelayCommand(ExecuteSelect, CanExecuteSelect);
 
 
             VideoObject.Source = new Uri(outputFilePath);
@@ -57,7 +75,7 @@ namespace videx.ViewModel
 
 
             InitializeCheckBoxItems();
-            DeleteFolder();
+            //DeleteFolder();
         }
         private void DeleteFolder()
         {
@@ -67,7 +85,94 @@ namespace videx.ViewModel
             Console.WriteLine("Directory is successfully deleted.");
         }
 
-        private bool isChecked;
+        private void ExecuteSelect(object parameter)
+        {
+
+            if (parameter is string parameterString)
+            {
+                if (int.TryParse(parameterString, out int buttonIndex))
+                {
+                    ToggleIsChecking();
+                    // 안전하게 string을 int로 변환한 후 처리
+                    SelectCheckBoxItemsByButtonIndex(buttonIndex);
+                }
+
+            }
+        }
+
+        private void ToggleIsChecking()
+        {
+            // isChecking 값을 토글
+            IsChecking = !IsChecking;
+        }
+
+        private bool CanExecuteSelect(object parameter)
+        {
+            return true;
+        }
+
+        private void SelectCheckBoxItemsByButtonIndex(int buttonIndex)
+        {
+            switch (buttonIndex)
+            {
+                case 0:
+                    SelectCheckBoxItems(0, 0);
+                    break;
+
+                case 1:
+                    SelectCheckBoxItems(1, 8);
+                    break;
+
+                case 2:
+                    SelectCheckBoxItems(9, 11);
+                    break;
+
+                case 3:
+                    SelectCheckBoxItems(13, 13);
+                    SelectCheckBoxItems(56, 59);
+                    break;
+
+                case 4:
+                    SelectCheckBoxItems(24, 79);
+                    break;
+
+                case 5:
+                    SelectCheckBoxItems(39, 71);
+                    break;
+
+                case 6:
+                    SelectCheckBoxItems(46, 55);
+                    break;
+
+                case 7:
+                    SelectCheckBoxItems(62, 78);
+                    break;
+
+                case 8:
+                    SelectCheckBoxItems(14, 38);
+                    break;
+
+                case 9:
+                    SelectCheckBoxItems(29, 38);
+                    break;
+
+                // 다른 버튼에 대한 처리도 필요하다면 추가적으로 작성
+
+                default:
+                    break;
+            }
+        }
+
+        private void SelectCheckBoxItems(int startIndex, int endIndex)
+        {
+
+            // startIndex부터 endIndex까지의 체크박스를 선택
+            for (int i = startIndex; i <= endIndex; i++)
+            {
+                CheckBoxItems[i].IsChecked = isChecking;
+                Console.WriteLine(CheckBoxItems[i].IsChecked);
+            }
+        }
 
         private void InitializeCheckBoxItems()
         {

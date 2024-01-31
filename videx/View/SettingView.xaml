@@ -128,14 +128,112 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                 </Border>
                 <ScrollViewer Margin="19,111,38,265" Background="#272537" BorderThickness="1" Grid.Column="1">
                     <StackPanel DataContext="{Binding}">
-                        <Button Content="Vehicle" Background="#323345" Foreground="#FFFBFBFB" />
+                        <Button Content="vehicle" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="1"/>
                         <StackPanel Margin="20,0,0,0">
-                            <CheckBox Content="{Binding CheckBoxItems[0].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[0].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[1].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[1].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[2].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[2].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[3].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[3].IsChecked}" Foreground="#FFFBFBFB"/>
-                            <CheckBox Content="{Binding CheckBoxItems[4].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[4].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[5].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[5].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[7].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[7].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[6].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[6].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[4].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[4].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[8].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[8].IsChecked}" Foreground="#FFFBFBFB"/>
+                        </StackPanel>
+                        <Button Content="person" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="0"/>
+                        <StackPanel Margin="20,0,0,0">
+                            <CheckBox Content="{Binding CheckBoxItems[0].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[0].IsChecked}" Foreground="#FFFBFBFB"/>
+                        </StackPanel>
+                        <Button Content="traffic" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="2"/>
+                        <StackPanel Margin="20,0,0,0">
+                            <CheckBox Content="{Binding CheckBoxItems[9].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[9].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[10].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[10].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[11].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[11].IsChecked}" Foreground="#FFFBFBFB"/>
+                        </StackPanel>
+                        <Button Content="furniture" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="3"/>
+                        <StackPanel Margin="20,0,0,0">
+                            <CheckBox Content="{Binding CheckBoxItems[13].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[13].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[56].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[56].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[57].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[57].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[59].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[59].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[58].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[58].IsChecked}" Foreground="#FFFBFBFB"/>
+                        </StackPanel>
+                        <Button Content="grocery" Background="#323345" Foreground="#FFFBFBFB" />
+                        <StackPanel Margin="20,0,0,0">
+                            <CheckBox Content="{Binding CheckBoxItems[24].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[24].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[25].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[25].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[26].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[26].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[27].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[27].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[28].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[28].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[73].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[73].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[74].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[74].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[75].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[75].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[76].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[76].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[77].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[77].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[79].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[79].IsChecked}" Foreground="#FFFBFBFB"/>
+                        </StackPanel>
+                        <Button Content="utensil" Background="#323345" Foreground="#FFFBFBFB" />
+                        <StackPanel Margin="20,0,0,0">
+                            <CheckBox Content="{Binding CheckBoxItems[39].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[39].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[40].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[40].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[41].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[41].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[42].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[42].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[43].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[43].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[44].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[44].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[45].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[45].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[71].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[71].IsChecked}" Foreground="#FFFBFBFB"/>
+                        </StackPanel>
+                        <Button Content="food" Background="#323345" Foreground="#FFFBFBFB" />
+                        <StackPanel Margin="20,0,0,0">
+                            <CheckBox Content="{Binding CheckBoxItems[46].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[46].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[47].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[47].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[49].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[49].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[48].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[48].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[50].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[50].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[51].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[51].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[52].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[52].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[53].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[53].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[54].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[54].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[55].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[55].IsChecked}" Foreground="#FFFBFBFB"/>
+                        </StackPanel>
+                        <Button Content="electric device" Background="#323345" Foreground="#FFFBFBFB" />
+                        <StackPanel Margin="20,0,0,0">
+                            <CheckBox Content="{Binding CheckBoxItems[62].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[62].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[63].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[63].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[64].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[64].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[65].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[65].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[66].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[66].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[67].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[67].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[68].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[68].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[69].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[69].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[70].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[70].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[72].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[72].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[78].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[78].IsChecked}" Foreground="#FFFBFBFB"/>
+                        </StackPanel>
+                        <Button Content="animal" Background="#323345" Foreground="#FFFBFBFB" />
+                        <StackPanel Margin="20,0,0,0">
+                            <CheckBox Content="{Binding CheckBoxItems[14].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[14].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[15].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[15].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[16].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[16].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[17].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[17].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[18].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[18].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[19].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[19].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[20].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[20].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[21].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[21].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[22].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[22].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[23].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[23].IsChecked}" Foreground="#FFFBFBFB"/>
+                        </StackPanel>
+                        <Button Content="sports" Background="#323345" Foreground="#FFFBFBFB" />
+                        <StackPanel Margin="20,0,0,0">
+                            <CheckBox Content="{Binding CheckBoxItems[29].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[29].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[30].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[30].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[31].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[31].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[32].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[32].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[33].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[33].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[34].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[34].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[35].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[35].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[36].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[36].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[37].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[37].IsChecked}" Foreground="#FFFBFBFB"/>
+                            <CheckBox Content="{Binding CheckBoxItems[38].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[38].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
                         <Button Background="#323345" Foreground="#FFFBFBFB" />
                         <StackPanel Margin="20,0,0,0">
