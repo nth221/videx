@@ -23,8 +23,7 @@ namespace videx.Model.YOLOv5
 {
     public class YoloProcess
     {
-        private static int expNumber = 1;
-
+        private static string expDir;
         public static void Execute(string inputFilePath)
         {
             // DB Connection & Create Table
@@ -32,14 +31,14 @@ namespace videx.Model.YOLOv5
 
             //var detector = new YoloDetector("C:\\Users\\psy\\Desktop\\yolov5s.onnx");
 
-            string currentDirectory = System.IO.Directory.GetCurrentDirectory();
-            string yolov5sPath = System.IO.Path.Combine(currentDirectory, "onnx", "yolov5s.onnx");
+            string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
+            string yolov5sPath = System.IO.Path.Combine(desktopPath, "yolov5s.onnx");
             var detector = new YoloDetector(yolov5sPath);
 
             List<string> outputFilePaths = new List<string>();
 
             //string final_path = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output_video.avi";
-            string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
+
             string output_path = System.IO.Path.Combine(desktopPath, "output", "Thread");
             string final_path = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
 
@@ -94,7 +93,7 @@ namespace videx.Model.YOLOv5
 
             var outputFilePath = sortedFilePaths.ToList();
 
-            string imagePath = System.IO.Path.Combine(desktopPath, "output", "Thread", $"exp{expNumber}");
+            string imagePath = expDir;
 
             UpdateAllImage(imagePath);
             CombineVideo(outputFilePath, final_path);
@@ -116,7 +115,8 @@ namespace videx.Model.YOLOv5
                 Console.WriteLine($"Directory '{ouput_path}'is created.");
             }
 
-            string expDir;
+            int expNumber = 1;
+
 
             do
             {

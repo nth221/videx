@@ -26,8 +26,10 @@ namespace videx.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-        public string outputFilePath = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output.avi";
+        private static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
+        private string outputFilePath = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
+       
+        //public string outputFilePath = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output.avi";
         public bool sldrDragStart = false; 
         string StartT, EndT;
 
@@ -170,7 +172,6 @@ namespace videx.ViewModel
             for (int i = startIndex; i <= endIndex; i++)
             {
                 CheckBoxItems[i].IsChecked = isChecking;
-                Console.WriteLine(CheckBoxItems[i].IsChecked);
             }
         }
 
