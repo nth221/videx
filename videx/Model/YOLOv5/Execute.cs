@@ -25,6 +25,10 @@ namespace videx.Model.YOLOv5
     {
         private static string expDir;
         public static int flag;
+        private static string strConn = "Data Source=mydatabase.db;Version=3;Mode=Serialized;";
+
+
+
         public static void Execute(string inputFilePath)
         {
             // DB Connection & Create Table
@@ -58,22 +62,52 @@ namespace videx.Model.YOLOv5
             int[] start = new int[maxThreadCount];
             int[] end = new int[maxThreadCount];
             Console.WriteLine($"Maximum thread count for this system: {maxThreadCount}, totalFrames : {totalFrames}");
+
             for (int i = 0; i < maxThreadCount; i++)
             {
                 start[i] = i * segmentSize;
                 end[i] = (i + 1) * segmentSize;
             }
 
-            Thread[] threads = new Thread[maxThreadCount];
+
 
             stopwatch.Start();
 
-            for (int i = 0; i < maxThreadCount; i++)
+            ThreadLocal<SQLiteConnection> threadLocalConnection = new ThreadLocal<SQLiteConnection>(() =>
             {
-                int startFrame = i * segmentSize;
-                int endFrame = (i + 1) * segmentSize;
-                threads[i] = new Thread(() => DoSomething(output_path, detector, inputFilePath, outputFilePaths, startFrame, endFrame));
-                Console.WriteLine($"Start Frame : {startFrame}, End Frame : {endFrame}, Adder : {segmentSize}");
+                SQLiteConnection connection = new SQLiteConnection(strConn);
+                connection.Open();
+                return connection;
+            });
+
+            Thread[] threads = new Thread[maxThreadCount];
+
+            using (SQLiteConnection connection = new SQLiteConnection(strConn))
+            {
+                try
+                {
+                    connection.Open();
+
+                    for (int i = 0; i < maxThreadCount; i++)
+                    {
+                        int startFrame = i * segmentSize;
+                        int endFrame = (i + 1) * segmentSize;
+                        threads[i] = new Thread(() =>
+                        {
+                            using (var connection = threadLocalConnection.Value)
+                            {
+                                DoSomething(connection, output_path, detector, inputFilePath, outputFilePaths, startFrame, endFrame);
+                            }
+                        });
+                        Console.WriteLine($"Start Frame : {startFrame}, End Frame : {endFrame}, Adder : {segmentSize}");
+                    }
+
+                    Console.WriteLine("DB Connection is Good and Create ImageTable");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Error: {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
 
             Console.WriteLine("Start threads...");
@@ -96,7 +130,7 @@ namespace videx.Model.YOLOv5
 
             string imagePath = expDir;
 
-            UpdateAllImage(imagePath);
+            //UpdateAllImage(imagePath);
             CombineVideo(outputFilePath, final_path);
 
             stopwatch.Stop();
@@ -104,11 +138,12 @@ namespace videx.Model.YOLOv5
                            stopwatch.ElapsedMilliseconds + "ms");
         }
 
-        private static void DoSomething(string ouput_path, YoloDetector detector, string inputFilePath, List<string> outputFilePaths, int startFrame, int endFrame)
-        {
-            Prediction prediction = new Prediction();
 
+
+        private static void DoSomething(SQLiteConnection connection, string ouput_path, YoloDetector detector, string inputFilePath, List<string> outputFilePaths, int startFrame, int endFrame)
+        {
             string outputFileName = Path.Combine(ouput_path, $"output_{startFrame}-{endFrame}.avi");
+            Image croppedImage = null;
 
             if (!Directory.Exists(ouput_path))
             {
@@ -162,6 +197,7 @@ namespace videx.Model.YOLOv5
                         var result = detector.objectDetection(frame);
 
                         List<Image> croppedImagesList = new List<Image>();
+
                         using (var dispImage = frame.Clone())
                         {
                             foreach (var obj in result)
@@ -173,26 +209,34 @@ namespace videx.Model.YOLOv5
                                     Cv2.PutText(dispImage, obj.Confidence.ToString("F2"), new Point(obj.Box.Xmin, obj.Box.Ymin + 8), HersheyFonts.HersheySimplex, 0.5, new Scalar(255, 0, 0), 1);
 
                                     Rectangle cropArea = new Rectangle((int)obj.Box.Xmin, (int)obj.Box.Ymin, (int)(obj.Box.Xmax - obj.Box.Xmin), (int)(obj.Box.Ymax - obj.Box.Ymin));
-                                    Image croppedImage = Crop.cropImage(frame.ToBitmap(), cropArea);
-
-
-                                    string filename = $"{frameNumber}_{obj.Label}.png";
-                                    string filePath = Path.Combine(expDir, filename);
+                                    croppedImage = Crop.cropImage(frame.ToBitmap(), cropArea);
                                     if (croppedImage != null)
                                     {
-                                        croppedImage.Save(filePath);
+                                        byte[] imgBytes = ImageToByteArray(croppedImage);
+                                        connection.Execute("INSERT INTO ImageTable (Class, Frame, ImageBytes) VALUES (@Class, @Frame, @ImageBytes)", new { Class = obj.Label, Frame = frameNumber, ImageBytes = imgBytes });
                                         croppedImage.Dispose();
                                     }
                                 }
                             }
+
                             videoWriter.Write(dispImage);
                         }
                     }
                 }
+
                 videoWriter.Release();
                 Console.WriteLine($"Video splitting completed for frames {startFrame} to {endFrame}.");
                 outputFilePaths.Add(outputFileName);
                 Console.WriteLine($"Video file created: {outputFileName}");
+            }
+        }
+
+        static byte[] ImageToByteArray(Image image)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return ms.ToArray();
             }
         }
 
@@ -208,7 +252,6 @@ namespace videx.Model.YOLOv5
             return 0;
         }
 
-        private static string strConn = "Data Source=mydatabase.db;Version=3;Mode=Serialized;";
 
         private static void CreateTable()
         {
@@ -231,7 +274,7 @@ namespace videx.Model.YOLOv5
             }
         }
 
-        private static void UpdateAllImage(string directoryPath)
+/*        private static void UpdateAllImage(string directoryPath)
         {
             try
             {
@@ -271,7 +314,7 @@ namespace videx.Model.YOLOv5
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
-        }
+        }*/
 
         public static List<ImageData> SelectImage()
         {
