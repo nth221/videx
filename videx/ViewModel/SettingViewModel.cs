@@ -59,7 +59,7 @@ namespace videx.ViewModel
 
             InitializeCheckBoxItems();
 
-            VideoObject.LoadedBehavior = MediaState.Manual;
+            VideoObject.LoadedBehavior = MediaState.Manual; 
             VideoObject.UnloadedBehavior = MediaState.Manual;
 
             VideoObject.MediaOpened += VideoObject_MediaOpened;
@@ -574,13 +574,8 @@ namespace videx.ViewModel
 
 
             currentWindow.Visibility = Visibility.Collapsed;
-            LoadingView loadingView = new LoadingView();
-            loadingView.Show();
 
             UpdateTestLabels();
-            await Task.Run(() => YoloProcess.Execute(outputPath));
-
-            loadingView.Close();
             AnalysisView AnalysisView = new AnalysisView();
             AnalysisView.Show();
 

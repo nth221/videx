@@ -13,6 +13,8 @@ using System.IO;
 using OpenCvSharp;
 using videx.Model;
 using videx.Model.YOLOv5;
+using System.Threading.Tasks;
+using videx.View;
 
 namespace videx.ViewModel
 {
@@ -38,7 +40,6 @@ namespace videx.ViewModel
         public ObservableCollection<CheckBoxItem> CheckBoxItems { get; set; }
         public ICommand SelectCategoryCommand { get; set; }
 
-
         private bool isChecking;
 
         public bool IsChecking
@@ -56,12 +57,14 @@ namespace videx.ViewModel
 
         public AnalysisViewModel()
         {
+            Analysis();
             SelectedOptions = new ObservableCollection<string>();
             videoObject = new MediaElement();
             playCommand = new RelayCommand(ExecutePlayCommand);
             pauseCommand = new RelayCommand(ExecutePauseCommand);
             stopCommand = new RelayCommand(ExecuteStopCommand);
             SelectCategoryCommand = new RelayCommand(ExecuteSelect, CanExecuteSelect);
+
 
 
             VideoObject.Source = new Uri(outputFilePath);
@@ -72,13 +75,26 @@ namespace videx.ViewModel
             VideoObject.MediaEnded += VideoObject_MediaEnded;
             VideoObject.MediaFailed += VideoObject_MediaFailed;
 
+
             media_start();
             LoadImages();
 
 
             InitializeCheckBoxItems();
+
             //DeleteFolder();
         }
+
+        private async void Analysis() {
+            string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
+            string outputPath = System.IO.Path.Combine(desktopPath , "edited.mp4");
+            await Task.Run(() => YoloProcess.Execute(outputPath));
+            if (YoloProcess.flag == 1)
+            {
+                VideoReady();
+            }
+        }
+
         private void DeleteFolder()
         {
             string directoryPath = "C:\\Users\\psy\\Desktop\\output\\Thread1\\exp1";
@@ -92,7 +108,7 @@ namespace videx.ViewModel
 
             if (parameter is string parameterString)
             {
-                if (int.TryParse(parameterString, out int buttonIndex))
+                if (int.TryParse(parameterString, out int buttonIndex)) 
                 {
                     ToggleIsChecking();
                     SelectCheckBoxItemsByButtonIndex(buttonIndex);
@@ -234,7 +250,6 @@ namespace videx.ViewModel
         private void UpdateConcatenatedLabels()
         {
             ConcatenatedLabels = string.Join(", ", LabelMap.test_Labels);
-            Console.WriteLine(ConcatenatedLabels);
         }
 
         private void OnSelectedLabelsChanged()
@@ -521,6 +536,26 @@ namespace videx.ViewModel
         {
             IsPlaying = false;
             VideoObject.Stop();
+        }
+
+        private Visibility loading;
+
+        public Visibility Loading
+        {
+            get { return loading; }
+            set
+            {
+                if (loading != value)
+                {
+                    loading = value;
+                    OnPropertyChanged(nameof(Loading));
+                }
+            }
+        }
+
+        public void VideoReady()
+        {
+            Loading = Visibility.Collapsed;
         }
 
         private ObservableCollection<string> selectedOptions = new ObservableCollection<string>();

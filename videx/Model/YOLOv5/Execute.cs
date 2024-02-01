@@ -24,6 +24,7 @@ namespace videx.Model.YOLOv5
     public class YoloProcess
     {
         private static string expDir;
+        public static int flag;
         public static void Execute(string inputFilePath)
         {
             // DB Connection & Create Table
@@ -309,7 +310,7 @@ namespace videx.Model.YOLOv5
             MergeVideos(VideoPaths, outputDirectory);
 
             Console.WriteLine("Video merging completed.");
-
+            flag = 1;
         }
 
         static void MergeVideos(string[] inputVideoPaths, string outputVideoPath)
@@ -341,7 +342,6 @@ namespace videx.Model.YOLOv5
             videoWriter.Release();
             var video = new VideoCapture(outputVideoPath);
             var totalFrames = (int)video.Get(VideoCaptureProperties.FrameCount);
-            Console.WriteLine(totalFrames);
         }
     }
 }

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:busyIndicator="https://github.com/moh3ngolshani/BusyIndicator"
         xmlns:vm="clr-namespace:videx.ViewModel"
         mc:Ignorable="d"
                Title="Videx" Height="750" Width="1280"
@@ -53,6 +54,13 @@
                     <Grid>
                         <!-- media controll -->
                         <ContentControl Content="{Binding VideoObject}"  Margin="10,10,10,65"/>
+                        <busyIndicator:BusyMask x:Name="BusyIndicator" 
+                        IsBusy="False" 
+                        IndicatorType="Swirl" 
+                        BusyContent="Please wait..." 
+                        BusyContentMargin="0,20,0,0" 
+                        IsBusyAtStartup="True" Margin="10,10,10,65"
+                                                Visibility="{Binding Loading}"/>
                         <Slider x:Name="sldrPlayTime" Margin="10,0,10,42" VerticalAlignment="Bottom"  AllowDrop="True"
                          Value="{Binding SlderPlayTime}"
                          Minimum="{Binding SliderMinimum}"
