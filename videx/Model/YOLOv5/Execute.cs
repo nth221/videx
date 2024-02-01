@@ -23,15 +23,25 @@ namespace videx.Model.YOLOv5
 {
     public class YoloProcess
     {
+        private static int expNumber = 1;
+
         public static void Execute(string inputFilePath)
         {
             // DB Connection & Create Table
             CreateTable();
 
-            var detector = new YoloDetector("C:\\Users\\psy\\Desktop\\yolov5s.onnx");
+            //var detector = new YoloDetector("C:\\Users\\psy\\Desktop\\yolov5s.onnx");
+
+            string currentDirectory = System.IO.Directory.GetCurrentDirectory();
+            string yolov5sPath = System.IO.Path.Combine(currentDirectory, "onnx", "yolov5s.onnx");
+            var detector = new YoloDetector(yolov5sPath);
+
             List<string> outputFilePaths = new List<string>();
 
-            string final_path = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output_video.avi";
+            //string final_path = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output_video.avi";
+            string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
+            string output_path = System.IO.Path.Combine(desktopPath, "output", "Thread");
+            string final_path = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
 
             Stopwatch stopwatch = new Stopwatch();
 
@@ -54,17 +64,15 @@ namespace videx.Model.YOLOv5
                 end[i] = (i + 1) * segmentSize;
             }
 
-
             Thread[] threads = new Thread[maxThreadCount];
 
-            //
             stopwatch.Start();
 
             for (int i = 0; i < maxThreadCount; i++)
             {
                 int startFrame = i * segmentSize;
                 int endFrame = (i + 1) * segmentSize;
-                threads[i] = new Thread(() => DoSomething(detector, inputFilePath, outputFilePaths, startFrame, endFrame));
+                threads[i] = new Thread(() => DoSomething(output_path, detector, inputFilePath, outputFilePaths, startFrame, endFrame));
                 Console.WriteLine($"Start Frame : {startFrame}, End Frame : {endFrame}, Adder : {segmentSize}");
             }
 
@@ -86,33 +94,33 @@ namespace videx.Model.YOLOv5
 
             var outputFilePath = sortedFilePaths.ToList();
 
+            string imagePath = System.IO.Path.Combine(desktopPath, "output", "Thread", $"exp{expNumber}");
 
-            UpdateAllImage("C:\\Users\\psy\\Desktop\\output\\Thread1\\exp1");
-            CombineVideo(outputFilePath, maxThreadCount);
+            UpdateAllImage(imagePath);
+            CombineVideo(outputFilePath, final_path);
 
             stopwatch.Stop();
             Console.WriteLine("time : " +
                            stopwatch.ElapsedMilliseconds + "ms");
         }
 
-        private static void DoSomething(YoloDetector detector, string inputFilePath, List<string> outputFilePaths, int startFrame, int endFrame)
+        private static void DoSomething(string ouput_path, YoloDetector detector, string inputFilePath, List<string> outputFilePaths, int startFrame, int endFrame)
         {
             Prediction prediction = new Prediction();
 
-            string outputDirectory = "C:\\Users\\psy\\Desktop\\output\\Thread1";
-            string outputFileName = Path.Combine(outputDirectory, $"output_{startFrame}-{endFrame}.avi");
+            string outputFileName = Path.Combine(ouput_path, $"output_{startFrame}-{endFrame}.avi");
 
-            if (!Directory.Exists(outputDirectory))
+            if (!Directory.Exists(ouput_path))
             {
-                Directory.CreateDirectory(outputDirectory);
-                Console.WriteLine($"Directory '{outputDirectory}'is created.");
+                Directory.CreateDirectory(ouput_path);
+                Console.WriteLine($"Directory '{ouput_path}'is created.");
             }
 
             string expDir;
-            int expNumber = 1;
+
             do
             {
-                expDir = Path.Combine(outputDirectory, $"exp{expNumber}");
+                expDir = Path.Combine(ouput_path, $"exp{expNumber}");
                 expNumber++;
             }
             while (Directory.Exists(expDir));
@@ -294,11 +302,8 @@ namespace videx.Model.YOLOv5
             return imageList;
         }
 
-        public static void CombineVideo(List<string> inputVideoPaths, int maxThread)
+        public static void CombineVideo(List<string> inputVideoPaths, string outputDirectory)
         {
-
-            string outputDirectory = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output.avi";
-
             string[] VideoPaths = inputVideoPaths.ToArray();
 
             MergeVideos(VideoPaths, outputDirectory);
