@@ -58,9 +58,9 @@ namespace videx.ViewModel
         {
             SelectedOptions = new ObservableCollection<string>();
             videoObject = new MediaElement();
-            playCommand = new RelayCommand(ExecutePlayCommand, CanExecutePlayCommand);
-            pauseCommand = new RelayCommand(ExecutePauseCommand, CanExecutePauseCommand);
-            stopCommand = new RelayCommand(ExecuteStopCommand, CanExecuteStopCommand);
+            playCommand = new RelayCommand(ExecutePlayCommand);
+            pauseCommand = new RelayCommand(ExecutePauseCommand);
+            stopCommand = new RelayCommand(ExecuteStopCommand);
             SelectCategoryCommand = new RelayCommand(ExecuteSelect, CanExecuteSelect);
 
 
@@ -95,7 +95,6 @@ namespace videx.ViewModel
                 if (int.TryParse(parameterString, out int buttonIndex))
                 {
                     ToggleIsChecking();
-                    // 안전하게 string을 int로 변환한 후 처리
                     SelectCheckBoxItemsByButtonIndex(buttonIndex);
                 }
 
@@ -104,7 +103,6 @@ namespace videx.ViewModel
 
         private void ToggleIsChecking()
         {
-            // isChecking 값을 토글
             IsChecking = !IsChecking;
         }
 
@@ -158,8 +156,6 @@ namespace videx.ViewModel
                     SelectCheckBoxItems(29, 38);
                     break;
 
-                // 다른 버튼에 대한 처리도 필요하다면 추가적으로 작성
-
                 default:
                     break;
             }
@@ -167,8 +163,6 @@ namespace videx.ViewModel
 
         private void SelectCheckBoxItems(int startIndex, int endIndex)
         {
-
-            // startIndex부터 endIndex까지의 체크박스를 선택
             for (int i = startIndex; i <= endIndex; i++)
             {
                 CheckBoxItems[i].IsChecked = isChecking;
@@ -517,31 +511,16 @@ namespace videx.ViewModel
             VideoObject.Play();
         }
 
-        private bool CanExecutePlayCommand(object parameter)
-        {
-            return !IsPlaying;
-        }
-
         private void ExecutePauseCommand(object parameter)
         {
             IsPlaying = false;
             VideoObject.Pause();
         }
 
-        private bool CanExecutePauseCommand(object parameter)
-        {
-            return IsPlaying;
-        }
-
         private void ExecuteStopCommand(object parameter)
         {
             IsPlaying = false;
             VideoObject.Stop();
-        }
-
-        private bool CanExecuteStopCommand(object parameter)
-        {
-            return IsPlaying;
         }
 
         private ObservableCollection<string> selectedOptions = new ObservableCollection<string>();

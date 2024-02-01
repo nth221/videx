@@ -49,9 +49,9 @@ namespace videx.ViewModel
         {
             SelectedOptions = new ObservableCollection<string>();
             videoObject = new MediaElement();
-            playCommand = new RelayCommand(ExecutePlayCommand, CanExecutePlayCommand);
-            pauseCommand = new RelayCommand(ExecutePauseCommand, CanExecutePauseCommand);
-            stopCommand = new RelayCommand(ExecuteStopCommand, CanExecuteStopCommand);
+            playCommand = new RelayCommand(ExecutePlayCommand);
+            pauseCommand = new RelayCommand(ExecutePauseCommand);
+            stopCommand = new RelayCommand(ExecuteStopCommand);
             SelectCategoryCommand = new RelayCommand(ExecuteSelect, CanExecuteSelect);
 
 
@@ -696,31 +696,16 @@ namespace videx.ViewModel
             VideoObject.Play();
         }
 
-        private bool CanExecutePlayCommand(object parameter)
-        {
-            return !IsPlaying;
-        }
-
         private void ExecutePauseCommand(object parameter)
         {
             IsPlaying = false;
             VideoObject.Pause();
         }
 
-        private bool CanExecutePauseCommand(object parameter)
-        {
-            return IsPlaying;
-        }
-
         private void ExecuteStopCommand(object parameter)
         {
             IsPlaying = false;
             VideoObject.Stop();
-        }
-
-        private bool CanExecuteStopCommand(object parameter)
-        {
-            return IsPlaying;
         }
     }
 }
