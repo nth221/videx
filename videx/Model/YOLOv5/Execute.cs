@@ -23,7 +23,7 @@ namespace videx.Model.YOLOv5
 {
     public class YoloProcess
     {
-        private static string expDir;
+        // private static string expDir;
         public static int flag;
         private static string strConn = "Data Source=mydatabase.db;Version=3;Mode=Serialized;";
 
@@ -128,7 +128,7 @@ namespace videx.Model.YOLOv5
 
             var outputFilePath = sortedFilePaths.ToList();
 
-            string imagePath = expDir;
+            //string imagePath = expDir;
 
             //UpdateAllImage(imagePath);
             CombineVideo(outputFilePath, final_path);
@@ -143,7 +143,7 @@ namespace videx.Model.YOLOv5
         private static void DoSomething(SQLiteConnection connection, string ouput_path, YoloDetector detector, string inputFilePath, List<string> outputFilePaths, int startFrame, int endFrame)
         {
             string outputFileName = Path.Combine(ouput_path, $"output_{startFrame}-{endFrame}.avi");
-            Image croppedImage = null;
+            //Image croppedImage = null;
 
             if (!Directory.Exists(ouput_path))
             {
@@ -151,17 +151,16 @@ namespace videx.Model.YOLOv5
                 Console.WriteLine($"Directory '{ouput_path}'is created.");
             }
 
-            int expNumber = 1;
-
+/*            int expNumber = 1;
 
             do
             {
                 expDir = Path.Combine(ouput_path, $"exp{expNumber}");
                 expNumber++;
             }
-            while (Directory.Exists(expDir));
+            while (Directory.Exists(expDir));*/
 
-            Directory.CreateDirectory(expDir);
+            //Directory.CreateDirectory(expDir);
 
             using (var videoCapture = new VideoCapture(inputFilePath))
             {
@@ -209,7 +208,7 @@ namespace videx.Model.YOLOv5
                                     Cv2.PutText(dispImage, obj.Confidence.ToString("F2"), new Point(obj.Box.Xmin, obj.Box.Ymin + 8), HersheyFonts.HersheySimplex, 0.5, new Scalar(255, 0, 0), 1);
 
                                     Rectangle cropArea = new Rectangle((int)obj.Box.Xmin, (int)obj.Box.Ymin, (int)(obj.Box.Xmax - obj.Box.Xmin), (int)(obj.Box.Ymax - obj.Box.Ymin));
-                                    croppedImage = Crop.cropImage(frame.ToBitmap(), cropArea);
+                                    Image croppedImage = Crop.cropImage(frame.ToBitmap(), cropArea);
                                     if (croppedImage != null)
                                     {
                                         byte[] imgBytes = ImageToByteArray(croppedImage);
