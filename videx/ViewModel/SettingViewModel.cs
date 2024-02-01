@@ -94,7 +94,6 @@ namespace videx.ViewModel
                 if (int.TryParse(parameterString, out int buttonIndex))
                 {
                     ToggleIsChecking();
-                    // 안전하게 string을 int로 변환한 후 처리
                     SelectCheckBoxItemsByButtonIndex(buttonIndex);
                 }
 
@@ -103,7 +102,6 @@ namespace videx.ViewModel
 
         private void ToggleIsChecking()
         {
-            // isChecking 값을 토글
             IsChecking = !IsChecking;
         }
 
@@ -157,8 +155,6 @@ namespace videx.ViewModel
                     SelectCheckBoxItems(29, 38);
                     break;
 
-                // 다른 버튼에 대한 처리도 필요하다면 추가적으로 작성
-
                 default:
                     break;
             }
@@ -166,8 +162,6 @@ namespace videx.ViewModel
 
         private void SelectCheckBoxItems(int startIndex, int endIndex)
         {
-
-            // startIndex부터 endIndex까지의 체크박스를 선택
             for (int i = startIndex; i <= endIndex; i++)
             {
                 CheckBoxItems[i].IsChecked = isChecking;
@@ -293,6 +287,40 @@ namespace videx.ViewModel
                 {
                     _videofilename = value;
                     OnPropertyChanged(nameof(Videofilename));
+                }
+            }
+        }
+
+        private bool _fileSelected;
+        public bool FileSelected
+        {
+            get { return _fileSelected; }
+            set
+            {
+                if (_fileSelected != value)
+                {
+                    _fileSelected = value;
+                    OnPropertyChanged(nameof(FileSelected));
+
+                    if (_fileSelected) //checked
+                    {
+                        VideoObject.Source = new Uri(filePath);
+                        VideoObject.Play();
+                        DispatcherTimer timer = new DispatcherTimer()
+                        {
+                            Interval = TimeSpan.FromSeconds(1)
+                        };
+                        timer.Tick += TimerTickHandler;
+                        timer.Start();
+                    }
+                    else  //unchecked
+                    {
+                        VideoObject.Source = null;
+                        VideoInfo = null;
+                        Videofile = null;
+                        SetTime = null;
+                        EndTime = null;
+                    }
                 }
             }
         }
@@ -509,14 +537,6 @@ namespace videx.ViewModel
 
                 OnPropertyChanged(nameof(SelectedOptions));
                 OnPropertyChanged(nameof(VideoInfo));
-                VideoObject.Source = new Uri(dlg.FileName);
-
-                DispatcherTimer timer = new DispatcherTimer()
-                {
-                    Interval = TimeSpan.FromSeconds(1)
-                };
-                timer.Tick += TimerTickHandler;
-                timer.Start();
             }
         }
 

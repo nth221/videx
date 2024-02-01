@@ -60,7 +60,7 @@
                 HorizontalAlignment ="Left"
                 Margin="19,19,0,434" RenderTransformOrigin="0.568,1.028" FontWeight="Bold" Width="44"/>
                     </Border>
-                    <CheckBox Visibility="{Binding CheckBoxVisibility}" Content="{Binding Videofilename}"  Margin="26,85,33,263" Foreground="#FFFBFBFB"/>
+                    <CheckBox Visibility="{Binding CheckBoxVisibility}" Content="{Binding Videofilename}" IsChecked="{Binding FileSelected}"  Margin="26,85,33,263" Foreground="#FFFBFBFB"/>
                 </Grid>
                 <Grid Grid.ColumnSpan="2">
                     <Border Background="#323345"
