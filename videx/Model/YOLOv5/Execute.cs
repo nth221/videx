@@ -25,6 +25,8 @@ namespace videx.Model.YOLOv5
     {
         // private static string expDir;
         public static int flag;
+        public static List<ImageData> tableInfo;
+
         private static string strConn = "Data Source=mydatabase.db;Version=3;Mode=Serialized;";
 
 
@@ -142,8 +144,8 @@ namespace videx.Model.YOLOv5
 
         private static void DoSomething(SQLiteConnection connection, string ouput_path, YoloDetector detector, string inputFilePath, List<string> outputFilePaths, int startFrame, int endFrame)
         {
+            string[] targetClasses = LabelMap.Labels;
             string outputFileName = Path.Combine(ouput_path, $"output_{startFrame}-{endFrame}.avi");
-            //Image croppedImage = null;
 
             if (!Directory.Exists(ouput_path))
             {
@@ -151,19 +153,10 @@ namespace videx.Model.YOLOv5
                 Console.WriteLine($"Directory '{ouput_path}'is created.");
             }
 
-/*            int expNumber = 1;
-
-            do
-            {
-                expDir = Path.Combine(ouput_path, $"exp{expNumber}");
-                expNumber++;
-            }
-            while (Directory.Exists(expDir));*/
-
-            //Directory.CreateDirectory(expDir);
-
             using (var videoCapture = new VideoCapture(inputFilePath))
             {
+
+
                 if (!videoCapture.IsOpened())
                 {
                     Console.WriteLine("Can not open video.");
@@ -214,10 +207,13 @@ namespace videx.Model.YOLOv5
                                         byte[] imgBytes = ImageToByteArray(croppedImage);
                                         connection.Execute("INSERT INTO ImageTable (Class, Frame, ImageBytes) VALUES (@Class, @Frame, @ImageBytes)", new { Class = obj.Label, Frame = frameNumber, ImageBytes = imgBytes });
                                         croppedImage.Dispose();
+ 
+
+                                        tableInfo = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
+                                        //SelectImage();
                                     }
                                 }
                             }
-
                             videoWriter.Write(dispImage);
                         }
                     }
@@ -273,47 +269,6 @@ namespace videx.Model.YOLOv5
             }
         }
 
-/*        private static void UpdateAllImage(string directoryPath)
-        {
-            try
-            {
-                using (SQLiteConnection connection = new SQLiteConnection(strConn))
-                {
-                    connection.Open();
-
-                    string[] pngFiles = Directory.GetFiles(directoryPath, "*.png");
-
-                    for (int i = 0; i < pngFiles.Length; i++)
-                    {
-                        byte[] imageBytes = File.ReadAllBytes(pngFiles[i]);
-
-                        string fileName = Path.GetFileNameWithoutExtension(pngFiles[i]);
-                        string[] fileNameParts = fileName.Split('_');
-
-                        if (fileNameParts.Length == 2 && int.TryParse(fileNameParts[0], out int objFrame))
-                        {
-                            string objClass = fileNameParts[1];
-
-                            var imageData = new ImageData
-                            {
-                                ImageBytes = imageBytes,
-                            };
-
-                            connection.Execute("INSERT INTO ImageTable (Class, Frame, ImageBytes) VALUES (@Class, @Frame, @ImageBytes)",
-                                new { Class = objClass, Frame = objFrame, imageData.ImageBytes });
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Invalid file name format: {pngFiles[i]}");
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-        }*/
 
         public static List<ImageData> SelectImage()
         {
@@ -344,6 +299,30 @@ namespace videx.Model.YOLOv5
 
             return imageList;
         }
+
+/*        public static List<ImageData> SelectImage(SQLiteConnection connection)
+        {
+            List<ImageData> imageList = new List<ImageData>();
+            string[] targetClasses = LabelMap.test_Labels;
+
+            imageList = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
+
+            foreach (var imageData in imageList)
+            {
+                using (var stream = new MemoryStream(imageData.ImageBytes))
+                {
+                    var bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImage.StreamSource = stream;
+                    bitmapImage.EndInit();
+
+                    imageData.Bitmap = bitmapImage;
+                }
+            }
+
+            return imageList;
+        }*/
 
         public static void CombineVideo(List<string> inputVideoPaths, string outputDirectory)
         {

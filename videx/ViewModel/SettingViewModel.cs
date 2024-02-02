@@ -567,6 +567,7 @@ namespace videx.ViewModel
 
         private async void Analysis_Start()
         {
+            VideoObject.Stop();
             string outputPath = System.IO.Path.GetDirectoryName(filePath) + "\\edited.mp4";
 
 

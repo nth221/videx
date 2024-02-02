@@ -30,9 +30,9 @@ namespace videx.ViewModel
 
         private static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
         private string outputFilePath = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
-       
+
         //public string outputFilePath = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output.avi";
-        public bool sldrDragStart = false; 
+        public bool sldrDragStart = false;
         string StartT, EndT;
 
 
@@ -75,19 +75,30 @@ namespace videx.ViewModel
             VideoObject.MediaEnded += VideoObject_MediaEnded;
             VideoObject.MediaFailed += VideoObject_MediaFailed;
 
-
+            //LoadImages();
             media_start();
-            LoadImages();
+
+            System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+
+
 
 
             InitializeCheckBoxItems();
 
-            //DeleteFolder();
         }
 
-        private async void Analysis() {
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            UpdateImage();
+        }
+
+        private async void Analysis()
+        {
             string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
-            string outputPath = System.IO.Path.Combine(desktopPath , "edited.mp4");
+            string outputPath = System.IO.Path.Combine(desktopPath, "edited.mp4");
             await Task.Run(() => YoloProcess.Execute(outputPath));
             if (YoloProcess.flag == 1)
             {
@@ -108,7 +119,7 @@ namespace videx.ViewModel
 
             if (parameter is string parameterString)
             {
-                if (int.TryParse(parameterString, out int buttonIndex)) 
+                if (int.TryParse(parameterString, out int buttonIndex))
                 {
                     ToggleIsChecking();
                     SelectCheckBoxItemsByButtonIndex(buttonIndex);
@@ -295,33 +306,87 @@ namespace videx.ViewModel
 
             List<ImageData> images = YoloProcess.SelectImage();
 
-            foreach (var imageData in images)
+            if (images != null && images.Count > 0)
             {
-                Image image = new Image();
-                image.Source = imageData.Bitmap;
-                image.Stretch = System.Windows.Media.Stretch.Uniform;
-                image.Width = 100;
-                image.Height = 100;
-
-                CheckBox checkBox = new CheckBox();
-                checkBox.Tag = imageData;
-
-                StackPanel stackPanel = new StackPanel();
-                stackPanel.Orientation = Orientation.Vertical;
-                stackPanel.Children.Add(image);
-                stackPanel.Children.Add(new TextBlock()
+                foreach (var imageData in images)
                 {
-                    Text = $"{imageData.Frame}_{imageData.Class}",
-                    TextAlignment = TextAlignment.Center,
-                    Foreground = new SolidColorBrush(Colors.White)
-                });
+                    Image image = new Image();
+                    image.Source = imageData.Bitmap;
+                    image.Stretch = System.Windows.Media.Stretch.Uniform;
+                    image.Width = 100;
+                    image.Height = 100;
 
-                checkBox.Content = stackPanel;
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.Tag = imageData;
 
-                checkBox.Checked += CheckBox_Checked;
-                checkBox.Unchecked += CheckBox_Unchecked;
+                    StackPanel stackPanel = new StackPanel();
+                    stackPanel.Orientation = Orientation.Vertical;
+                    stackPanel.Children.Add(image);
+                    stackPanel.Children.Add(new TextBlock()
+                    {
+                        Text = $"{imageData.Frame}_{imageData.Class}",
+                        TextAlignment = TextAlignment.Center,
+                        Foreground = new SolidColorBrush(Colors.White)
+                    });
 
-                ImageCheckBoxes.Add(checkBox);
+                    checkBox.Content = stackPanel;
+
+                    checkBox.Checked += CheckBox_Checked;
+                    checkBox.Unchecked += CheckBox_Unchecked;
+
+                    ImageCheckBoxes.Add(checkBox);
+                }
+            }
+        }
+
+        private void UpdateImage()
+        {
+            ImageCheckBoxes = new ObservableCollection<CheckBox>();
+
+            List<ImageData> images = YoloProcess.tableInfo;
+
+            if (images != null && images.Count > 0)
+            {
+                foreach (var imageData in images)
+                {
+                    using (var stream = new MemoryStream(imageData.ImageBytes))
+                    {
+                        var bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmapImage.StreamSource = stream;
+                        bitmapImage.EndInit();
+
+                        imageData.Bitmap = bitmapImage;
+                    }
+
+
+                    Image image = new Image();
+                    image.Source = imageData.Bitmap;
+                    image.Stretch = System.Windows.Media.Stretch.Uniform;
+                    image.Width = 100;
+                    image.Height = 100;
+
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.Tag = imageData;
+
+                    StackPanel stackPanel = new StackPanel();
+                    stackPanel.Orientation = Orientation.Vertical;
+                    stackPanel.Children.Add(image);
+                    stackPanel.Children.Add(new TextBlock()
+                    {
+                        Text = $"{imageData.Frame}_{imageData.Class}",
+                        TextAlignment = TextAlignment.Center,
+                        Foreground = new SolidColorBrush(Colors.White)
+                    });
+
+                    checkBox.Content = stackPanel;
+
+                    checkBox.Checked += CheckBox_Checked;
+                    checkBox.Unchecked += CheckBox_Unchecked;
+
+                    ImageCheckBoxes.Add(checkBox);
+                }
             }
         }
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
