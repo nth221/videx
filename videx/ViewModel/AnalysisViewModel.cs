@@ -57,7 +57,9 @@ namespace videx.ViewModel
 
         public AnalysisViewModel()
         {
-            Analysis();
+            System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+
+            Analysis(timer);
             SelectedOptions = new ObservableCollection<string>();
             videoObject = new MediaElement();
             playCommand = new RelayCommand(ExecutePlayCommand);
@@ -78,16 +80,11 @@ namespace videx.ViewModel
             //LoadImages();
             media_start();
 
-            System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += Timer_Tick;
             timer.Start();
 
-
-
-
             InitializeCheckBoxItems();
-
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -95,23 +92,19 @@ namespace videx.ViewModel
             UpdateImage();
         }
 
-        private async void Analysis()
+        private async void Analysis(System.Windows.Threading.DispatcherTimer timer)
         {
             string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
             string outputPath = System.IO.Path.Combine(desktopPath, "edited.mp4");
             await Task.Run(() => YoloProcess.Execute(outputPath));
+
+
+
             if (YoloProcess.flag == 1)
             {
                 VideoReady();
+                timer.Stop();
             }
-        }
-
-        private void DeleteFolder()
-        {
-            string directoryPath = "C:\\Users\\psy\\Desktop\\output\\Thread1\\exp1";
-            Directory.Delete(directoryPath, true);
-
-            Console.WriteLine("Directory is successfully deleted.");
         }
 
         private void ExecuteSelect(object parameter)
@@ -238,7 +231,7 @@ namespace videx.ViewModel
             {
                 LabelMap.test_Labels = CheckBoxItems.Where(item => item.IsChecked).Select(item => item.Content).ToArray();
                 OnPropertyChanged(nameof(LabelMap.test_Labels));
-                OnSelectedLabelsChanged();
+                UpdateConcatenatedLabels();
 
             }
         }
@@ -261,14 +254,15 @@ namespace videx.ViewModel
         private void UpdateConcatenatedLabels()
         {
             ConcatenatedLabels = string.Join(", ", LabelMap.test_Labels);
+            if(string.IsNullOrEmpty(ConcatenatedLabels)) 
+            {
+                UpdateImage();
+            }
+            else
+            {
+                LoadImages();
+            }
         }
-
-        private void OnSelectedLabelsChanged()
-        {
-            UpdateConcatenatedLabels();
-            LoadImages();
-        }
-
 
         private BitmapImage loadedImage;
 
@@ -387,6 +381,10 @@ namespace videx.ViewModel
 
                     ImageCheckBoxes.Add(checkBox);
                 }
+            }
+            else
+            {
+                Console.WriteLine("null");
             }
         }
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
