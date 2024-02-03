@@ -103,8 +103,6 @@ namespace videx.Model.YOLOv5
                         });
                         Console.WriteLine($"Start Frame : {startFrame}, End Frame : {endFrame}, Adder : {segmentSize}");
                     }
-
-                    Console.WriteLine("DB Connection is Good and Create ImageTable");
                 }
                 catch (Exception e)
                 {
@@ -259,8 +257,9 @@ namespace videx.Model.YOLOv5
 
                     connection.Execute("DROP TABLE IF EXISTS ImageTable");
                     connection.Execute("CREATE TABLE ImageTable (Id INTEGER PRIMARY KEY AUTOINCREMENT,Class TEXT, Frame INTEGER, ImageBytes BLOB)");
+                    connection.Execute("CREATE INDEX idx_class ON ImageTable(Class)");
 
-                    Console.WriteLine("DB Connection is Good and Create ImageTable");
+                    Console.WriteLine("DB Connection and Create ImageTable and Create Index");
                 }
                 catch (Exception e)
                 {
