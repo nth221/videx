@@ -220,8 +220,15 @@ TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Foregr
                     <Button Margin="166,624,45,39" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.ColumnSpan="2"/>
                     <Image Source="/Resources/img/img_analysis1.png" Margin="166,624,45,39" Grid.ColumnSpan="2"/>
                 </Grid>
-                <Grid Margin="0,381,763,0" Background="#323345" Grid.RowSpan="2">
-                    <oxy:PlotView Model="{Binding PlotModel}"/>
+                <Grid Margin="0,381,786,0" Background="#323345" Grid.RowSpan="2">
+                    <busyIndicator:BusyMask
+                            IsBusy="False" 
+                            IndicatorType="Swirl" 
+                            BusyContent="Please wait..." 
+                            BusyContentMargin="0,20,0,0" 
+                            IsBusyAtStartup="True" Margin="10,10,10,65"
+                            Visibility="{Binding Loading}" Panel.ZIndex="1"/>
+                    <oxy:PlotView Model="{Binding PlotModel}" Margin="0,0,10,0"/>
                 </Grid>
             </Grid>
         </Grid>
