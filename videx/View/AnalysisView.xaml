@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:busyIndicator="https://github.com/moh3ngolshani/BusyIndicator"
-        xmlns:vm="clr-namespace:videx.ViewModel"
+        xmlns:vm="clr-namespace:videx.ViewModel" xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
                Title="Videx" Height="750" Width="1280"
         Background="Transparent">
@@ -50,8 +50,8 @@
                     <RowDefinition Height="81*"/>
                 </Grid.RowDefinitions>
 
-                <Border Background="#323345" Margin="-1,157,758,0">
-                    <Grid>
+                <Border Background="#323345" Margin="-1,0,758,157">
+                    <Grid Margin="0,6,0,-6">
                         <!-- media controll -->
                         <ContentControl Content="{Binding VideoObject}"  Margin="10,10,10,65"/>
                         <busyIndicator:BusyMask x:Name="BusyIndicator" 
@@ -74,11 +74,10 @@
                         <Label Content="Volume" HorizontalAlignment="Left" Margin="503,460,0,0" Height="26" VerticalAlignment="Top" Foreground="White" FontWeight="Bold"/>
                         <Slider  HorizontalAlignment="Left" Margin="563,0,0,14" Width="100" Height="18" VerticalAlignment="Bottom"  Maximum="1" LargeChange="0.1" Value="0.5" />
                         <Label x:Name="lblPlayTime" Content="{Binding LblPlayTime}" HorizontalAlignment="Left" Margin="68,0,0,11" VerticalAlignment="Bottom" Width="212" Height="23" Foreground="White" FontWeight="Bold"/>
-                        
+
 
                     </Grid>
                 </Border>
-                <Grid Margin="0,0,758,385"  Background="#323345" />
                 <Grid Margin="494,0,0,0"  Background="#323345" Grid.RowSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0*"/>
@@ -221,10 +220,8 @@ TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Foregr
                     <Button Margin="166,624,45,39" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.ColumnSpan="2"/>
                     <Image Source="/Resources/img/img_analysis1.png" Margin="166,624,45,39" Grid.ColumnSpan="2"/>
                 </Grid>
-                <Grid Margin="0,544,763,0" Background="#323345" Grid.RowSpan="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                <Grid Margin="0,381,763,0" Background="#323345" Grid.RowSpan="2">
+                    <oxy:PlotView Model="{Binding PlotModel}"/>
                 </Grid>
             </Grid>
         </Grid>

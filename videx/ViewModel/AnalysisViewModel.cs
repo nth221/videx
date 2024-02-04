@@ -15,6 +15,10 @@ using videx.Model;
 using videx.Model.YOLOv5;
 using System.Threading.Tasks;
 using videx.View;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using OxyPlot.Legends;
 
 namespace videx.ViewModel
 {
@@ -104,6 +108,7 @@ namespace videx.ViewModel
             {
                 VideoReady();
                 timer.Stop();
+                InitializePlot();
             }
         }
 
@@ -632,5 +637,97 @@ namespace videx.ViewModel
                 OnPropertyChanged(nameof(SelectedOptions));
             }
         }
+
+        private PlotModel plotModel;
+
+        public PlotModel PlotModel
+        {
+            get { return plotModel; }
+            set
+            {
+                plotModel = value;
+                OnPropertyChanged(nameof(PlotModel));
+            }
+        }
+
+        private void InitializePlot()
+        {
+            var dataPoints = GenerateDataPoints();
+
+            var model = new PlotModel();
+
+            List<string> distinctClasses = dataPoints.Select(dp => dp.Class).Distinct().ToList();
+
+            foreach (string currentClass in distinctClasses)
+            {
+                var lineSeries = new LineSeries
+                {
+                    Title = currentClass,
+                    Color = GetRandomColor(),
+                };
+
+                var classDataPoints = dataPoints.Where(dp => dp.Class == currentClass);
+                lineSeries.Points.AddRange(classDataPoints.Select(dp => new DataPoint(dp.XValue, dp.YValue)));
+
+                model.Series.Add(lineSeries);
+            }
+
+            model.Legends.Add(new Legend { LegendPosition = LegendPosition.TopRight, LegendOrientation = LegendOrientation.Vertical });
+
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Frame" });
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Object Appearance #" });
+
+            PlotModel = model;
+        }
+
+        private List<DataPointWithClass> GenerateDataPoints()
+        {
+            int dataSize = YoloProcess.totalFrames;
+
+            var dataPoints = new List<DataPointWithClass>();
+
+            List<ImageData> tableData = YoloProcess.tableInfo;
+
+            for (int i = 0; i < dataSize; i++)
+            {
+                var frameData = tableData.Where(row => row.Frame == i);
+
+                foreach (var group in frameData.GroupBy(row => row.Class))
+                {
+                    string currentClass = group.Key;
+                    int objectCount = group.Count();
+
+                    //Console.WriteLine($"Frame = {i}, Class = {currentClass}, Count = {objectCount}");
+
+                    dataPoints.Add(new DataPointWithClass(i, objectCount, currentClass));
+                }
+            }
+
+            return dataPoints;
+        }
+
+        private static Random random = new Random();
+
+        private static OxyColor GetRandomColor()
+        {
+            byte[] color = new byte[3];
+            random.NextBytes(color);
+            return OxyColor.FromRgb(color[0], color[1], color[2]);
+        }
+
+        public class DataPointWithClass
+        {
+            public double XValue { get; set; }
+            public double YValue { get; set; }
+            public string Class { get; set; }
+
+            public DataPointWithClass(double xValue, double yValue, string className)
+            {
+                XValue = xValue;
+                YValue = yValue;
+                Class = className;
+            }
+        }
+
     }
 }

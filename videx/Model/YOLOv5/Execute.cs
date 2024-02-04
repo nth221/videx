@@ -23,13 +23,11 @@ namespace videx.Model.YOLOv5
 {
     public class YoloProcess
     {
-        // private static string expDir;
         public static int flag;
+        public static int totalFrames;
         public static List<ImageData> tableInfo;
 
         private static string strConn = "Data Source=mydatabase.db;Version=3;Mode=Serialized;";
-
-
 
         public static void Execute(string inputFilePath)
         {
@@ -55,7 +53,10 @@ namespace videx.Model.YOLOv5
 
             var capture = new VideoCapture(inputFilePath);
 
-            var totalFrames = (int)capture.Get(VideoCaptureProperties.FrameCount);
+/*            VideoData videoData = new VideoData();
+            videoData.VideoFrame = (int)capture.Get(VideoCaptureProperties.FrameCount);*/
+
+            totalFrames = (int)capture.Get(VideoCaptureProperties.FrameCount);
 
             int segmentSize = totalFrames / maxThreadCount;
 
