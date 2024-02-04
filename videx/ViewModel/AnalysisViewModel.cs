@@ -105,8 +105,6 @@ namespace videx.ViewModel
             string outputPath = System.IO.Path.Combine(desktopPath, "edited.mp4");
             await Task.Run(() => YoloProcess.Execute(outputPath));
 
-
-
             if (YoloProcess.flag == 1)
             {
                 VideoReady();
@@ -432,6 +430,7 @@ namespace videx.ViewModel
 
         private void MoveSliderToTime(double time)
         {
+            VideoObject.Position = TimeSpan.FromSeconds(time);
             SlderPlayTime = time;
             VideoObject.Pause();
         }
