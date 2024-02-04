@@ -392,7 +392,7 @@ namespace videx.ViewModel
             }
             else
             {
-                Console.WriteLine("null");
+                //Console.WriteLine("null");
             }
         }
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -430,12 +430,23 @@ namespace videx.ViewModel
 
         private void MoveSliderToTime(double time)
         {
-            VideoObject.Position = TimeSpan.FromSeconds(time);
-            SlderPlayTime = time;
-            VideoObject.Pause();
+            TimeSpan newPosition = TimeSpan.FromSeconds(time);
+
+            if (newPosition.TotalSeconds <= TimeSpan.MaxValue.TotalSeconds)
+            {
+                VideoObject.Position = newPosition;
+                SlderPlayTime = time;
+                VideoObject.Pause();
+            }
+            else
+            {
+                // Handle the case where the TimeSpan is too large
+                // You might want to limit the input or take alternative actions
+                Console.WriteLine("The specified time is too large.");
+            }
         }
 
-        private double _slderPlaytime;
+        private double _slderPlaytime; 
         public double SlderPlayTime
         {
             get { return _slderPlaytime; }

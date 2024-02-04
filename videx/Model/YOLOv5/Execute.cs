@@ -21,6 +21,38 @@ using videx.Model;
 
 namespace videx.Model.YOLOv5
 {
+    public class SharedConnectionManager
+    {
+        private readonly SQLiteConnection sharedConnection;
+        private readonly object lockObject = new object();
+
+        public SharedConnectionManager(string connectionString)
+        {
+            sharedConnection = new SQLiteConnection(connectionString);
+            sharedConnection.Open();
+        }
+
+        public void ExecuteReadOperation(Action<SQLiteConnection> operation)
+        {
+            lock (lockObject)
+            {
+                using (var transaction = sharedConnection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+                {
+                    try
+                    {
+                        operation(sharedConnection);
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error in thread {Thread.CurrentThread.ManagedThreadId}: {ex.Message}");
+                        transaction.Rollback();
+                    }
+                }
+            }
+        }
+    }
+
     public class YoloProcess
     {
         public static int flag;
@@ -53,63 +85,35 @@ namespace videx.Model.YOLOv5
 
             var capture = new VideoCapture(inputFilePath);
 
-/*            VideoData videoData = new VideoData();
-            videoData.VideoFrame = (int)capture.Get(VideoCaptureProperties.FrameCount);*/
+            /*            VideoData videoData = new VideoData();
+                        videoData.VideoFrame = (int)capture.Get(VideoCaptureProperties.FrameCount);*/
 
             totalFrames = (int)capture.Get(VideoCaptureProperties.FrameCount);
 
             int segmentSize = totalFrames / maxThreadCount;
 
-            int diff = totalFrames - segmentSize * maxThreadCount;
-
-            int[] start = new int[maxThreadCount];
-            int[] end = new int[maxThreadCount];
             Console.WriteLine($"Maximum thread count for this system: {maxThreadCount}, totalFrames : {totalFrames}");
-
-            for (int i = 0; i < maxThreadCount; i++)
-            {
-                start[i] = i * segmentSize;
-                end[i] = (i + 1) * segmentSize;
-            }
-
-
 
             stopwatch.Start();
 
-            ThreadLocal<SQLiteConnection> threadLocalConnection = new ThreadLocal<SQLiteConnection>(() =>
-            {
-                SQLiteConnection connection = new SQLiteConnection(strConn);
-                connection.Open();
-                return connection;
-            });
-
+            SharedConnectionManager connectionManager = new SharedConnectionManager(strConn);
             Thread[] threads = new Thread[maxThreadCount];
 
-            using (SQLiteConnection connection = new SQLiteConnection(strConn))
+            for (int i = 0; i < maxThreadCount; i++)
             {
-                try
+                int startFrame = i * segmentSize;
+                int endFrame = (i + 1) * segmentSize;
+                threads[i] = new Thread(() =>
                 {
-                    connection.Open();
-
-                    for (int i = 0; i < maxThreadCount; i++)
+                    connectionManager.ExecuteReadOperation(connection =>
                     {
-                        int startFrame = i * segmentSize;
-                        int endFrame = (i + 1) * segmentSize;
-                        threads[i] = new Thread(() =>
-                        {
-                            using (var connection = threadLocalConnection.Value)
-                            {
-                                DoSomething(connection, output_path, detector, inputFilePath, outputFilePaths, startFrame, endFrame);
-                            }
-                        });
-                        Console.WriteLine($"Start Frame : {startFrame}, End Frame : {endFrame}, Adder : {segmentSize}");
-                    }
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show($"Error: {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                        //Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} - Connection Hash: {connection.GetHashCode()}");
+                        DoSomething(connection, output_path, detector, inputFilePath, outputFilePaths, startFrame, endFrame);
+                    });
+                });
+                Console.WriteLine($"Start Frame : {startFrame}, End Frame : {endFrame}, Adder : {segmentSize}");
             }
+
 
             Console.WriteLine("Start threads...");
 
@@ -129,9 +133,6 @@ namespace videx.Model.YOLOv5
 
             var outputFilePath = sortedFilePaths.ToList();
 
-            //string imagePath = expDir;
-
-            //UpdateAllImage(imagePath);
             CombineVideo(outputFilePath, final_path);
 
             stopwatch.Stop();
@@ -206,7 +207,7 @@ namespace videx.Model.YOLOv5
                                         byte[] imgBytes = ImageToByteArray(croppedImage);
                                         connection.Execute("INSERT INTO ImageTable (Class, Frame, ImageBytes) VALUES (@Class, @Frame, @ImageBytes)", new { Class = obj.Label, Frame = frameNumber, ImageBytes = imgBytes });
                                         croppedImage.Dispose();
- 
+
 
                                         tableInfo = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
                                         //SelectImage();
@@ -219,9 +220,10 @@ namespace videx.Model.YOLOv5
                 }
 
                 videoWriter.Release();
-                Console.WriteLine($"Video splitting completed for frames {startFrame} to {endFrame}.");
+                //Console.WriteLine($"Video splitting completed for frames {startFrame} to {endFrame}.");
                 outputFilePaths.Add(outputFileName);
-                Console.WriteLine($"Video file created: {outputFileName}");
+                
+                //Console.WriteLine($"Video file created: {outputFileName}");
             }
         }
 
@@ -300,29 +302,29 @@ namespace videx.Model.YOLOv5
             return imageList;
         }
 
-/*        public static List<ImageData> SelectImage(SQLiteConnection connection)
-        {
-            List<ImageData> imageList = new List<ImageData>();
-            string[] targetClasses = LabelMap.test_Labels;
-
-            imageList = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
-
-            foreach (var imageData in imageList)
-            {
-                using (var stream = new MemoryStream(imageData.ImageBytes))
+        /*        public static List<ImageData> SelectImage(SQLiteConnection connection)
                 {
-                    var bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImage.StreamSource = stream;
-                    bitmapImage.EndInit();
+                    List<ImageData> imageList = new List<ImageData>();
+                    string[] targetClasses = LabelMap.test_Labels;
 
-                    imageData.Bitmap = bitmapImage;
-                }
-            }
+                    imageList = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
 
-            return imageList;
-        }*/
+                    foreach (var imageData in imageList)
+                    {
+                        using (var stream = new MemoryStream(imageData.ImageBytes))
+                        {
+                            var bitmapImage = new BitmapImage();
+                            bitmapImage.BeginInit();
+                            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmapImage.StreamSource = stream;
+                            bitmapImage.EndInit();
+
+                            imageData.Bitmap = bitmapImage;
+                        }
+                    }
+
+                    return imageList;
+                }*/
 
         public static void CombineVideo(List<string> inputVideoPaths, string outputDirectory)
         {
