@@ -25,6 +25,7 @@ namespace videx.ViewModel
     public class AnalysisViewModel : INotifyPropertyChanged
     {
 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -33,7 +34,9 @@ namespace videx.ViewModel
         }
 
         private static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
-        private string outputFilePath = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
+        private static string outputFilePath = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
+
+        private static double fps = GetVideoFPS(outputFilePath);
 
         //public string outputFilePath = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output.avi";
         public bool sldrDragStart = false;
@@ -396,7 +399,6 @@ namespace videx.ViewModel
         }
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            double fps = GetVideoFPS(outputFilePath);
             if (sender is CheckBox checkBox && checkBox.Tag is ImageData imageData)
             {
                 Console.WriteLine($"CheckBox Checked! Frame: {imageData.Frame}");
@@ -676,7 +678,7 @@ namespace videx.ViewModel
 
             model.Legends.Add(new Legend { LegendPosition = LegendPosition.TopRight, LegendOrientation = LegendOrientation.Vertical });
 
-            model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Frame" });
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Second" });
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Object Appearance #" });
 
             PlotModel = model;
@@ -684,13 +686,13 @@ namespace videx.ViewModel
 
         private List<DataPointWithClass> GenerateDataPoints()
         {
-            int dataSize = YoloProcess.totalFrames;
+            int totalFrame = YoloProcess.totalFrames;
 
             var dataPoints = new List<DataPointWithClass>();
 
             List<ImageData> tableData = YoloProcess.tableInfo;
 
-            for (int i = 0; i < dataSize; i++)
+            for (int i = 0; i < totalFrame; i++)
             {
                 var frameData = tableData.Where(row => row.Frame == i);
 
@@ -701,7 +703,9 @@ namespace videx.ViewModel
 
                     //Console.WriteLine($"Frame = {i}, Class = {currentClass}, Count = {objectCount}");
 
-                    dataPoints.Add(new DataPointWithClass(i, objectCount, currentClass));
+                    double time = GetTimeAtFrame(i, fps);
+
+                    dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
                 }
             }
 
@@ -732,7 +736,7 @@ namespace videx.ViewModel
 
             model.Legends.Add(new Legend { LegendPosition = LegendPosition.TopRight, LegendOrientation = LegendOrientation.Vertical });
 
-            model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Frame" });
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Second" });
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Object Appearance #" });
 
             PlotModel = model;
@@ -740,13 +744,13 @@ namespace videx.ViewModel
 
         private List<DataPointWithClass> GenerateSelectedDataPoints()
         {
-            int dataSize = YoloProcess.totalFrames;
+            int totalFrame = YoloProcess.totalFrames;
 
             var dataPoints = new List<DataPointWithClass>();
 
             List<ImageData> tableData = YoloProcess.SelectImage();
 
-            for (int i = 0; i < dataSize; i++)
+            for (int i = 0; i < totalFrame; i++)
             {
                 var frameData = tableData.Where(row => row.Frame == i);
 
@@ -756,8 +760,9 @@ namespace videx.ViewModel
                     int objectCount = group.Count();
 
                     //Console.WriteLine($"Frame = {i}, Class = {currentClass}, Count = {objectCount}");
+                    double time = GetTimeAtFrame(i, fps);
 
-                    dataPoints.Add(new DataPointWithClass(i, objectCount, currentClass));
+                    dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
                 }
             }
 
