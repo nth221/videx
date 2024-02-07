@@ -26,23 +26,30 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <RadioButton Content="Analysis Settings"
-                         IsEnabled="False"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Height="50"
-                         Foreground="White"
-                         Style="{StaticResource MenuButtonTheme}"
-                         FontSize="12" Width="90" Margin="10,0,0,0"/>
-
-            <RadioButton Content="Analysis results"
-                         IsChecked="True"
-                         IsEnabled="False"
-             HorizontalAlignment="Left"
-             VerticalAlignment="Center"
-             Height="50"
-             Foreground="White"
-                         Style="{StaticResource MenuButtonTheme}"
-             FontSize="12" Margin="105,0,0,0" Width="90"/>
+                     IsChecked="False"
+                     IsEnabled="False"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Center"
+                     Height="50"
+                     Foreground="White"
+                     Style="{StaticResource MenuButtonTheme}"
+                     FontSize="12" Width="90" Margin="10,0,0,0"/>
+            <RadioButton Content="Object Detection Results" IsChecked="True"
+                     IsEnabled="False"
+         HorizontalAlignment="Left"
+         VerticalAlignment="Center"
+         Height="50"
+         Foreground="White"
+                     Style="{StaticResource MenuButtonTheme}"
+         FontSize="12" Margin="105,0,0,0" Width="145"/>
+            <RadioButton Content="Outlier Detection Results" IsChecked="False"
+                    IsEnabled="False"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Height="50"
+        Foreground="White"
+                    Style="{StaticResource MenuButtonTheme}"
+        FontSize="12" Margin="255,0,0,0" Width="145"/>
 
             <Grid x:Name="analysisPage" Grid.Row="1" Visibility="Visible" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
