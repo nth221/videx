@@ -587,6 +587,9 @@ namespace videx.ViewModel
             AnalysisView AnalysisView = new AnalysisView();
             AnalysisView.Show();
 
+            OutlierDetectionView outlierDetectionView = new OutlierDetectionView();
+            outlierDetectionView.Show();
+
             OnPropertyChanged(nameof(SetTime));
         }
 
