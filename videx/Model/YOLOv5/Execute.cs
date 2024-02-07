@@ -88,7 +88,9 @@ namespace videx.Model.YOLOv5
             /*            VideoData videoData = new VideoData();
                         videoData.VideoFrame = (int)capture.Get(VideoCaptureProperties.FrameCount);*/
 
-            totalFrames = (int)capture.Get(VideoCaptureProperties.FrameCount);
+            totalFrames = (int)capture.Get(VideoCaptureProperties.FrameCount) + 1;
+
+            //int maxThreadCount = totalFrames;
 
             int segmentSize = totalFrames / maxThreadCount;
 

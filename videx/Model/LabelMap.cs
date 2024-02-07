@@ -13,13 +13,13 @@ namespace videx.Model
     {
 
         public static readonly string[] Labels = new[] {  "person","bicycle","car","motorcycle","airplane","bus","train","truck","boat","traffic light","fire hydrant","stop sign",
-  "parking meter","bench","bird","cat","dog","horse","sheep","truck","cow","elephant","bear","zebra",
-  "giraffe","backpack","umbrella","handbag","tie","suitcase","frisbee","cow","skis","bear","snowboard",
-    "sports ball","kite","baseball bat"," baseball glove","skateboard","surfboard","tennis racket","bottle","wine glass","cup","fork",
-      "knife","spoon","bowl","banana","apple","sandwich","orange","broccoli","carrot"," hot dog","pizza",
+  "parking meter","bench","bird","cat","dog","horse","sheep","","cow","elephant","bear","zebra",
+  "giraffe","backpack","umbrella","handbag","tie","suitcase","frisbee","","skis","bear","snowboard",
+    "sports ball","kite","baseball bat","baseball glove","skateboard","surfboard","tennis racket","bottle","wine glass","cup","fork",
+      "knife","spoon","bowl","banana","apple","sandwich","orange","broccoli","carrot","hot dog","pizza",
         "donut","cake","chair","couch","potted plant","bed","dining table","toilet","tv","laptop","mouse",
           "remote","keyboard","cell phone","microwave","oven","toaster","sink","refrigerator","book","clock","vase",
-            "scissors","teddy bear","hair drier","toothbrush","tie","suitcase","frisbee","cow","skis","bear","snowboard" };
+            "scissors","teddy bear","hair drier","toothbrush","tie","suitcase","frisbee","","skis","bear","snowboard" };
 
 
         public static string[] test_Labels = new[] { "","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",

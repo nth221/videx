@@ -45,22 +45,8 @@ namespace videx.ViewModel
 
         public ObservableCollection<string> CheckedItems { get; set; }
         public ObservableCollection<CheckBoxItem> CheckBoxItems { get; set; }
-        public ICommand SelectCategoryCommand { get; set; }
 
-        private bool isChecking;
-
-        public bool IsChecking
-        {
-            get { return isChecking; }
-            set
-            {
-                if (isChecking != value)
-                {
-                    isChecking = value;
-                    OnPropertyChanged(nameof(IsChecking));
-                }
-            }
-        }
+        
 
         public AnalysisViewModel()
         {
@@ -92,6 +78,9 @@ namespace videx.ViewModel
             timer.Start();
 
             InitializeCheckBoxItems();
+
+            // 각 버튼별로 독립적인 상태를 저장할 변수 초기화
+            buttonCheckStates = Enumerable.Repeat(false, 10).ToArray();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -113,6 +102,26 @@ namespace videx.ViewModel
             }
         }
 
+        private bool[] buttonCheckStates; // 각 버튼별로 독립적인 상태를 저장할 배열
+
+        public ICommand SelectCategoryCommand { get; set; }
+
+
+        private bool isChecking;
+
+        public bool IsChecking
+        {
+            get { return isChecking; }
+            set
+            {
+                if (isChecking != value)
+                {
+                    isChecking = value;
+                    OnPropertyChanged(nameof(IsChecking));
+                }
+            }
+        }
+
         private void ExecuteSelect(object parameter)
         {
 
@@ -120,16 +129,17 @@ namespace videx.ViewModel
             {
                 if (int.TryParse(parameterString, out int buttonIndex))
                 {
-                    ToggleIsChecking();
+                    ToggleIsChecking(buttonIndex); // 각 버튼별로 독립적인 상태를 토글
                     SelectCheckBoxItemsByButtonIndex(buttonIndex);
                 }
 
             }
         }
 
-        private void ToggleIsChecking()
+        private void ToggleIsChecking(int buttonIndex)
         {
-            IsChecking = !IsChecking;
+            buttonCheckStates[buttonIndex] = !buttonCheckStates[buttonIndex];
+            IsChecking = buttonCheckStates[buttonIndex];
         }
 
         private bool CanExecuteSelect(object parameter)
@@ -155,31 +165,33 @@ namespace videx.ViewModel
 
                 case 3:
                     SelectCheckBoxItems(13, 13);
-                    SelectCheckBoxItems(56, 59);
+                    SelectCheckBoxItems(59, 62);
                     break;
 
                 case 4:
-                    SelectCheckBoxItems(24, 79);
+                    SelectCheckBoxItems(25, 29);
                     break;
 
                 case 5:
-                    SelectCheckBoxItems(39, 71);
+                    SelectCheckBoxItems(42, 46);
+                    SelectCheckBoxItems(79, 79);
                     break;
 
                 case 6:
-                    SelectCheckBoxItems(46, 55);
+                    SelectCheckBoxItems(49, 58);
                     break;
 
                 case 7:
-                    SelectCheckBoxItems(62, 78);
+                    SelectCheckBoxItems(65, 77);
                     break;
 
                 case 8:
-                    SelectCheckBoxItems(14, 38);
+                    SelectCheckBoxItems(14, 24);
                     break;
 
                 case 9:
-                    SelectCheckBoxItems(29, 38);
+                    SelectCheckBoxItems(30, 30);
+                    SelectCheckBoxItems(32, 40);
                     break;
 
                 default:
@@ -192,6 +204,7 @@ namespace videx.ViewModel
             for (int i = startIndex; i <= endIndex; i++)
             {
                 CheckBoxItems[i].IsChecked = isChecking;
+                Console.WriteLine(CheckBoxItems[i].IsChecked);
             }
         }
 
