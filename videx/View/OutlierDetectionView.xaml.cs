@@ -58,7 +58,7 @@ namespace videx.View
             if (vm != null)
             {
                 vm.SlderPlayTime = e.NewValue;
-                vm.LblPlayTime = String.Format("{0} / {1}", vm.VideoObject.Position.ToString(@"mm\\:ss"), vm.VideoObject.NaturalDuration.TimeSpan.ToString(@"mm\\:ss"));
+                vm.LblPlayTime = String.Format("{0} / {1}", vm.VideoObject.Position.ToString(@"hh\:mm\:ss"), vm.VideoObject.NaturalDuration.TimeSpan.ToString(@"hh\:mm\:ss"));
             }
         }
 
