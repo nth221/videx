@@ -10,3 +10,7 @@ Video Indexing Tool with Object and Outlier detection
 
 
 VIDEX is a novel video indexing tool designed to streamline the surveillance video review process. More specifically, VIDEX facilitates automatic object detection and outlier detection, enabling rapid summarization and easy access to critical events within the footage. By cataloging information about detected objects and anomalies in an indexed database, VIDEX ensures efficient retrieval and analysis of the video frames that require attention for review. This significantly cuts down the time and resources needed for a thorough examination of surveillance footage. VIDEX is developed by HAIL Lab at Handong University.
+
+
+- Paper: https://arxiv.org/abs/2108.04212
+- Demo Video: https://youtu.be/BEInjBjeIuo
