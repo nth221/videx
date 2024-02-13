@@ -24,7 +24,9 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 ![DFD_VIDEX-Page-1 drawio (3)](https://github.com/nth221/videx/assets/64348852/8f9181cb-186f-4b2b-a869-185c5dd55041)
 </br>
 
-
-
+- Object Statistics Using OxyChart UI
+  
+![Chart_check](https://github.com/nth221/videx/assets/125935704/13eb1f28-7d85-4c6e-ada7-626a4a900411)
+</br>
 
 
