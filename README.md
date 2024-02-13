@@ -22,6 +22,7 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 </br>
 
 - Multi-Thread Pipeline
+
 ![image](https://github.com/nth221/videx/assets/64348852/d49d0a61-2f4e-4a9e-b7f3-5e394660ec80)
 </br>
 
