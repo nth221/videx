@@ -18,7 +18,6 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 
 - Structure of VIDEX interface (with M-V-VM pattern)
 <img width="1136" alt="gui" src="https://github.com/nth221/videx/assets/64348852/7074cf20-c176-4c90-8c2c-097529dfd92a">
-
 </br>
 
 - Dataflow Diagram of Ojbect Detection & Outlier Detection
