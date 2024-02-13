@@ -23,5 +23,12 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 
 </br>
 - Dataflow Diagram of Ojbect Detection & Outlier Detection
-![dataflow](https://github.com/nth221/videx/assets/64348852/dbe717d6-4dac-404a-b650-24c52dbcb4c2)
+![dataflow](https://github.com/nth221/videx/assets/64348852/bfceabcf-8d18-497c-8035-befc93202fd8)
+
+</br>
+- Multi-Thread Pipeline
+<img width="1164" alt="thread pipeline" src="https://github.com/nth221/videx/assets/64348852/25da590d-b9c0-4fe9-b7eb-9b547ddfbd0c">
+</br>
+
+
 
