@@ -18,11 +18,11 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 </br>
 
 - Structure of VIDEX interface (with M-V-VM pattern)
-<img width="1136" alt="gui" src="https://github.com/nth221/videx/assets/64348852/7074cf20-c176-4c90-8c2c-097529dfd92a">
+![image](https://github.com/nth221/videx/assets/64348852/8fd4c014-51bb-41de-ac8c-70e2bcf9cd3f)
 </br>
 
 - Multi-Thread Pipeline
-<img width="1164" alt="thread pipeline" src="https://github.com/nth221/videx/assets/64348852/25da590d-b9c0-4fe9-b7eb-9b547ddfbd0c">
+![image](https://github.com/nth221/videx/assets/64348852/d49d0a61-2f4e-4a9e-b7f3-5e394660ec80)
 </br>
 
 - Dataflow Diagram of Ojbect Detection & Outlier Detection
