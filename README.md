@@ -13,7 +13,7 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 
 
 - Paper: 
-- Demo Video: 
+- Demo Video:     
 
 
 
