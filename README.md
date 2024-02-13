@@ -20,19 +20,19 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 ![image](https://github.com/nth221/videx/assets/64348852/d49d0a61-2f4e-4a9e-b7f3-5e394660ec80)
 </br>
 
-- Dataflow Diagram 
+- Dataflow Diagram  
 ![DFD_VIDEX-Page-1 drawio (3)](https://github.com/nth221/videx/assets/64348852/8f9181cb-186f-4b2b-a869-185c5dd55041)
 </br>
 
-- Object Statistics Using OxyChart UI
+- Object Statistics Using OxyChart UI  
 ![Chart_check_](https://github.com/nth221/videx/assets/125935704/afaef400-d67a-4b85-9a78-f21959f7e829)
 </br>
 
-- Object Filter On/Off
+- Object Filter On/Off  
 ![Filter ONOFF2](https://github.com/nth221/videx/assets/125935704/860a8e2a-03dc-4eec-8c01-ca0986c65b4e)
 </br>
 
-- Outlier Checking View
+- Outlier Checking View  
 ![Outlier_check_](https://github.com/nth221/videx/assets/125935704/bfb9fa1a-4d87-473e-bde4-839049b77b94)
 </br>
 
