@@ -20,7 +20,7 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 ![image](https://github.com/nth221/videx/assets/64348852/d49d0a61-2f4e-4a9e-b7f3-5e394660ec80)
 </br>
 
-- Dataflow Diagram of Ojbect Detection & Outlier Detection
+- Dataflow Diagram 
 ![DFD_VIDEX-Page-1 drawio (3)](https://github.com/nth221/videx/assets/64348852/8f9181cb-186f-4b2b-a869-185c5dd55041)
 </br>
 
