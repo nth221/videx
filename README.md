@@ -1,2 +1,2 @@
-# videx
-Video Indexing with object and outlier detection
+# VIDEX
+Video Indexing Tool with Object and Outlier detection
