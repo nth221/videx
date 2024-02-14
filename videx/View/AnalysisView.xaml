@@ -90,8 +90,8 @@
                         <ColumnDefinition Width="0*"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Margin="0,0,565,134" DataContext="{Binding}" Grid.ColumnSpan="2">
-                        <ScrollViewer Height="546" Background="#272537" Width="181">
+                    <StackPanel Margin="0,0,565,7" DataContext="{Binding}" Grid.ColumnSpan="2">
+                        <ScrollViewer Height="667" Background="#272537" Width="181">
                             <StackPanel DataContext="{Binding}">
                                 <StackPanel Margin="20,0,0,0">
                                     <Button Content="vehicle" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="1"/>
@@ -203,7 +203,7 @@
                             </StackPanel>
                         </ScrollViewer>
                     </StackPanel>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="221,31,10,139" Background="#272537" BorderThickness="1" Grid.ColumnSpan="2">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="221,31,10,119" Background="#272537" BorderThickness="1" Grid.ColumnSpan="2">
                         <ItemsControl ItemsSource="{Binding ImageCheckBoxes}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -213,13 +213,12 @@
                         </ItemsControl>
                     </ScrollViewer>
 
-                    <TextBlock TextWrapping="Wrap" Text="탐지된 목록" FontSize="16"
-TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Foreground="White" Margin="456,10,0,674" Grid.ColumnSpan="2"/>
-                    <TextBlock TextWrapping="Wrap" Text="필터링 목록" FontSize="16"
-                TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Foreground="White" Margin="56,10,0,674" Grid.ColumnSpan="2"/>
-
-                    <Button Margin="166,624,45,39" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.ColumnSpan="2"/>
-                    <Image Source="/Resources/img/img_analysis1.png" Margin="166,624,45,39" Grid.ColumnSpan="2"/>
+                    <TextBlock TextWrapping="Wrap" Text="Object gallery" FontSize="16"
+TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Foreground="White" Margin="456,0,0,604" Grid.ColumnSpan="2"/>
+                    <Button Command="{Binding SummaryCommand}" Margin="366,572,149,8" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.ColumnSpan="2">
+                        <Image Source="/Resources/img/img_summary.png" Width="239" Height="88" Panel.ZIndex="1">
+                        </Image>
+                    </Button>
                 </Grid>
                 <Grid Margin="0,391,791,10" Background="#323345" Grid.RowSpan="2" HorizontalAlignment="Right" Width="479">
                     <busyIndicator:BusyMask

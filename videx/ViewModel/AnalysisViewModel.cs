@@ -19,6 +19,10 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.Legends;
+using System.Diagnostics;
+using System.Windows.Media.Animation;
+using Microsoft.Win32;
+using OxyPlot.Wpf;
 
 namespace videx.ViewModel
 {
@@ -70,7 +74,6 @@ namespace videx.ViewModel
             VideoObject.MediaEnded += VideoObject_MediaEnded;
             VideoObject.MediaFailed += VideoObject_MediaFailed;
 
-            //LoadImages();
             media_start();
 
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -81,6 +84,91 @@ namespace videx.ViewModel
 
             // 각 버튼별로 독립적인 상태를 저장할 변수 초기화
             buttonCheckStates = Enumerable.Repeat(false, 10).ToArray();
+        }
+
+        private ICommand summaryCommand;
+        public ICommand SummaryCommand
+        {
+            get
+            {
+                if (summaryCommand == null)
+                {
+                    summaryCommand = new RelayCommand(param => Summarization());
+                }
+                return summaryCommand;
+            }
+        }
+
+        private async void Summarization()
+        {
+            VideoObject.Stop();
+
+            // 기본 저장 경로를 desktopPath로 설정
+            string summaryPath = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
+            ExportChart();
+            // SaveFileDialog를 사용하여 사용자에게 파일을 저장할 경로를 선택하도록 함
+            SaveFileDialog saveDialog = new SaveFileDialog()
+            {
+                DefaultExt = ".avi",
+                Filter = "AVI files (*.avi)|*.avi|All files (*.*)|*.*",
+                FileName = "output_video.avi"
+            };
+
+            // 사용자가 저장을 수락하면 파일 경로를 업데이트
+            if (saveDialog.ShowDialog() == true)
+            {
+                string userPath = saveDialog.FileName;
+
+                // 파일 복사
+                try
+                {
+                    File.Copy(summaryPath, userPath, true);
+                    MessageBox.Show("Summary Video, Chart exported successfully.", "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                }
+                catch (Exception ex)
+                {
+                    // 복사 중 오류가 발생한 경우에 대한 처리
+                    MessageBox.Show($"Error copying file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            else
+            {
+                // 사용자가 저장을 취소한 경우에 대한 처리
+                return;
+            }
+        }
+
+        private void ExportChart()
+        {
+            if (PlotModel != null)
+            {
+                PlotModel.Background = OxyColors.White;
+
+                var exporter = new PngExporter { Width = 600, Height = 400};
+
+                var saveFileDialog = new SaveFileDialog
+                {
+                    DefaultExt = ".png",
+                    Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*",
+                    FileName = "chart_object.png"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    using (var stream = File.Create(saveFileDialog.FileName))
+                    {
+                        exporter.Export(PlotModel, stream);
+                    }
+
+                    MessageBox.Show("Object Chart exported successfully.", "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No chart available to export.", "Export Failed", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -204,7 +292,7 @@ namespace videx.ViewModel
             for (int i = startIndex; i <= endIndex; i++)
             {
                 CheckBoxItems[i].IsChecked = isChecking;
-                Console.WriteLine(CheckBoxItems[i].IsChecked);
+                //Console.WriteLine(CheckBoxItems[i].IsChecked);
             }
         }
 
@@ -280,7 +368,12 @@ namespace videx.ViewModel
             }
             else
             {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 LoadImages();
+                stopwatch.Stop();
+                Console.WriteLine("time : " +
+                               stopwatch.ElapsedMilliseconds + "ms");
                 ReloadPlot();
             }
         }
@@ -318,9 +411,8 @@ namespace videx.ViewModel
         private void LoadImages()
         {
             ImageCheckBoxes = new ObservableCollection<CheckBox>();
-
             List<ImageData> images = YoloProcess.SelectImage();
-
+            
             if (images != null && images.Count > 0)
             {
                 foreach (var imageData in images)
