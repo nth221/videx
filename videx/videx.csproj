@@ -8,6 +8,7 @@
     <ErrorReport>none</ErrorReport>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationIcon>Resources\img\videx_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\img\img_summary.png" />
     <None Remove="View\NewFile1.txt" />
     <None Remove="Resources\img\cctv.ico" />
     <None Remove="Resources\img\img_analysis1.png" />
@@ -29,6 +31,10 @@
   <ItemGroup>
     <Page Remove="View\LoadingVi.xaml" />
     <Page Remove="View\NewFile1.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\img\videx_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +83,7 @@
     <Resource Include="Resources\img\img_analysis1.png" />
     <Resource Include="Resources\img\img_fileload.png" />
     <Resource Include="Resources\img\img_fileremove.png" />
+    <Resource Include="Resources\img\img_summary.png" />
     <Resource Include="Resources\img\s_button.png" />
   </ItemGroup>
 
