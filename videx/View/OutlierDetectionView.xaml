@@ -80,6 +80,7 @@ Background="Transparent">
                     <oxy:PlotView x:Name="plot" Model="{Binding PlotModel}" Margin="0,0,10,0" MouseDown="PlotView_MouseDown"/>
                 </Grid>
             </Grid>
+            <Button Command="{Binding SaveGraph}" Grid.Column="1" Content="Save Graph" HorizontalAlignment="Left" Height="30" Margin="384,0,0,0" VerticalAlignment="Center" Width="77"/>
         </Grid>
     </Border>
 </Window>

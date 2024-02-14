@@ -22,6 +22,8 @@ using videx.Model;
 using static videx.ViewModel.AnalysisViewModel;
 using System.Text.RegularExpressions;
 using videx.View;
+using Microsoft.Win32;
+using OxyPlot.Wpf;
 
 namespace videx.ViewModel
 {
@@ -35,7 +37,7 @@ namespace videx.ViewModel
         }
 
         private static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
-        private static string inputFilePath = System.IO.Path.Combine(desktopPath, "bus.mp4");
+        private static string inputFilePath = System.IO.Path.Combine(desktopPath, "edited.mp4");
 
         private static double fps = GetVideoFPS(inputFilePath);
 
@@ -56,11 +58,54 @@ namespace videx.ViewModel
             VideoObject.MediaOpened += VideoObject_MediaOpened;
             VideoObject.MediaEnded += VideoObject_MediaEnded;
             VideoObject.MediaFailed += VideoObject_MediaFailed;
-
-            //LoadImages();
+            
             media_start();
 
             InitializePlot();
+        }
+
+        private ICommand saveGraph;
+        public ICommand SaveGraph
+        {
+            get
+            {
+                if (saveGraph == null)
+                {
+                    saveGraph = new RelayCommand(param => ExportChart());
+                }
+                return saveGraph;
+            }
+        }
+
+        private void ExportChart()
+        {
+            if (PlotModel != null)
+            {
+                PlotModel.Background = OxyColors.White;
+
+                var exporter = new PngExporter { Width = 600, Height = 400 };
+
+                var saveFileDialog = new SaveFileDialog
+                {
+                    DefaultExt = ".png",
+                    Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*",
+                    FileName = "chart_outlier.png"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    using (var stream = File.Create(saveFileDialog.FileName))
+                    {
+                        exporter.Export(PlotModel, stream);
+                    }
+
+                    MessageBox.Show("Outlier Chart exported successfully.", "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No chart available to export.", "Export Failed", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         static double GetVideoFPS(string videoPath)
@@ -300,21 +345,53 @@ namespace videx.ViewModel
 
             var random = new Random();
             var dataPoints = new DataPoint[totalFrame];
+
+            var section = totalFrame / 10;
             for (int i = 0; i < totalFrame; i++)
             {
                 double time = GetTimeAtFrame(i, fps);
                 double yValue;
-                if ((i >= 30 && i <= 40) || (i >= 80 && i <= 90) || (i >= 230 && i <= 240) || (i >= 580 && i <= 590))
+
+                // Determine the current section
+                int currentSection = i / section;
+
+                // Determine the base value for the current section
+                double baseValue = random.NextDouble();
+
+                // Specify yValue based on the current section
+                switch (currentSection)
                 {
-                    yValue = 100 + random.NextDouble() * 50;
-                }
-                else
-                {
-                    yValue = random.NextDouble() * 10; 
+                    case 0:
+                    case 1:
+                    case 4:
+                    case 7:
+                        // Linearly increase
+                        yValue = baseValue + (i % section) * 0.05; // Adjust the slope as needed
+                        break;
+
+                    case 2:
+                    case 3:
+                    case 5:
+                    case 6:
+                        // Quadratically increase (smooth rise)
+                        yValue = baseValue + Math.Pow((i % section) / (double)section, 2) * 0.1; // Adjust the coefficient as needed
+                        break;
+
+                    case 8:
+                    case 9:
+                        // Cubically increase with a peak in the middle
+                        int middle = section / 2;
+                        yValue = baseValue + Math.Pow(Math.Abs((i % section) - middle) / (double)middle, 3) * 0.2; // Adjust the coefficient as needed
+                        break;
+
+                    default:
+                        yValue = baseValue;
+                        break;
                 }
 
-                dataPoints[i] = new DataPoint(time, yValue);
+                dataPoints[i] = new DataPoint(time, yValue * 50); // Scale the result as needed
             }
+
 
             return dataPoints;
         }
