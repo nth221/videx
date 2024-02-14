@@ -115,8 +115,8 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
             Foreground="White"
             FontSize="14"
             TextDecorations="Underline"
-            FontWeight="Bold" Height="27" Width="70"/>
-                        <TextBox TextWrapping="Wrap" Text="" Margin="90,50,30,30" Width="130" Height="20"/>
+            FontWeight="Bold" Height="27" Width="74" Margin="0,15,0,0"/>
+                        <TextBox TextChanged="TextBox_TextChanged" Margin="75,35,30,30" Width="146" Height="20"/>
                     </StackPanel>
                 </Border>
 
@@ -134,7 +134,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                <ScrollViewer Margin="19,111,38,265" Background="#272537" BorderThickness="1" Grid.Column="1">
+                <ScrollViewer Margin="19,111,38,203" Background="#272537" BorderThickness="1" Grid.Column="1">
                     <StackPanel DataContext="{Binding}">
                         <Button Content="vehicle" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="1"/>
                         <StackPanel Margin="20,0,0,0">
@@ -246,11 +246,11 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                 </ScrollViewer>
                 <Border Background="#323345" 
     CornerRadius="10,10,0,0" Margin="1020,501,15,20" Grid.ColumnSpan="2">
-                    <Button Command="{Binding AnalysisCommand}" Margin="36,40,35,40" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
+                    <Button Command="{Binding AnalysisCommand}" Margin="38,35,33,35" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
                         <Image Source="/Resources/img/img_analysis1.png" Width="180" Height="75"/>
                     </Button>
                 </Border>
-                <Button Margin="19,70,166,564" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.Column="1">
+                <Button Margin="16,70,166,564" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.Column="1">
                     <Image Source="/Resources/img/s_button.png" Width="30" Height="30"/>
                 </Button>
             </Grid>

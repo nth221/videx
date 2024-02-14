@@ -27,7 +27,6 @@ namespace videx.ViewModel
 
         public string[] SelectedLabels { get; set; }
         string filePath; 
-        string editVideoPath;
         public bool sldrDragStart = false; 
         public bool check_time = false;
         bool edit_check = false;
