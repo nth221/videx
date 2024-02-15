@@ -228,7 +228,7 @@ TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Foregr
                             BusyContentMargin="0,20,0,0" 
                             IsBusyAtStartup="True"
                             Visibility="{Binding Loading}" Panel.ZIndex="1" HorizontalAlignment="Left" VerticalAlignment="Center" Height="283" Width="449" Margin="10,10,10,10"/>
-                    <oxy:PlotView Model="{Binding PlotModel}" Background="Beige" Margin="10,10,10,10" HorizontalAlignment="Center" Width="449"/>
+                    <oxy:PlotView Model="{Binding PlotModel}" Background="LightGray" Margin="10,10,10,10" HorizontalAlignment="Center" Width="449"/>
                 </Grid>
             </Grid>
             <ComboBox x:Name="mode" HorizontalAlignment="Left" Margin="569,9,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged">
