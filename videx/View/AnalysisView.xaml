@@ -57,7 +57,7 @@
                     <RowDefinition Height="81*"/>
                 </Grid.RowDefinitions>
 
-                <Border Background="#323345" Margin="-1,0,758,157">
+                <Border Background="#323345" Margin="10,0,791,191">
                     <Grid Margin="0,6,0,-6">
                         <!-- media controll -->
                         <ContentControl Content="{Binding VideoObject}"  Margin="10,10,10,65"/>
@@ -204,7 +204,7 @@
                         </ScrollViewer>
                     </StackPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="221,31,10,119" Background="#272537" BorderThickness="1" Grid.ColumnSpan="2">
-                        <ItemsControl ItemsSource="{Binding ImageCheckBoxes}">
+                        <ItemsControl >
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel />
@@ -220,17 +220,21 @@ TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Foregr
                         </Image>
                     </Button>
                 </Grid>
-                <Grid Margin="0,391,791,10" Background="#323345" Grid.RowSpan="2" HorizontalAlignment="Right" Width="479">
+                <Grid Margin="10,361,791,20" Background="#323345" Grid.RowSpan="2" HorizontalAlignment="Right" Width="479">
                     <busyIndicator:BusyMask
                             IsBusy="False" 
                             IndicatorType="BouncingDot" 
                             BusyContent="Graph Drawing..." 
                             BusyContentMargin="0,20,0,0" 
-                            IsBusyAtStartup="True" Margin="10,10,10,65"
-                            Visibility="{Binding Loading}" Panel.ZIndex="1"/>
-                    <oxy:PlotView Model="{Binding PlotModel}" Margin="0,0,10,0"/>
+                            IsBusyAtStartup="True"
+                            Visibility="{Binding Loading}" Panel.ZIndex="1" HorizontalAlignment="Left" VerticalAlignment="Center" Height="283" Width="449" Margin="10,10,10,10"/>
+                    <oxy:PlotView Model="{Binding PlotModel}" Background="Beige" Margin="10,10,10,10" HorizontalAlignment="Center" Width="449"/>
                 </Grid>
             </Grid>
+            <ComboBox x:Name="mode" HorizontalAlignment="Left" Margin="569,9,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged">
+                <ComboBoxItem>Light Mode</ComboBoxItem>
+                <ComboBoxItem>Dark Mode</ComboBoxItem>
+            </ComboBox>
         </Grid>
     </Border>
 </Window>

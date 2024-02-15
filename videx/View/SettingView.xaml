@@ -14,7 +14,7 @@
     </Window.DataContext>
 
 
-    <Border Background="#272537">
+    <Border x:Name="backgroundMode" Background="#272537">
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -58,7 +58,7 @@
                     <ColumnDefinition Width="227*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Margin="10,0,813,0">
-                    <Border
+                    <Border x:Name="backgroundMode1"
         Background="#323345"
         CornerRadius="10,10,0,0" Width="200" Margin="5,0,25,178">
                         <TextBlock Text="FILE"
@@ -71,11 +71,11 @@
                     <CheckBox Visibility="{Binding CheckBoxVisibility}" Content="{Binding Videofilename}" IsChecked="{Binding FileSelected}"  Margin="26,85,33,263" Foreground="#FFFBFBFB"/>
                 </Grid>
                 <Grid Grid.ColumnSpan="2">
-                    <Border Background="#323345"
+                    <Border x:Name="backgroundMode2" Background="#323345"
 CornerRadius="10,10,0,0" Margin="229,0,266,175"/>
                 </Grid>
                 <Grid Grid.ColumnSpan="2">
-                    <Border Background="#323345" CornerRadius="10,10,0,0" Margin="225,0,278,175">
+                    <Border x:Name="backgroundMode3" Background="#323345" CornerRadius="10,10,0,0" Margin="225,0,278,175">
                         <Grid>
                             <ContentControl Content="{Binding VideoObject}"  Margin="10,10,10,65"/>
                             <Slider x:Name="sldrPlayTime" Margin="10,0,10,42" VerticalAlignment="Bottom" 
@@ -107,7 +107,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                   HorizontalAlignment="Left"
                   Margin="241,15,0,628" FontWeight="Bold"/>
                 </Grid>
-                <Border Background="#323345" 
+                <Border x:Name="backgroundMode4" Background="#323345" 
             CornerRadius="10,10,0,0" 
             Margin="1019,0,15,175" Grid.ColumnSpan="2">
                     <StackPanel>
@@ -116,13 +116,13 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
             FontSize="14"
             TextDecorations="Underline"
             FontWeight="Bold" Height="27" Width="74" Margin="0,15,0,0"/>
-                        <TextBox TextChanged="TextBox_TextChanged" Margin="75,35,30,30" Width="146" Height="20"/>
+                        <TextBox Margin="75,35,30,30" Width="146" Height="20"/>
                     </StackPanel>
                 </Border>
 
-                <Border Background="#323345" 
+                <Border x:Name="backgroundMode5" Background="#323345" 
     CornerRadius="10,10,0,0" Margin="10,501,36,20">
-                    <StackPanel Margin="10,10,10,10" Background="#272537">
+                    <StackPanel x:Name="backgroundMode8" Margin="10,10,10,10" Background="#272537">
                         <CheckBox Content="{Binding Videofile}" IsChecked="True" Foreground="#FFFBFBFB"/>
                         <StackPanel Margin="20,0,0,0">
                             <TextBlock Foreground="#FFFBFBFB" Text="{Binding VideoInfo}" />
@@ -134,7 +134,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                <ScrollViewer Margin="19,111,38,203" Background="#272537" BorderThickness="1" Grid.Column="1">
+                <ScrollViewer x:Name="backgroundMode7"  Margin="19,111,38,203" Background="#272537" BorderThickness="1" Grid.Column="1">
                     <StackPanel DataContext="{Binding}">
                         <Button Content="vehicle" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="1"/>
                         <StackPanel Margin="20,0,0,0">
@@ -244,7 +244,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
-                <Border Background="#323345" 
+                <Border x:Name="backgroundMode6" Background="#323345" 
     CornerRadius="10,10,0,0" Margin="1020,501,15,20" Grid.ColumnSpan="2">
                     <Button Command="{Binding AnalysisCommand}" Margin="38,35,33,35" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
                         <Image Source="/Resources/img/img_analysis1.png" Width="180" Height="75"/>
@@ -254,6 +254,11 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                     <Image Source="/Resources/img/s_button.png" Width="30" Height="30"/>
                 </Button>
             </Grid>
+            <ComboBox x:Name="mode" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Center" Width="120" Grid.Column="1" SelectionChanged="mode_SelectionChanged">
+                <ComboBoxItem>Light Mode</ComboBoxItem>
+                <ComboBoxItem>Dark Mode</ComboBoxItem>
+            </ComboBox>
+
         </Grid>
     </Border>
 </Window>

@@ -64,5 +64,17 @@ namespace videx.View
             }
         }
 
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedMode = (mode.SelectedItem as ComboBoxItem)?.Content.ToString();
+            if (selectedMode == "Dark Mode")
+            {
+                Console.WriteLine("Dark Mode");
+            }
+            else
+            {
+                Console.WriteLine("Light Mode");
+            }
+        }
     }
 }

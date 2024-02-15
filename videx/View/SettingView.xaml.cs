@@ -7,6 +7,7 @@ using videx.Model.YOLOv5;
 using System.Collections.Generic;
 using videx.ViewModel;
 using videx.View;
+using System.Windows.Media;
 
 namespace videx.View
 {
@@ -65,7 +66,34 @@ namespace videx.View
             }
         }
 
-
+        private void mode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedMode = (mode.SelectedItem as ComboBoxItem)?.Content.ToString();
+            if (selectedMode == "Dark Mode")
+            {
+                backgroundMode.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#272537"));
+                backgroundMode1.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
+                backgroundMode2.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
+                backgroundMode3.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
+                backgroundMode4.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
+                backgroundMode5.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
+                backgroundMode6.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
+                backgroundMode7.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#272537"));
+                backgroundMode8.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#272537"));
+            }
+            else
+            {
+                backgroundMode.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ffffff"));
+                backgroundMode1.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
+                backgroundMode2.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
+                backgroundMode3.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
+                backgroundMode4.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
+                backgroundMode5.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
+                backgroundMode6.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
+                backgroundMode7.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
+                backgroundMode8.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
+            }
+        }
 
     }
 }

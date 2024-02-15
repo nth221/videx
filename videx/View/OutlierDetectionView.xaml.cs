@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using videx.ViewModel;
+using static OpenCvSharp.Stitcher;
 
 namespace videx.View
 {
@@ -69,6 +70,19 @@ namespace videx.View
             double xCoordinate = position.X;
 
             Console.WriteLine($"Clicked at X-coordinate: {xCoordinate}");
+        }
+
+        private void mode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedMode = (mode.SelectedItem as ComboBoxItem)?.Content.ToString();
+            if (selectedMode == "Dark Mode")
+            {
+                Console.WriteLine("Dark Mode");
+            }
+            else
+            {
+                Console.WriteLine("Light Mode");
+            }
         }
     }
 

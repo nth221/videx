@@ -56,8 +56,8 @@ Background="Transparent">
                     <RowDefinition Height="81*"/>
                 </Grid.RowDefinitions>
 
-                <Border Background="#323345" Margin="-1,0,10,10">
-                    <Grid Margin="0,6,0,-6">
+                <Border Background="#323345" Margin="10,0,10,10">
+                    <Grid Margin="10,6,0,-6">
                         <!-- media controll -->
                         <ContentControl Content="{Binding VideoObject}"  Margin="10,10,10,65"/>
                         <Slider x:Name="sldrPlayTime" Margin="10,0,10,42" VerticalAlignment="Bottom"  AllowDrop="True"
@@ -77,10 +77,14 @@ Background="Transparent">
                     </Grid>
                 </Border>
                 <Grid Margin="0,10,0,10" Background="#323345" HorizontalAlignment="Center" Width="1260" Grid.Row="1">
-                    <oxy:PlotView x:Name="plot" Model="{Binding PlotModel}" Margin="0,0,10,0" MouseDown="PlotView_MouseDown"/>
+                    <oxy:PlotView x:Name="plot" Model="{Binding PlotModel}" MouseDown="PlotView_MouseDown" Background="Beige"/>
                 </Grid>
             </Grid>
             <Button Command="{Binding SaveGraph}" Grid.Column="1" Content="Save Graph" HorizontalAlignment="Left" Height="30" Margin="384,0,0,0" VerticalAlignment="Center" Width="77"/>
+            <ComboBox x:Name="mode" Grid.Column="1" HorizontalAlignment="Left" Margin="89,0,0,0" VerticalAlignment="Center" Width="120" SelectionChanged="mode_SelectionChanged">
+                <ComboBoxItem>Light Mode</ComboBoxItem>
+                <ComboBoxItem>Dark Mode</ComboBoxItem>
+            </ComboBox>
         </Grid>
     </Border>
 </Window>
