@@ -72,17 +72,18 @@ namespace videx.View
             Console.WriteLine($"Clicked at X-coordinate: {xCoordinate}");
         }
 
-        private void mode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DarkMode_Checked(object sender, RoutedEventArgs e)
         {
-            string selectedMode = (mode.SelectedItem as ComboBoxItem)?.Content.ToString();
-            if (selectedMode == "Dark Mode")
-            {
-                Console.WriteLine("Dark Mode");
-            }
-            else
-            {
-                Console.WriteLine("Light Mode");
-            }
+            Properties.Settings.Default.ColorMode = "Black";
+
+            Properties.Settings.Default.Save();
+        }
+
+        private void LightMode_Checked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.ColorMode = "White";
+
+            Properties.Settings.Default.Save();
         }
     }
 

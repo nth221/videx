@@ -6,15 +6,15 @@ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 xmlns:busyIndicator="https://github.com/moh3ngolshani/BusyIndicator"
 xmlns:vm="clr-namespace:videx.ViewModel" xmlns:oxy="http://oxyplot.org/wpf"
 mc:Ignorable="d"
-Title="Videx" Height="750" Width="1280"
-Background="Transparent">
+Title="Videx" Height="800" Width="1280">
+
     <Window.DataContext>
         <vm:OutlierDetectionViewModel/>
     </Window.DataContext>
 
-    <Border Background="#272537">
+    <Border>
 
-        <Grid>
+        <Grid Style="{StaticResource BackGroundGrid}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="159*"/>
                 <ColumnDefinition Width="97*"/>
@@ -24,67 +24,44 @@ Background="Transparent">
                 <RowDefinition Height="50"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <RadioButton Content="Analysis Settings"
-                     IsChecked="False"
-                     IsEnabled="False"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Center"
-                     Height="50"
-                     Foreground="White"
-                     Style="{StaticResource MenuButtonTheme}"
-                     FontSize="12" Width="90" Margin="10,0,0,0"/>
-            <RadioButton Content="Object Detection Results"
-                     IsEnabled="False"
-         HorizontalAlignment="Left"
-         VerticalAlignment="Center"
-         Height="50"
-         Foreground="White"
-                     Style="{StaticResource MenuButtonTheme}"
-         FontSize="12" Margin="105,0,0,0" Width="145"/>
-            <RadioButton Content="Outlier Detection Results" IsChecked="True"
-                    IsEnabled="False"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Center"
-        Height="50"
-        Foreground="White"
-                    Style="{StaticResource MenuButtonTheme}"
-        FontSize="12" Margin="255,0,0,0" Width="145"/>
-
             <Grid x:Name="analysisPage" Grid.Row="1" Visibility="Visible" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="286*"/>
                     <RowDefinition Height="81*"/>
                 </Grid.RowDefinitions>
 
-                <Border Background="#323345" Margin="10,0,10,10">
-                    <Grid Margin="10,6,0,-6">
-                        <!-- media controll -->
-                        <ContentControl Content="{Binding VideoObject}"  Margin="10,10,10,65"/>
-                        <Slider x:Name="sldrPlayTime" Margin="10,0,10,42" VerticalAlignment="Bottom"  AllowDrop="True"
+                <Border Margin="10,0,10,10">
+                    <Grid Margin="10,6,0,-6" Style="{StaticResource ForeGroundGrid}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="126*"/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Content="{Binding VideoObject}"  Margin="10,10,10,46"/>
+                        <Slider x:Name="sldrPlayTime" Margin="10,463,10,0" VerticalAlignment="Top"  AllowDrop="True"
                      Value="{Binding SlderPlayTime}"
                      Minimum="{Binding SliderMinimum}"
                      Maximum="{Binding SliderMaximum}"
                      Thumb.DragStarted="SldrPlayTime_DragStarted"
                      Thumb.DragCompleted="SldrPlayTime_DragCompleted"
                      ValueChanged="SldrPlayTime_ValueChanged"/>
-                        <Button  Command="{Binding PlayCommand}" Content="▶" HorizontalAlignment="Left" Margin="587,0,0,13" Width="29" Height="23" VerticalAlignment="Bottom"  Background="#FFFFF8F8"/>
-                        <Button  Command="{Binding StopCommand}" Content="■" HorizontalAlignment="Left" Margin="620,0,0,13" Width="29" Height="23" VerticalAlignment="Bottom"  Background="#FFFFF8F8"/>
-                        <Button  Command="{Binding PauseCommand}" Content="II" HorizontalAlignment="Left" Margin="655,0,0,13" Width="29" Height="23" VerticalAlignment="Bottom"  Background="#FFFFF8F8"/>
-                        <Label Content="Volume" HorizontalAlignment="Left" Margin="1089,486,0,13" Height="26" VerticalAlignment="Bottom" Foreground="White" FontWeight="Bold"/>
-                        <Slider  HorizontalAlignment="Left" Margin="1148,0,0,17" Width="100" Height="18" VerticalAlignment="Bottom"  Maximum="1" LargeChange="0.1" Value="0.5" />
-                        <Label x:Name="lblPlayTime" Content="{Binding LblPlayTime}" HorizontalAlignment="Left" Margin="68,0,0,11" VerticalAlignment="Bottom" Width="212" Height="23" Foreground="White" FontWeight="Bold"/>
+                        <Button  Command="{Binding PlayCommand}" Content="▶" HorizontalAlignment="Left" Margin="587,0,0,13" Width="29" Height="23" VerticalAlignment="Bottom" Grid.RowSpan="2"/>
+                        <Button  Command="{Binding StopCommand}" Content="■" HorizontalAlignment="Left" Margin="620,0,0,13" Width="29" Height="23" VerticalAlignment="Bottom" Grid.RowSpan="2"/>
+                        <Button  Command="{Binding PauseCommand}" Content="II" HorizontalAlignment="Left" Margin="655,0,0,13" Width="29" Height="23" VerticalAlignment="Bottom" Grid.RowSpan="2"/>
+                        <Label Content="Volume" HorizontalAlignment="Left" Margin="1053,0,0,13" Height="26" VerticalAlignment="Bottom" FontWeight="Bold" Grid.RowSpan="2"/>
+                        <Slider HorizontalAlignment="Left" Margin="1121,0,0,17" Width="100" Height="18" VerticalAlignment="Bottom"  Maximum="1" LargeChange="0.1" Value="0.5" Grid.RowSpan="2" />
+                        <Label x:Name="lblPlayTime" Content="{Binding LblPlayTime}" HorizontalAlignment="Left" Margin="68,0,0,11" VerticalAlignment="Bottom" Width="212" Height="23" FontWeight="Bold" Grid.RowSpan="2"/>
 
                     </Grid>
                 </Border>
-                <Grid Margin="0,10,0,10" Background="#323345" HorizontalAlignment="Center" Width="1260" Grid.Row="1">
-                    <oxy:PlotView x:Name="plot" Model="{Binding PlotModel}" MouseDown="PlotView_MouseDown" Background="LightGray"/>
+                <Grid Style="{StaticResource BackGroundGrid}" Margin="0,10,0,10" HorizontalAlignment="Center" Grid.Row="1" Width="1208">
+                    <oxy:PlotView x:Name="plot" Model="{Binding PlotModel}" MouseDown="PlotView_MouseDown" HorizontalAlignment="Center" Width="1211" Background="#e7e3e3"/>
                 </Grid>
             </Grid>
-            <Button Command="{Binding SaveGraph}" Grid.Column="1" Content="Save Graph" HorizontalAlignment="Left" Height="30" Margin="384,0,0,0" VerticalAlignment="Center" Width="77"/>
-            <ComboBox x:Name="mode" Grid.Column="1" HorizontalAlignment="Left" Margin="89,0,0,0" VerticalAlignment="Center" Width="120" SelectionChanged="mode_SelectionChanged">
-                <ComboBoxItem>Light Mode</ComboBoxItem>
-                <ComboBoxItem>Dark Mode</ComboBoxItem>
-            </ComboBox>
+
+
+            <Button Command="{Binding SaveGraph}" Content="Save Graph" HorizontalAlignment="Left" Height="30" Margin="391,0,0,0" VerticalAlignment="Center" Width="77" Grid.Column="1"/>
+            <RadioButton x:Name="DarkMode" Content="Dark Mode" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" IsChecked="True" GroupName="modesSelection" Checked="DarkMode_Checked"/>
+            <RadioButton x:Name="LightMode" Content="Light Mode" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Center" GroupName="modesSelection" Checked="LightMode_Checked"/>
         </Grid>
     </Border>
 </Window>
