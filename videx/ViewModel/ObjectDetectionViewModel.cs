@@ -84,7 +84,6 @@ namespace videx.ViewModel
 
             InitializeCheckBoxItems();
 
-            // 각 버튼별로 독립적인 상태를 저장할 변수 초기화
             buttonCheckStates = Enumerable.Repeat(false, 10).ToArray();
         }
 

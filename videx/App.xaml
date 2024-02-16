@@ -12,13 +12,11 @@
                     
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="Black"/>
                         <Setter Property="Foreground" Value="White"/>
                     </DataTrigger>
 
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
-                        <Setter Property="Background" Value="White"/>
                         <Setter Property="Foreground" Value="Black"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -77,7 +75,7 @@
 
                     <!-- Light Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
-                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Background" Value="#e7e3e3"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -110,11 +108,12 @@
                 </Style.Triggers>
             </Style>
 
-            <Style TargetType="{x:Type StackPanel}">
+
+            <Style TargetType="{x:Type ItemsControl}">
                 <Style.Triggers>
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="#272537"/>
+                        <Setter Property="Background" Value="#323345"/>
                     </DataTrigger>
 
                     <!-- Light Mode -->
@@ -123,6 +122,7 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/MenuButtonTheme.xaml"></ResourceDictionary>
