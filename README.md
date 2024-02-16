@@ -49,9 +49,12 @@ In the process for object detection, entire video frame is divided by the number
 
 In the process for anomaly detection, we allocate threads as many as the number of detection methods to parallelize the process. Initially, we segment the input video into segments, which serve as detection units, and obtain spatio-temporal feature embeddings using a pre-trained 3D-CNN (also called through ONNX) on large-scale action recognition data. Then, each thread distinguishes anomaly embeddings from the entire embeddings using assigned non-parametric outlier detection methods. Through this approach, VIDEX leverages multithreading to maintain process parallelism and achieve improvements in speed.
 
-- Dataflow Diagram  
-![DFD_VIDEX-Page-1 drawio (3)](https://github.com/nth221/videx/assets/64348852/8f9181cb-186f-4b2b-a869-185c5dd55041)
-</br>
+
+- Dataflow Diagram
+![DFD_VIDEX-Page-1 drawio (1)](https://github.com/nth221/videx/assets/64348852/1b2c750e-78f4-4e87-90c1-9bdfd08a9c97)
+
+The figure above is a dataflow diagram of videx. Follow the flow to find out the functions of videx.
+
 
 -----
 
