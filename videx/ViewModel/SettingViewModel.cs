@@ -583,8 +583,8 @@ namespace videx.ViewModel
             currentWindow.Visibility = Visibility.Collapsed;
 
             UpdateTestLabels();
-            AnalysisView AnalysisView = new AnalysisView();
-            AnalysisView.Show();
+            ObjectDetectionView ObjectDetectionView = new ObjectDetectionView();
+            ObjectDetectionView.Show();
 
             OutlierDetectionView outlierDetectionView = new OutlierDetectionView();
             outlierDetectionView.Show();

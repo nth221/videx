@@ -53,11 +53,10 @@ namespace videx.ViewModel
         public ObservableCollection<string> CheckedItems { get; set; }
         public ObservableCollection<CheckBoxItem> CheckBoxItems { get; set; }
 
-
+        public System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
 
         public ObjectDetectionViewModel()
         {
-            System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
 
             Analysis(timer);
             SelectedOptions = new ObservableCollection<string>();
@@ -260,6 +259,7 @@ namespace videx.ViewModel
         private void Timer_Tick(object sender, EventArgs e)
         {
             UpdateImage();
+            InitializePlot();
         }
 
         private async void Analysis(System.Windows.Threading.DispatcherTimer timer)
@@ -861,15 +861,21 @@ namespace videx.ViewModel
 
             var model = new PlotModel();
 
+            OxyColor[] predefinedColors = { OxyColors.Blue, OxyColors.Red, OxyColors.Green, OxyColors.Orange, OxyColors.Purple };
+
             List<string> distinctClasses = dataPoints.Select(dp => dp.Class).Distinct().ToList();
+
+            int colorIndex = 0;
 
             foreach (string currentClass in distinctClasses)
             {
                 var lineSeries = new LineSeries
                 {
                     Title = currentClass,
-                    Color = GetRandomColor(),
+                    Color = predefinedColors[colorIndex],    
                 };
+
+                colorIndex = (colorIndex + 1) % predefinedColors.Length;
 
                 var classDataPoints = dataPoints.Where(dp => dp.Class == currentClass);
                 lineSeries.Points.AddRange(classDataPoints.Select(dp => new DataPoint(dp.XValue, dp.YValue)));
@@ -880,7 +886,8 @@ namespace videx.ViewModel
             model.Legends.Add(new Legend { LegendPosition = LegendPosition.TopRight, LegendOrientation = LegendOrientation.Vertical });
 
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Second" });
-            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Object Appearance #" });
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Object Appearance #", Minimum = 0, MajorStep = 1 });
+
 
             PlotModel = model;
         }
@@ -938,7 +945,7 @@ namespace videx.ViewModel
             model.Legends.Add(new Legend { LegendPosition = LegendPosition.TopRight, LegendOrientation = LegendOrientation.Vertical });
 
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Second" });
-            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Object Appearance #" });
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Object Appearance #", Minimum = 0, MajorStep = 1 });
 
             PlotModel = model;
         }

@@ -221,13 +221,6 @@ TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Foregr
                     </Button>
                 </Grid>
                 <Grid Margin="10,361,791,20" Background="#323345" Grid.RowSpan="2" HorizontalAlignment="Right" Width="479">
-                    <busyIndicator:BusyMask
-                            IsBusy="False" 
-                            IndicatorType="BouncingDot" 
-                            BusyContent="Graph Drawing..." 
-                            BusyContentMargin="0,20,0,0" 
-                            IsBusyAtStartup="True"
-                            Visibility="{Binding Loading}" Panel.ZIndex="1" HorizontalAlignment="Left" VerticalAlignment="Center" Height="283" Width="449" Margin="10,10,10,10"/>
                     <oxy:PlotView Model="{Binding PlotModel}" Background="LightGray" Margin="10,10,10,10" HorizontalAlignment="Center" Width="449"/>
                 </Grid>
             </Grid>
