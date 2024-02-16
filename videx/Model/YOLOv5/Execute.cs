@@ -57,7 +57,8 @@ namespace videx.Model.YOLOv5
     {
         public static int flag;
         public static int totalFrames;
-        public static List<ImageData> tableInfo;
+        public static List<ImageData> allObj;
+        public static List<ImageData> selectedObj;
 
         private static string strConn = "Data Source=mydatabase.db;Version=3;Mode=Serialized;";
 
@@ -146,7 +147,8 @@ namespace videx.Model.YOLOv5
 
         private static void DoSomething(SQLiteConnection connection, string ouput_path, YoloDetector detector, string inputFilePath, List<string> outputFilePaths, int startFrame, int endFrame)
         {
-            string[] targetClasses = LabelMap.Labels;
+            string[] allClasses = LabelMap.Labels;
+            string[] targetClasses = LabelMap.test_Labels;
             string outputFileName = Path.Combine(ouput_path, $"output_{startFrame}-{endFrame}.avi");
 
             if (!Directory.Exists(ouput_path))
@@ -210,8 +212,8 @@ namespace videx.Model.YOLOv5
                                         connection.Execute("INSERT INTO ImageTable (Class, Frame, ImageBytes) VALUES (@Class, @Frame, @ImageBytes)", new { Class = obj.Label, Frame = frameNumber, ImageBytes = imgBytes });
                                         croppedImage.Dispose();
 
-
-                                        tableInfo = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
+                                        allObj = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable").ToList();
+                                        selectedObj = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
                                         //SelectImage();
                                     }
                                 }
@@ -262,9 +264,10 @@ namespace videx.Model.YOLOv5
 
                     connection.Execute("DROP TABLE IF EXISTS ImageTable");
                     connection.Execute("CREATE TABLE ImageTable (Id INTEGER PRIMARY KEY AUTOINCREMENT,Class TEXT, Frame INTEGER, ImageBytes BLOB)");
-                    connection.Execute("CREATE INDEX idx_class ON ImageTable(Class)");
+                    connection.Execute("CREATE INDEX idx_frame ON ImageTable(Frame)");
 
                     Console.WriteLine("DB Connection and Create ImageTable and Create Index");
+
                 }
                 catch (Exception e)
                 {

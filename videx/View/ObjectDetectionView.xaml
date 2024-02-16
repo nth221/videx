@@ -204,7 +204,7 @@
                         </ScrollViewer>
                     </StackPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="221,31,10,119" Background="#272537" BorderThickness="1" Grid.ColumnSpan="2">
-                        <ItemsControl >
+                        <ItemsControl ItemsSource="{Binding ImageCheckBoxes}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel />

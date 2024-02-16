@@ -88,178 +88,10 @@ namespace videx.ViewModel
             buttonCheckStates = Enumerable.Repeat(false, 10).ToArray();
         }
 
-        private ICommand summaryCommand;
-        public ICommand SummaryCommand
-        {
-            get
-            {
-                if (summaryCommand == null)
-                {
-                    summaryCommand = new RelayCommand(param => Summarization());
-                }
-                return summaryCommand;
-            }
-        }
-
-        /*        private async void Summarization()
-                {
-                    VideoObject.Stop();
-
-
-                    Console.WriteLine(concatenatedLabels);
-                    // 기본 저장 경로를 desktopPath로 설정
-                    string summaryPath = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
-                    ExportChart();
-                    // SaveFileDialog를 사용하여 사용자에게 파일을 저장할 경로를 선택하도록 함
-                    SaveFileDialog saveDialog = new SaveFileDialog()
-                    {
-                        DefaultExt = ".avi",
-                        Filter = "AVI files (*.avi)|*.avi|All files (*.*)|*.*",
-                        FileName = "output_video.avi"
-                    };
-
-                    // 사용자가 저장을 수락하면 파일 경로를 업데이트
-                    if (saveDialog.ShowDialog() == true)
-                    {
-                        string userPath = saveDialog.FileName;
-
-                        // 파일 복사
-                        try
-                        {
-                            File.Copy(summaryPath, userPath, true);
-                            MessageBox.Show("Summary Video, Chart exported successfully.", "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            // 복사 중 오류가 발생한 경우에 대한 처리
-                            MessageBox.Show($"Error copying file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        // 사용자가 저장을 취소한 경우에 대한 처리
-                        return;
-                    }
-                }*/
-
-        private async void Summarization()
-        {
-            VideoObject.Stop();
-
-            List<ImageData> summarizeList = new List<ImageData>();
-
-            string connectionStr = "Data Source=mydatabase.db;Version=3;Mode=Serialized;";
-
-            using (SQLiteConnection connection = new SQLiteConnection(connectionStr))
-            {
-                connection.Open();
-
-                string[] targetClasses = concatenatedLabels.Split(',');
-
-                summarizeList = connection.Query<ImageData>("SELECT Id, Class, Frame, Xmin, Ymin, Xmax, Ymax FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
-
-                foreach (var data in summarizeList)
-                {
-                    Console.WriteLine($"Id: {data.Id}, Class: {data.Class}, Frame: {data.Frame}, Xmin: {data.Xmin}, Ymin: {data.Ymin}, Xmax: {data.Xmax}, Ymax: {data.Ymax}");
-                }
-            }
-
-            string summaryPath = System.IO.Path.Combine(desktopPath, "output", "Thread");
-            string inputFilePath = System.IO.Path.Combine(desktopPath, "edited.mp4");
-            Make_Selected_Video(summaryPath, inputFilePath, summarizeList);
-        }
-
-        private static void Make_Selected_Video(string output_path, string inputFilePath, List<ImageData> summarizeList)
-        {
-            string outputFileName = Path.Combine(output_path, "summarize_video.avi");
-
-            if (!Directory.Exists(output_path))
-            {
-                Directory.CreateDirectory(output_path);
-                Console.WriteLine($"Directory '{output_path}' is created.");
-            }
-
-            using (var videoCapture = new VideoCapture(inputFilePath))
-            {
-                if (!videoCapture.IsOpened())
-                {
-                    Console.WriteLine("Can not open video.");
-                    return;
-                }
-
-                double fps = videoCapture.Get(VideoCaptureProperties.Fps);
-                int width = (int)videoCapture.Get(VideoCaptureProperties.FrameWidth);
-                int height = (int)videoCapture.Get(VideoCaptureProperties.FrameHeight);
-
-                VideoWriter videoWriter = new VideoWriter(outputFileName, FourCC.XVID, fps, new OpenCvSharp.Size(width, height));
-                if (!videoWriter.IsOpened())
-                {
-                    Console.WriteLine("VideoWriter open failed!");
-                    return;
-                }
-                var frameNumber = 0;
-
-                while (true)
-                {
-                    using (var frame = new Mat())
-                    {
-                        videoCapture.Read(frame);
-
-                        if (frame.Empty())
-                            break;
-
-                       /* Cv2.Rectangle(frame, new OpenCvSharp.Point(obj.Box.Xmin, obj.Box.Ymin), new OpenCvSharp.Point(obj.Box.Xmax, obj.Box.Ymax), new Scalar(0, 0, 255), 1);
-                        Cv2.PutText(frame, obj.Label, new OpenCvSharp.Point(obj.Box.Xmin, obj.Box.Ymin - 5), HersheyFonts.HersheySimplex, 0.5, new Scalar(0, 0, 255), 1);
-                        Cv2.PutText(frame, obj.Confidence.ToString("F2"), new OpenCvSharp.Point(obj.Box.Xmin, obj.Box.Ymin + 8), HersheyFonts.HersheySimplex, 0.5, new Scalar(255, 0, 0), 1);*/
-
-
-                        videoWriter.Write(frame);
-
-                    }
-                    frameNumber++;
-                }
-                videoWriter.Release();
-            }
-        }
-
-
-        private void ExportChart()
-        {
-            if (PlotModel != null)
-            {
-                PlotModel.Background = OxyColors.White;
-
-                var exporter = new PngExporter { Width = 600, Height = 400 };
-
-                var saveFileDialog = new SaveFileDialog
-                {
-                    DefaultExt = ".png",
-                    Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*",
-                    FileName = "chart_object.png"
-                };
-
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    using (var stream = File.Create(saveFileDialog.FileName))
-                    {
-                        exporter.Export(PlotModel, stream);
-                    }
-
-                    MessageBox.Show("Object Chart exported successfully.", "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            else
-            {
-                MessageBox.Show("No chart available to export.", "Export Failed", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
-
         private void Timer_Tick(object sender, EventArgs e)
         {
-            UpdateImage();
-            InitializePlot();
+            LoadImages();
+            ReloadPlot();
         }
 
         private async void Analysis(System.Windows.Threading.DispatcherTimer timer)
@@ -497,12 +329,33 @@ namespace videx.ViewModel
         private void LoadImages()
         {
             ImageCheckBoxes = new ObservableCollection<CheckBox>();
-            List<ImageData> images = YoloProcess.SelectImage();
+
+            List<ImageData> images;
+
+            if (YoloProcess.flag == 1)
+            {
+                images = YoloProcess.SelectImage();
+            }
+            else
+            {
+                images = YoloProcess.selectedObj;
+            }
 
             if (images != null && images.Count > 0)
             {
                 foreach (var imageData in images)
                 {
+                    using (var stream = new MemoryStream(imageData.ImageBytes))
+                    {
+                        var bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmapImage.StreamSource = stream;
+                        bitmapImage.EndInit();
+
+                        imageData.Bitmap = bitmapImage;
+                    }
+
                     Image image = new Image();
                     image.Source = imageData.Bitmap;
                     image.Stretch = System.Windows.Media.Stretch.Uniform;
@@ -536,7 +389,7 @@ namespace videx.ViewModel
         {
             ImageCheckBoxes = new ObservableCollection<CheckBox>();
 
-            List<ImageData> images = YoloProcess.tableInfo;
+            List<ImageData> images = YoloProcess.allObj;
 
             if (images != null && images.Count > 0)
             {
@@ -898,11 +751,21 @@ namespace videx.ViewModel
 
             var dataPoints = new List<DataPointWithClass>();
 
-            List<ImageData> tableData = YoloProcess.tableInfo;
+            List<ImageData> tableData = YoloProcess.allObj;
 
             for (int i = 0; i < totalFrame; i++)
             {
-                var frameData = tableData.Where(row => row.Frame == i);
+                if (tableData == null)
+                {
+                    continue;
+                }
+
+                var frameData = tableData.Where(row => row.Frame == i).ToList();
+
+                if (frameData.Count == 0)
+                {
+                    continue;
+                }
 
                 foreach (var group in frameData.GroupBy(row => row.Class))
                 {
@@ -956,11 +819,30 @@ namespace videx.ViewModel
 
             var dataPoints = new List<DataPointWithClass>();
 
-            List<ImageData> tableData = YoloProcess.SelectImage();
+            List<ImageData> tableData;
+
+            if (YoloProcess.flag == 1)
+            {
+                tableData = YoloProcess.SelectImage();
+            }
+            else
+            {
+                tableData = YoloProcess.selectedObj;
+            }
 
             for (int i = 0; i < totalFrame; i++)
             {
-                var frameData = tableData.Where(row => row.Frame == i);
+                if (tableData == null)
+                {
+                    continue;
+                }
+
+                var frameData = tableData.Where(row => row.Frame == i).ToList();
+
+                if (frameData.Count == 0)
+                {
+                    continue;
+                }
 
                 foreach (var group in frameData.GroupBy(row => row.Class))
                 {
@@ -997,6 +879,175 @@ namespace videx.ViewModel
                 XValue = xValue;
                 YValue = yValue;
                 Class = className;
+            }
+        }
+
+
+        private ICommand summaryCommand;
+        public ICommand SummaryCommand
+        {
+            get
+            {
+                if (summaryCommand == null)
+                {
+                    summaryCommand = new RelayCommand(param => Summarization());
+                }
+                return summaryCommand;
+            }
+        }
+
+        /*        private async void Summarization()
+                {
+                    VideoObject.Stop();
+
+
+                    Console.WriteLine(concatenatedLabels);
+                    // 기본 저장 경로를 desktopPath로 설정
+                    string summaryPath = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
+                    ExportChart();
+                    // SaveFileDialog를 사용하여 사용자에게 파일을 저장할 경로를 선택하도록 함
+                    SaveFileDialog saveDialog = new SaveFileDialog()
+                    {
+                        DefaultExt = ".avi",
+                        Filter = "AVI files (*.avi)|*.avi|All files (*.*)|*.*",
+                        FileName = "output_video.avi"
+                    };
+
+                    // 사용자가 저장을 수락하면 파일 경로를 업데이트
+                    if (saveDialog.ShowDialog() == true)
+                    {
+                        string userPath = saveDialog.FileName;
+
+                        // 파일 복사
+                        try
+                        {
+                            File.Copy(summaryPath, userPath, true);
+                            MessageBox.Show("Summary Video, Chart exported successfully.", "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            // 복사 중 오류가 발생한 경우에 대한 처리
+                            MessageBox.Show($"Error copying file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        // 사용자가 저장을 취소한 경우에 대한 처리
+                        return;
+                    }
+                }*/
+
+        private async void Summarization()
+        {
+            VideoObject.Stop();
+
+            List<ImageData> summarizeList = new List<ImageData>();
+
+            string connectionStr = "Data Source=mydatabase.db;Version=3;Mode=Serialized;";
+
+            using (SQLiteConnection connection = new SQLiteConnection(connectionStr))
+            {
+                connection.Open();
+
+                string[] targetClasses = concatenatedLabels.Split(',');
+
+                summarizeList = connection.Query<ImageData>("SELECT Id, Class, Frame, Xmin, Ymin, Xmax, Ymax FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
+
+                foreach (var data in summarizeList)
+                {
+                    Console.WriteLine($"Id: {data.Id}, Class: {data.Class}, Frame: {data.Frame}");
+                }
+            }
+
+            string summaryPath = System.IO.Path.Combine(desktopPath, "output", "Thread");
+            string inputFilePath = System.IO.Path.Combine(desktopPath, "edited.mp4");
+            Make_Selected_Video(summaryPath, inputFilePath, summarizeList);
+        }
+
+        private static void Make_Selected_Video(string output_path, string inputFilePath, List<ImageData> summarizeList)
+        {
+            string outputFileName = Path.Combine(output_path, "summarize_video.avi");
+
+            if (!Directory.Exists(output_path))
+            {
+                Directory.CreateDirectory(output_path);
+                Console.WriteLine($"Directory '{output_path}' is created.");
+            }
+
+            using (var videoCapture = new VideoCapture(inputFilePath))
+            {
+                if (!videoCapture.IsOpened())
+                {
+                    Console.WriteLine("Can not open video.");
+                    return;
+                }
+
+                double fps = videoCapture.Get(VideoCaptureProperties.Fps);
+                int width = (int)videoCapture.Get(VideoCaptureProperties.FrameWidth);
+                int height = (int)videoCapture.Get(VideoCaptureProperties.FrameHeight);
+
+                VideoWriter videoWriter = new VideoWriter(outputFileName, FourCC.XVID, fps, new OpenCvSharp.Size(width, height));
+                if (!videoWriter.IsOpened())
+                {
+                    Console.WriteLine("VideoWriter open failed!");
+                    return;
+                }
+                var frameNumber = 0;
+
+                while (true)
+                {
+                    using (var frame = new Mat())
+                    {
+                        videoCapture.Read(frame);
+
+                        if (frame.Empty())
+                            break;
+
+                        /* Cv2.Rectangle(frame, new OpenCvSharp.Point(obj.Box.Xmin, obj.Box.Ymin), new OpenCvSharp.Point(obj.Box.Xmax, obj.Box.Ymax), new Scalar(0, 0, 255), 1);
+                         Cv2.PutText(frame, obj.Label, new OpenCvSharp.Point(obj.Box.Xmin, obj.Box.Ymin - 5), HersheyFonts.HersheySimplex, 0.5, new Scalar(0, 0, 255), 1);
+                         Cv2.PutText(frame, obj.Confidence.ToString("F2"), new OpenCvSharp.Point(obj.Box.Xmin, obj.Box.Ymin + 8), HersheyFonts.HersheySimplex, 0.5, new Scalar(255, 0, 0), 1);*/
+
+
+                        videoWriter.Write(frame);
+
+                    }
+                    frameNumber++;
+                }
+                videoWriter.Release();
+            }
+        }
+
+
+        private void ExportChart()
+        {
+            if (PlotModel != null)
+            {
+                PlotModel.Background = OxyColors.White;
+
+                var exporter = new PngExporter { Width = 600, Height = 400 };
+
+                var saveFileDialog = new SaveFileDialog
+                {
+                    DefaultExt = ".png",
+                    Filter = "PNG files (*.png)|*.png|All files (*.*)|*.*",
+                    FileName = "chart_object.png"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    using (var stream = File.Create(saveFileDialog.FileName))
+                    {
+                        exporter.Export(PlotModel, stream);
+                    }
+
+                    MessageBox.Show("Object Chart exported successfully.", "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No chart available to export.", "Export Failed", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

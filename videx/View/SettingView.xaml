@@ -9,9 +9,12 @@
         Title="Videx" Height="750" Width="1280"
         Background="Transparent">
 
+
+
     <Window.DataContext>
         <vm:SettingViewModel/>
     </Window.DataContext>
+
 
 
     <Border x:Name="backgroundMode" Background="#272537">
