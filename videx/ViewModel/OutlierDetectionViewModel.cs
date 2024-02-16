@@ -19,7 +19,7 @@ using System.Windows.Threading;
 using System.Windows;
 using videx.Model.YOLOv5;
 using videx.Model;
-using static videx.ViewModel.AnalysisViewModel;
+using static videx.ViewModel.ObjectDetectionViewModel;
 using System.Text.RegularExpressions;
 using videx.View;
 using Microsoft.Win32;
