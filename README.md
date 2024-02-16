@@ -41,7 +41,13 @@ In VIDEX, interface consisted of C# WPF M-V-VM pattern. The model plays a role i
 
 - Multi-Thread Pipeline     
 ![image](https://github.com/nth221/videx/assets/64348852/d49d0a61-2f4e-4a9e-b7f3-5e394660ec80)
-</br>
+
+
+VIDEX effectively processes video data through a multithreading method. 
+
+In the process for object detection, entire video frame is divided by the number of threads allocated to object detection. Each thread is allocated as many as the number of divided frames, and independent work is possible because there are no frames shared with each other. Each thread executes a YOLOv5 model called through ONNX (Open Neural Network eXchange) for the video frames, and stores information such as class, frame, bounding box coordinates, and size for the detected object in the database. At the same time, the information is retrieved from the database and the view is updated.
+
+In the process for anomaly detection, we allocate threads as many as the number of detection methods to parallelize the process. Initially, we segment the input video into segments, which serve as detection units, and obtain spatio-temporal feature embeddings using a pre-trained 3D-CNN (also called through ONNX) on large-scale action recognition data. Then, each thread distinguishes anomaly embeddings from the entire embeddings using assigned non-parametric outlier detection methods. Through this approach, VIDEX leverages multithreading to maintain process parallelism and achieve improvements in speed.
 
 - Dataflow Diagram  
 ![DFD_VIDEX-Page-1 drawio (3)](https://github.com/nth221/videx/assets/64348852/8f9181cb-186f-4b2b-a869-185c5dd55041)
