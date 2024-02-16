@@ -4,7 +4,7 @@
              xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
              xmlns:local="clr-namespace:videx"
              xmlns:properties="clr-namespace:videx.Properties"
-             StartupUri="View/OutlierDetectionView.xaml">
+             StartupUri="View/SettingView.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type Window}" x:Key="WindowStyle">
@@ -68,6 +68,20 @@
                 </Style.Triggers>
             </Style>
 
+            <Style TargetType="{x:Type Button}" x:Key="OptionBtn">
+                <Style.Triggers>
+                    <!-- Dark Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
+                        <Setter Property="Background" Value="#323345"/>
+                    </DataTrigger>
+
+                    <!-- Light Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
+                        <Setter Property="Background" Value="White"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
             <Style TargetType="{x:Type TextBlock}">
                 <Style.Triggers>
                     <!-- Dark Mode -->
@@ -78,6 +92,34 @@
                     <!-- Light Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
                         <Setter Property="Foreground" Value="Black"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="{x:Type Border}">
+                <Style.Triggers>
+                    <!-- Dark Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
+                        <Setter Property="Background" Value="#323345"/>
+                    </DataTrigger>
+
+                    <!-- Light Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
+                        <Setter Property="Background" Value="White"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="{x:Type StackPanel}">
+                <Style.Triggers>
+                    <!-- Dark Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
+                        <Setter Property="Background" Value="#272537"/>
+                    </DataTrigger>
+
+                    <!-- Light Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
+                        <Setter Property="Background" Value="White"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

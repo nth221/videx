@@ -65,34 +65,18 @@ namespace videx.View
                 vm.LblPlayTime = String.Format("{0} / {1}", vm.VideoObject.Position.ToString(@"hh\:mm\:ss"), vm.VideoObject.NaturalDuration.TimeSpan.ToString(@"hh\:mm\:ss"));
             }
         }
-
-        private void mode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DarkMode_Checked(object sender, RoutedEventArgs e)
         {
-            string selectedMode = (mode.SelectedItem as ComboBoxItem)?.Content.ToString();
-            if (selectedMode == "Dark Mode")
-            {
-                backgroundMode.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#272537"));
-                backgroundMode1.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
-                backgroundMode2.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
-                backgroundMode3.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
-                backgroundMode4.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
-                backgroundMode5.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
-                backgroundMode6.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#323345"));
-                backgroundMode7.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#272537"));
-                backgroundMode8.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#272537"));
-            }
-            else
-            {
-                backgroundMode.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ffffff"));
-                backgroundMode1.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
-                backgroundMode2.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
-                backgroundMode3.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
-                backgroundMode4.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
-                backgroundMode5.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
-                backgroundMode6.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
-                backgroundMode7.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
-                backgroundMode8.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#F2F2F2"));
-            }
+            Properties.Settings.Default.ColorMode = "Black";
+
+            Properties.Settings.Default.Save();
+        }
+
+        private void LightMode_Checked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.ColorMode = "White";
+
+            Properties.Settings.Default.Save();
         }
 
     }

@@ -19,7 +19,7 @@
 
     <Border x:Name="backgroundMode" Background="#272537">
 
-        <Grid>
+        <Grid Style="{StaticResource BackGroundGrid}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="159*"/>
                 <ColumnDefinition Width="97*"/>
@@ -29,74 +29,47 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
-            <RadioButton Content="Analysis Settings"
-                     IsChecked="True"
-                     IsEnabled="False"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Center"
-                     Height="50"
-                     Foreground="White"
-                     Style="{StaticResource MenuButtonTheme}"
-                     FontSize="12" Width="90" Margin="10,0,0,0"/>
-            <RadioButton Content="Object Detection Results"
-                     IsEnabled="False"
-         HorizontalAlignment="Left"
-         VerticalAlignment="Center"
-         Height="50"
-         Foreground="White"
-                     Style="{StaticResource MenuButtonTheme}"
-         FontSize="12" Margin="105,0,0,0" Width="145"/>
-            <RadioButton Content="Outlier Detection Results" IsChecked="False"
-                    IsEnabled="False"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Center"
-        Height="50"
-        Foreground="White"
-                    Style="{StaticResource MenuButtonTheme}"
-        FontSize="12" Margin="255,0,0,0" Width="145"/>
             <Grid x:Name="settingPage" Grid.Row="1" Visibility="Visible" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1053*"/>
                     <ColumnDefinition Width="227*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Margin="10,0,813,0">
-                    <Border x:Name="backgroundMode1"
-        Background="#323345"
-        CornerRadius="10,10,0,0" Width="200" Margin="5,0,25,178">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="545*"/>
+                        <RowDefinition Height="139*"/>
+                    </Grid.RowDefinitions>
+                    <Border Margin="5,0,33,32">
                         <TextBlock Text="FILE"
-                Foreground="White"
                 FontSize="16"
                 TextDecorations="Underline"
                 HorizontalAlignment ="Left"
                 Margin="19,19,0,434" RenderTransformOrigin="0.568,1.028" FontWeight="Bold" Width="44"/>
                     </Border>
-                    <CheckBox Visibility="{Binding CheckBoxVisibility}" Content="{Binding Videofilename}" IsChecked="{Binding FileSelected}"  Margin="26,85,33,263" Foreground="#FFFBFBFB"/>
+                    <CheckBox Visibility="{Binding CheckBoxVisibility}" Content="{Binding Videofilename}" IsChecked="{Binding FileSelected}"  Margin="26,85,33,124" Foreground="#FFFBFBFB"/>
                 </Grid>
-                <Grid Grid.ColumnSpan="2">
-                    <Border x:Name="backgroundMode2" Background="#323345"
-CornerRadius="10,10,0,0" Margin="229,0,266,175"/>
-                </Grid>
-                <Grid Grid.ColumnSpan="2">
-                    <Border x:Name="backgroundMode3" Background="#323345" CornerRadius="10,10,0,0" Margin="225,0,278,175">
-                        <Grid>
-                            <ContentControl Content="{Binding VideoObject}"  Margin="10,10,10,65"/>
-                            <Slider x:Name="sldrPlayTime" Margin="10,0,10,42" VerticalAlignment="Bottom" 
+                <Grid Margin="240,0,44,170">
+                    <Grid Style="{StaticResource ForeGroundGrid}" HorizontalAlignment="Left" Width="792" Margin="-28,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="131*"/>
+                            <RowDefinition Height="126*"/>
+                        </Grid.RowDefinitions>
+                        <ContentControl Content="{Binding VideoObject}"  Margin="0,10,0,72" Grid.RowSpan="2" HorizontalAlignment="Center" Width="780"/>
+                        <Slider x:Name="sldrPlayTime" Margin="10,185,33,0" VerticalAlignment="Top" 
                   Value="{Binding SlderPlayTime}"
                   Minimum="{Binding SliderMinimum}"
                   Maximum="{Binding SliderMaximum}"
                   Thumb.DragStarted="SldrPlayTime_DragStarted"
                   Thumb.DragCompleted="SldrPlayTime_DragCompleted"
-                  ValueChanged="SldrPlayTime_ValueChanged"/>
-                            <Button Command="{Binding PlayCommand}" Content="▶" HorizontalAlignment="Left" Margin="285,0,0,12" Width="29" Height="23" VerticalAlignment="Bottom"  Background="#FFFFF8F8"/>
-                            <Button Command="{Binding StopCommand}" Content="■" HorizontalAlignment="Left" Margin="316,0,0,12" Width="29" Height="23" VerticalAlignment="Bottom"  Background="#FFFFF8F8"/>
-                            <Button Command="{Binding PauseCommand}" Content="II" HorizontalAlignment="Left" Margin="348,0,0,12" Width="29" Height="23" VerticalAlignment="Bottom"  Background="#FFFFF8F8"/>
-                            <Label Content="Volume" HorizontalAlignment="Left" Margin="503,449,0,0" Height="26" VerticalAlignment="Top" Foreground="White" FontWeight="Bold"/>
-                            <Slider x:Name="sldrVolume" HorizontalAlignment="Left" Margin="563,0,0,14" Width="100" Height="18" VerticalAlignment="Bottom" 
-Maximum="1" LargeChange="0.1" Value="0.5" />
-                            <Label x:Name="lblPlayTime" Content="{Binding LblPlayTime}" HorizontalAlignment="Left" Margin="68,0,0,11" VerticalAlignment="Bottom" Width="212" Height="23" Foreground="White" FontWeight="Bold"/>
-                        </Grid>
-                    </Border>
+                  ValueChanged="SldrPlayTime_ValueChanged" Grid.Row="1"/>
+                        <Button Command="{Binding PlayCommand}" Content="▶" HorizontalAlignment="Left" Margin="306,0,0,12" Width="29" Height="23" VerticalAlignment="Bottom" Grid.Row="1"/>
+                        <Button Command="{Binding StopCommand}" Content="■" HorizontalAlignment="Left" Margin="341,0,0,12" Width="29" Height="23" VerticalAlignment="Bottom" Grid.Row="1"/>
+                        <Button Command="{Binding PauseCommand}" Content="II" HorizontalAlignment="Left" Margin="377,0,0,12" Width="29" Height="23" VerticalAlignment="Bottom" Grid.Row="1"/>
+                        <Label Content="Volume" HorizontalAlignment="Left" Margin="537,206,0,0" Height="26" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1"/>
+                        <Slider x:Name="sldrVolume" HorizontalAlignment="Left" Margin="603,0,0,14" Width="100" Height="18" VerticalAlignment="Bottom" 
+Maximum="1" LargeChange="0.1" Value="0.5" Grid.Row="1" />
+                        <Label x:Name="lblPlayTime" Content="{Binding LblPlayTime}" HorizontalAlignment="Left" Margin="68,0,0,11" VerticalAlignment="Bottom" Width="212" Height="23" Foreground="White" FontWeight="Bold" Grid.Row="1"/>
+                    </Grid>
                     <Button Command="{Binding BtnSelectFileCommand}" Margin="90,10,1134,607" Background="Transparent" BorderThickness="1" BorderBrush="Transparent">
                         <Image Source="/Resources/img/img_fileload.png" Width="28" Height="28" RenderTransformOrigin="0.146,0.168" />
                     </Button>
@@ -104,42 +77,37 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                         <Image Source="/Resources/img/img_fileremove.png" Width="28" Height="28"/>
                     </Button>
                     <TextBlock Text="Preview"
-                  Foreground="White"
                   FontSize="16"
                   TextDecorations="Underline"
                   HorizontalAlignment="Left"
                   Margin="241,15,0,628" FontWeight="Bold"/>
                 </Grid>
-                <Border x:Name="backgroundMode4" Background="#323345" 
-            CornerRadius="10,10,0,0" 
-            Margin="1019,0,15,175" Grid.ColumnSpan="2">
+                <Border Margin="1019,0,15,175" Grid.ColumnSpan="2">
                     <StackPanel>
                         <TextBlock Text="Object List"
-            Foreground="White"
             FontSize="14"
             TextDecorations="Underline"
             FontWeight="Bold" Height="27" Width="74" Margin="0,15,0,0"/>
-                        <TextBox Margin="75,35,30,30" Width="146" Height="20"/>
+                        <TextBox Margin="75,35,30,30" Width="140" Height="20"/>
                     </StackPanel>
                 </Border>
 
-                <Border x:Name="backgroundMode5" Background="#323345" 
-    CornerRadius="10,10,0,0" Margin="10,501,36,20">
-                    <StackPanel x:Name="backgroundMode8" Margin="10,10,10,10" Background="#272537">
-                        <CheckBox Content="{Binding Videofile}" IsChecked="True" Foreground="#FFFBFBFB"/>
+                <Grid Style="{StaticResource ForeGroundGrid}" Margin="21,519,44,10">
+                    <StackPanel>
+                        <CheckBox Content="{Binding Videofile}" IsChecked="True"/>
                         <StackPanel Margin="20,0,0,0">
-                            <TextBlock Foreground="#FFFBFBFB" Text="{Binding VideoInfo}" />
+                            <TextBlock Text="{Binding VideoInfo}" />
                             <StackPanel>
-                                <TextBlock Foreground="#FFFBFBFB">Start Time |  End Time</TextBlock>
+                                <TextBlock>Start Time |  End Time</TextBlock>
                                 <TextBox x:Name="SetT" TextWrapping="Wrap" Text="{Binding SetTime}" Width="60" HorizontalAlignment="Left"/>
                                 <TextBox x:Name="EndT" TextWrapping="Wrap" Text="{Binding EndTime}" Width="60" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
-                </Border>
-                <ScrollViewer x:Name="backgroundMode7"  Margin="19,111,38,203" Background="#272537" BorderThickness="1" Grid.Column="1">
+                </Grid>
+                <ScrollViewer Margin="19,111,38,203" BorderThickness="1" Grid.Column="1">
                     <StackPanel DataContext="{Binding}">
-                        <Button Content="vehicle" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="1"/>
+                        <Button Content="vehicle" Style="{StaticResource OptionBtn}"  Command="{Binding SelectCategoryCommand}" CommandParameter="1"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[1].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[1].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[2].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[2].IsChecked}" Foreground="#FFFBFBFB"/>
@@ -150,17 +118,17 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                             <CheckBox Content="{Binding CheckBoxItems[4].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[4].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[8].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[8].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Content="person" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="0"/>
+                        <Button Content="person" Style="{StaticResource OptionBtn}" Command="{Binding SelectCategoryCommand}" CommandParameter="0"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[0].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[0].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Content="traffic" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="2"/>
+                        <Button Content="traffic" Style="{StaticResource OptionBtn}" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="2"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[9].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[9].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[10].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[10].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[11].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[11].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Content="furniture" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="3"/>
+                        <Button Content="furniture" Style="{StaticResource OptionBtn}" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="3"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[13].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[13].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[59].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[59].IsChecked}" Foreground="#FFFBFBFB"/>
@@ -168,7 +136,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                             <CheckBox Content="{Binding CheckBoxItems[61].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[61].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[62].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[62].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Content="grocery" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="4"/>
+                        <Button Content="grocery" Style="{StaticResource OptionBtn}" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="4"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[25].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[25].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[26].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[26].IsChecked}" Foreground="#FFFBFBFB"/>
@@ -176,7 +144,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                             <CheckBox Content="{Binding CheckBoxItems[28].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[28].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[29].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[29].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Content="utensil" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="5"/>
+                        <Button Content="utensil" Style="{StaticResource OptionBtn}" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="5"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[42].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[42].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[43].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[43].IsChecked}" Foreground="#FFFBFBFB"/>
@@ -185,7 +153,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                             <CheckBox Content="{Binding CheckBoxItems[46].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[46].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[79].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[79].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Content="food" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="6"/>
+                        <Button Content="food" Style="{StaticResource OptionBtn}" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="6"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[49].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[49].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[50].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[50].IsChecked}" Foreground="#FFFBFBFB"/>
@@ -198,7 +166,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                             <CheckBox Content="{Binding CheckBoxItems[57].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[57].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[58].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[58].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Content="electric device" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="7"/>
+                        <Button Content="electric device" Style="{StaticResource OptionBtn}" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="7"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[65].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[65].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[66].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[66].IsChecked}" Foreground="#FFFBFBFB"/>
@@ -214,7 +182,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                             <CheckBox Content="{Binding CheckBoxItems[76].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[76].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[77].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[77].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Content="animal" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="8"/>
+                        <Button Content="animal" Style="{StaticResource OptionBtn}" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="8"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[14].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[14].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[15].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[15].IsChecked}" Foreground="#FFFBFBFB"/>
@@ -227,7 +195,7 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                             <CheckBox Content="{Binding CheckBoxItems[23].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[23].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[24].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[24].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Content="sports" Background="#323345" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="9"/>
+                        <Button Content="sports" Style="{StaticResource OptionBtn}" Foreground="#FFFBFBFB" Command="{Binding SelectCategoryCommand}" CommandParameter="9"/>
                         <StackPanel Margin="20,0,0,0">
                             <CheckBox Content="{Binding CheckBoxItems[30].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[30].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[32].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[32].IsChecked}" Foreground="#FFFBFBFB"/>
@@ -240,28 +208,24 @@ Maximum="1" LargeChange="0.1" Value="0.5" />
                             <CheckBox Content="{Binding CheckBoxItems[39].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[39].IsChecked}" Foreground="#FFFBFBFB"/>
                             <CheckBox Content="{Binding CheckBoxItems[40].Content}" Margin="5" IsChecked="{Binding CheckBoxItems[40].IsChecked}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
-                        <Button Background="#323345" Foreground="#FFFBFBFB" />
+                        <Button Style="{StaticResource OptionBtn}" Foreground="#FFFBFBFB" />
                         <StackPanel Margin="20,0,0,0">
                             <!-- 추가적인 UI 요소 -->
                             <TextBlock Text="{Binding ConcatenatedLabels}" Foreground="#FFFBFBFB"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
-                <Border x:Name="backgroundMode6" Background="#323345" 
-    CornerRadius="10,10,0,0" Margin="1020,501,15,20" Grid.ColumnSpan="2">
+                <Border  Margin="1020,519,15,10" Grid.ColumnSpan="2">
                     <Button Command="{Binding AnalysisCommand}" Margin="38,35,33,35" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
                         <Image Source="/Resources/img/img_analysis1.png" Width="180" Height="75"/>
                     </Button>
                 </Border>
-                <Button Margin="16,70,166,564" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.Column="1">
-                    <Image Source="/Resources/img/s_button.png" Width="30" Height="30"/>
+                <Button Margin="2,71,179,563" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.Column="1" >
+                    <Image Source="/Resources/img/s_button.png" Width="30" Height="50"/>
                 </Button>
             </Grid>
-            <ComboBox x:Name="mode" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Center" Width="120" Grid.Column="1" SelectionChanged="mode_SelectionChanged">
-                <ComboBoxItem>Light Mode</ComboBoxItem>
-                <ComboBoxItem>Dark Mode</ComboBoxItem>
-            </ComboBox>
-
+            <RadioButton x:Name="DarkMode" Content="Dark Mode" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" IsChecked="True" GroupName="modesSelection" Checked="DarkMode_Checked"/>
+            <RadioButton x:Name="LightMode" Content="Light Mode" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Center" GroupName="modesSelection" Checked="LightMode_Checked"/>
         </Grid>
     </Border>
 </Window>
