@@ -37,23 +37,23 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 - Structure of VIDEX interface (with M-V-VM pattern)
 ![image](https://github.com/nth221/videx/assets/64348852/8fd4c014-51bb-41de-ac8c-70e2bcf9cd3f)
 
-In VIDEX, interface consisted of C# WPF M-V-VM pattern. The model plays a role in storing and importing data, and declares and uses classes of data to be stored in the database. View is a place that displays the screen that the user sees and processes user input. VIDEX includes SettingView, where users import videos and set up settings, ObjectDetectionView, and AnomalyDetectionView, which show results for object detection and anomaly detection. ViewModel detects events occurring in View and performs business logic suitable for those events. In VIDEX, most of the major tasks are performed in viewmodel, and the data necessary for logic is retrieved from the model and updated to view. 
+  In VIDEX, interface consisted of C# WPF M-V-VM pattern. The model plays a role in storing and importing data, and declares and uses classes of data to be stored in the database. View is a place that displays the screen that the user sees and processes user input. VIDEX includes SettingView, where users import videos and set up settings, ObjectDetectionView, and AnomalyDetectionView, which show results for object detection and anomaly detection. ViewModel detects events occurring in View and performs business logic suitable for those events. In VIDEX, most of the major tasks are performed in viewmodel, and the data necessary for logic is retrieved from the model and updated to view. 
 
 - Multi-Thread Pipeline     
 ![image](https://github.com/nth221/videx/assets/64348852/d49d0a61-2f4e-4a9e-b7f3-5e394660ec80)
 
 
-VIDEX effectively processes video data through a multithreading method. 
+  VIDEX effectively processes video data through a multithreading method. 
 
-In the process for object detection, entire video frame is divided by the number of threads allocated to object detection. Each thread is allocated as many as the number of divided frames, and independent work is possible because there are no frames shared with each other. Each thread executes a YOLOv5 model called through ONNX (Open Neural Network eXchange) for the video frames, and stores information such as class, frame, bounding box coordinates, and size for the detected object in the database. At the same time, the information is retrieved from the database and the view is updated.
+  In the process for object detection, entire video frame is divided by the number of threads allocated to object detection. Each thread is allocated as many as the number of divided frames, and independent work is possible because there are no frames shared with each other. Each thread executes a YOLOv5 model called through ONNX (Open Neural Network eXchange) for the video frames, and stores information such as class, frame, bounding box coordinates, and size for the detected object in the database. At the same time, the information is retrieved from the database and the view is updated.
 
-In the process for anomaly detection, we allocate threads as many as the number of detection methods to parallelize the process. Initially, we segment the input video into segments, which serve as detection units, and obtain spatio-temporal feature embeddings using a pre-trained 3D-CNN (also called through ONNX) on large-scale action recognition data. Then, each thread distinguishes anomaly embeddings from the entire embeddings using assigned non-parametric outlier detection methods. Through this approach, VIDEX leverages multithreading to maintain process parallelism and achieve improvements in speed.
+  In the process for anomaly detection, we allocate threads as many as the number of detection methods to parallelize the process. Initially, we segment the input video into segments, which serve as detection units, and obtain spatio-temporal feature embeddings using a pre-trained 3D-CNN (also called through ONNX) on large-scale action recognition data. Then, each thread distinguishes anomaly embeddings from the entire embeddings using assigned non-parametric outlier detection methods. Through this approach, VIDEX leverages multithreading to maintain process parallelism and achieve improvements in speed.
 
 
 - Dataflow Diagram
 ![DFD_VIDEX-Page-1 drawio (1)](https://github.com/nth221/videx/assets/64348852/1b2c750e-78f4-4e87-90c1-9bdfd08a9c97)
 
-The figure above is a dataflow diagram of videx. Follow the flow to find out the functions of videx.
+  The figure above is a dataflow diagram of videx. Follow the flow to find out the functions of videx.
 
 
 -----
