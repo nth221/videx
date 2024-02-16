@@ -36,6 +36,7 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 
 - Structure of VIDEX interface (with M-V-VM pattern)
 ![image](https://github.com/nth221/videx/assets/64348852/8fd4c014-51bb-41de-ac8c-70e2bcf9cd3f)
+
 In VIDEX, interface consisted of C# WPF M-V-VM pattern. The model plays a role in storing and importing data, and declares and uses classes of data to be stored in the database. View is a place that displays the screen that the user sees and processes user input. VIDEX includes SettingView, where users import videos and set up settings, ObjectDetectionView, and AnomalyDetectionView, which show results for object detection and anomaly detection. ViewModel detects events occurring in View and performs business logic suitable for those events. In VIDEX, most of the major tasks are performed in viewmodel, and the data necessary for logic is retrieved from the model and updated to view. 
 
 - Multi-Thread Pipeline     
