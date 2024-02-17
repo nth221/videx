@@ -54,7 +54,7 @@
                     <Button  Command="{Binding PauseCommand}" Content="II" HorizontalAlignment="Left" Margin="270,0,0,12" Width="29" Height="23" VerticalAlignment="Bottom"/>
                     <Label Content="Volume" HorizontalAlignment="Left" Margin="503,460,0,0" Height="26" VerticalAlignment="Top" Foreground="White" FontWeight="Bold"/>
                     <Slider  HorizontalAlignment="Left" Margin="563,0,0,14" Width="100" Height="18" VerticalAlignment="Bottom"  Maximum="1" LargeChange="0.1" Value="0.5" />
-                    <Label x:Name="lblPlayTime" Content="{Binding LblPlayTime}" HorizontalAlignment="Left" Margin="10,0,0,12" VerticalAlignment="Bottom" Width="212" Height="23" Foreground="White" FontWeight="Bold"/>
+                    <Label x:Name="lblPlayTime" Content="{Binding LblPlayTime}" HorizontalAlignment="Left" Margin="10,0,0,12" VerticalAlignment="Bottom" Width="168" Height="23" Foreground="White" FontWeight="Bold"/>
 
 
                 </Grid>

@@ -28,7 +28,7 @@ namespace videx.View
         {
             InitializeComponent();
         }
-    private void SldrPlayTime_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        private void SldrPlayTime_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
             OutlierDetectionViewModel vm = DataContext as OutlierDetectionViewModel;
             if (vm != null)

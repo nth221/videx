@@ -76,6 +76,8 @@ namespace videx.ViewModel
             VideoObject.MediaEnded += VideoObject_MediaEnded;
             VideoObject.MediaFailed += VideoObject_MediaFailed;
 
+            GetPredefinedColors();
+
             media_start();
 
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -709,25 +711,20 @@ namespace videx.ViewModel
 
         private void InitializePlot()
         {
-            var dataPoints = GenerateDataPoints();
+            var dataPoints = GenerateSelectedDataPoints();
 
             var model = new PlotModel();
 
-            OxyColor[] predefinedColors = { OxyColors.Blue, OxyColors.Red, OxyColors.Green, OxyColors.Orange, OxyColors.Purple };
-
             List<string> distinctClasses = dataPoints.Select(dp => dp.Class).Distinct().ToList();
 
-            int colorIndex = 0;
-
-            foreach (string currentClass in distinctClasses)
+            for (int i = 0; i < distinctClasses.Count; i++)
             {
+                string currentClass = distinctClasses[i];
                 var lineSeries = new LineSeries
                 {
                     Title = currentClass,
-                    Color = predefinedColors[colorIndex],    
+                    Color = predefinedColors[i % predefinedColors.Count], // Use the predefined color based on index
                 };
-
-                colorIndex = (colorIndex + 1) % predefinedColors.Length;
 
                 var classDataPoints = dataPoints.Where(dp => dp.Class == currentClass);
                 lineSeries.Points.AddRange(classDataPoints.Select(dp => new DataPoint(dp.XValue, dp.YValue)));
@@ -739,7 +736,6 @@ namespace videx.ViewModel
 
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Second" });
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Object Appearance #", Minimum = 0, MajorStep = 1 });
-
 
             PlotModel = model;
         }
@@ -754,17 +750,7 @@ namespace videx.ViewModel
 
             for (int i = 0; i < totalFrame; i++)
             {
-                if (tableData == null)
-                {
-                    continue;
-                }
-
                 var frameData = tableData.Where(row => row.Frame == i).ToList();
-
-                if (frameData.Count == 0)
-                {
-                    continue;
-                }
 
                 foreach (var group in frameData.GroupBy(row => row.Class))
                 {
@@ -782,6 +768,8 @@ namespace videx.ViewModel
             return dataPoints;
         }
 
+        List<OxyColor> predefinedColors;
+
         private void ReloadPlot()
         {
             var dataPoints = GenerateSelectedDataPoints();
@@ -790,12 +778,13 @@ namespace videx.ViewModel
 
             List<string> distinctClasses = dataPoints.Select(dp => dp.Class).Distinct().ToList();
 
-            foreach (string currentClass in distinctClasses)
+            for (int i = 0; i < distinctClasses.Count; i++)
             {
+                string currentClass = distinctClasses[i];
                 var lineSeries = new LineSeries
                 {
                     Title = currentClass,
-                    Color = GetRandomColor(),
+                    Color = predefinedColors[i % predefinedColors.Count], // Use the predefined color based on index
                 };
 
                 var classDataPoints = dataPoints.Where(dp => dp.Class == currentClass);
@@ -831,17 +820,7 @@ namespace videx.ViewModel
 
             for (int i = 0; i < totalFrame; i++)
             {
-                if (tableData == null)
-                {
-                    continue;
-                }
-
                 var frameData = tableData.Where(row => row.Frame == i).ToList();
-
-                if (frameData.Count == 0)
-                {
-                    continue;
-                }
 
                 foreach (var group in frameData.GroupBy(row => row.Class))
                 {
@@ -856,6 +835,18 @@ namespace videx.ViewModel
             }
 
             return dataPoints;
+        }
+
+        private void GetPredefinedColors()
+        {
+            List<OxyColor> colors = new List<OxyColor>();
+
+            for (int i = 0; i < 80; i++)
+            {
+                colors.Add(GetRandomColor());
+            }
+
+            predefinedColors = colors;
         }
 
         private static Random random = new Random();
