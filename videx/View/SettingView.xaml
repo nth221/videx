@@ -210,10 +210,10 @@ FontWeight="Bold" Height="27" Width="74" Margin="0,15,0,0"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
-                <Border  Margin="1020,519,15,10" Grid.ColumnSpan="2">
-                    <Button Command="{Binding AnalysisCommand}" Margin="38,35,33,35" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
-                        <Image Source="/Resources/img/img_analysis1.png" Width="180" Height="75"/>
-                    </Button>
+                <Border Margin="1020,519,15,10" Grid.ColumnSpan="2" >
+                    <Border BorderThickness="5" CornerRadius="5" Margin="30,39,36,35">
+                        <Button Content="Analysis" Style="{StaticResource AnalysisBtn}" FontSize="25" FontFamily="arial"  Command="{Binding AnalysisCommand}" Margin="0,0,0,0"/>
+                    </Border>
                 </Border>
                 <Button Margin="2,71,179,563" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.Column="1" >
                     <Image Source="/Resources/img/s_button.png" Width="30" Height="50"/>

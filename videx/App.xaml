@@ -66,6 +66,7 @@
                 </Style.Triggers>
             </Style>
 
+
             <Style TargetType="{x:Type Button}" x:Key="OptionBtn">
                 <Style.Triggers>
                     <!-- Dark Mode -->
@@ -76,6 +77,41 @@
                     <!-- Light Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
                         <Setter Property="Background" Value="#e7e3e3"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+
+            <Style TargetType="{x:Type Button}" x:Key="AnalysisBtn">
+                <Style.Triggers>
+                    <!-- Dark Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
+                        <Setter Property="Background" Value="#272537"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </DataTrigger>
+
+                    <!-- Light Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
+                        <Setter Property="Background" Value="#e7e3e3"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="{x:Type Button}" x:Key="SummarizeBtn">
+                <Style.Triggers>
+                    <!-- Dark Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
+                        <Setter Property="Background" Value="#323345"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </DataTrigger>
+
+                    <!-- Light Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -99,11 +135,14 @@
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
                         <Setter Property="Background" Value="#323345"/>
+                        <Setter Property="BorderBrush" Value="#272537"/>
                     </DataTrigger>
 
                     <!-- Light Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
                         <Setter Property="Background" Value="White"/>
+                        <Setter Property="BorderBrush" Value="#e7e3e3"/>
+
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

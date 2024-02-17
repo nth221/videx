@@ -31,7 +31,7 @@ Title="Videx" Height="800" Width="1280">
                 </Grid.RowDefinitions>
 
                 <Border Margin="10,0,10,10">
-                    <Grid Margin="10,6,0,-6" Style="{StaticResource ForeGroundGrid}">
+                    <Grid Margin="0,6,0,0" Style="{StaticResource ForeGroundGrid}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="126*"/>
                             <RowDefinition Height="5*"/>
@@ -58,8 +58,9 @@ Title="Videx" Height="800" Width="1280">
                 </Grid>
             </Grid>
 
-
-            <Button Command="{Binding SaveGraph}" Content="Save Graph" HorizontalAlignment="Left" Height="30" Margin="391,0,0,0" VerticalAlignment="Center" Width="77" Grid.Column="1"/>
+            <Border BorderThickness="5" CornerRadius="5" Margin="271,10,9,5" Grid.Column="1">
+                <Button Style="{StaticResource SummarizeBtn}" Command="{Binding SaveGraph}" Content="Summarize" FontFamily="Arial" FontSize="15" HorizontalAlignment="Center" Height="36" VerticalAlignment="Center" Width="184" Grid.Column="1"/>
+            </Border>
             <RadioButton x:Name="DarkMode" Content="Dark Mode" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" IsChecked="True" GroupName="modesSelection" Checked="DarkMode_Checked"/>
             <RadioButton x:Name="LightMode" Content="Light Mode" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Center" GroupName="modesSelection" Checked="LightMode_Checked"/>
         </Grid>

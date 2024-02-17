@@ -188,10 +188,9 @@
 
                     <TextBlock TextWrapping="Wrap" Text="Object gallery" FontSize="16"
 TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Margin="456,0,0,604" Grid.ColumnSpan="2"/>
-                    <Button Command="{Binding SummaryCommand}" Margin="366,572,149,8" Background="Transparent" BorderThickness="0" BorderBrush="Transparent" Grid.ColumnSpan="2">
-                        <Image Source="/Resources/img/img_summary.png" Width="239" Height="88" Panel.ZIndex="1">
-                        </Image>
-                    </Button>
+                    <Border BorderThickness="5" CornerRadius="5" Grid.ColumnSpan="2" Margin="357,563,159,24">
+                    <Button Style="{StaticResource SummarizeBtn}" Command="{Binding SummaryCommand}" Content="Summarize" FontFamily="Arial" FontSize="25" Grid.ColumnSpan="2" Margin="10,10,10,10"/>
+                    </Border>
                 </Grid>
                 <Grid Margin="0,361,791,20" Grid.RowSpan="2" HorizontalAlignment="Right" Width="466">
                     <Grid.ColumnDefinitions>
