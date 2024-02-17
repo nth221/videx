@@ -80,8 +80,6 @@ namespace videx.Model.YOLOv5
             string output_path = System.IO.Path.Combine(desktopPath, "output", "Thread");
             string final_path = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
 
-            Stopwatch stopwatch = new Stopwatch();
-
             int maxThreadCount = Environment.ProcessorCount;
 
             var capture = new VideoCapture(inputFilePath);
@@ -97,7 +95,6 @@ namespace videx.Model.YOLOv5
 
             Console.WriteLine($"Maximum thread count for this system: {maxThreadCount}, totalFrames : {totalFrames}");
 
-            stopwatch.Start();
 
             SharedConnectionManager connectionManager = new SharedConnectionManager(strConn);
             Thread[] threads = new Thread[maxThreadCount];
@@ -137,10 +134,6 @@ namespace videx.Model.YOLOv5
             var outputFilePath = sortedFilePaths.ToList();
 
             CombineVideo(outputFilePath, final_path);
-
-            stopwatch.Stop();
-            Console.WriteLine("time : " +
-                           stopwatch.ElapsedMilliseconds + "ms");
         }
 
 
@@ -148,7 +141,7 @@ namespace videx.Model.YOLOv5
         private static void DoSomething(SQLiteConnection connection, string ouput_path, YoloDetector detector, string inputFilePath, List<string> outputFilePaths, int startFrame, int endFrame)
         {
             string[] allClasses = LabelMap.Labels;
-            string[] targetClasses = LabelMap.test_Labels;
+            string[] targetClasses = LabelMap.test_Labels.Where(label => !string.IsNullOrWhiteSpace(label)).ToArray();
             string outputFileName = Path.Combine(ouput_path, $"output_{startFrame}-{endFrame}.avi");
 
             if (!Directory.Exists(ouput_path))

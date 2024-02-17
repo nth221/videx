@@ -287,12 +287,7 @@ namespace videx.ViewModel
             }
             else
             {
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
                 LoadImages();
-                stopwatch.Stop();
-                Console.WriteLine("time : " +
-                               stopwatch.ElapsedMilliseconds + "ms");
                 ReloadPlot();
             }
         }
@@ -711,7 +706,7 @@ namespace videx.ViewModel
 
         private void InitializePlot()
         {
-            var dataPoints = GenerateSelectedDataPoints();
+            var dataPoints = GenerateDataPoints();
 
             var model = new PlotModel();
 
@@ -750,18 +745,19 @@ namespace videx.ViewModel
 
             for (int i = 0; i < totalFrame; i++)
             {
-                var frameData = tableData.Where(row => row.Frame == i).ToList();
+                var frameData = tableData?.Where(row => row != null && row.Frame == i).ToList();
 
-                foreach (var group in frameData.GroupBy(row => row.Class))
+                double time = GetTimeAtFrame(i, fps);
+
+                if (frameData != null && frameData.Any())
                 {
-                    string currentClass = group.Key;
-                    int objectCount = group.Count();
+                    foreach (var group in frameData.GroupBy(row => row.Class))
+                    {
+                        string currentClass = group.Key;
+                        int objectCount = group.Count();
 
-                    //Console.WriteLine($"Frame = {i}, Class = {currentClass}, Count = {objectCount}");
-
-                    double time = GetTimeAtFrame(i, fps);
-
-                    dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
+                        dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
+                    }
                 }
             }
 
@@ -820,17 +816,19 @@ namespace videx.ViewModel
 
             for (int i = 0; i < totalFrame; i++)
             {
-                var frameData = tableData.Where(row => row.Frame == i).ToList();
+                var frameData = tableData?.Where(row => row != null && row.Frame == i).ToList();
 
-                foreach (var group in frameData.GroupBy(row => row.Class))
+                double time = GetTimeAtFrame(i, fps);
+
+                if (frameData != null && frameData.Any())
                 {
-                    string currentClass = group.Key;
-                    int objectCount = group.Count();
+                    foreach (var group in frameData.GroupBy(row => row.Class))
+                    {
+                        string currentClass = group.Key;
+                        int objectCount = group.Count();
 
-                    //Console.WriteLine($"Frame = {i}, Class = {currentClass}, Count = {objectCount}");
-                    double time = GetTimeAtFrame(i, fps);
-
-                    dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
+                        dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
+                    }
                 }
             }
 
