@@ -745,22 +745,27 @@ namespace videx.ViewModel
 
             for (int i = 0; i < totalFrame; i++)
             {
-                var frameData = tableData?.Where(row => row != null && row.Frame == i).ToList();
-
-                double time = GetTimeAtFrame(i, fps);
-
-                if (frameData != null && frameData.Any())
+                if (tableData == null)
                 {
-                    foreach (var group in frameData.GroupBy(row => row.Class))
-                    {
-                        string currentClass = group.Key;
-                        int objectCount = group.Count();
+                    continue;
+                }
 
-                        dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
-                    }
+                var frameData = tableData.Where(row => row.Frame == i).ToList();
+
+                if (frameData.Count == 0)
+                {
+                    continue;
+                }
+                double time = GetTimeAtFrame(i, fps);
+                foreach (var group in frameData.GroupBy(row => row.Class))
+                {
+                    string currentClass = group.Key;
+                    int objectCount = group.Count();
+                    //Console.WriteLine($"Frame = {i}, Class = {currentClass}, Count = {objectCount}");
+
+                    dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
                 }
             }
-
             return dataPoints;
         }
 
@@ -816,19 +821,24 @@ namespace videx.ViewModel
 
             for (int i = 0; i < totalFrame; i++)
             {
-                var frameData = tableData?.Where(row => row != null && row.Frame == i).ToList();
-
-                double time = GetTimeAtFrame(i, fps);
-
-                if (frameData != null && frameData.Any())
+                if (tableData == null)
                 {
-                    foreach (var group in frameData.GroupBy(row => row.Class))
-                    {
-                        string currentClass = group.Key;
-                        int objectCount = group.Count();
+                    continue;
+                }
 
-                        dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
-                    }
+                var frameData = tableData.Where(row => row.Frame == i).ToList();
+
+                if (frameData.Count == 0)
+                {
+                    continue;
+                }
+                double time = GetTimeAtFrame(i, fps);
+                foreach (var group in frameData.GroupBy(row => row.Class))
+                {
+                    string currentClass = group.Key;
+                    int objectCount = group.Count();
+
+                    dataPoints.Add(new DataPointWithClass(time, objectCount, currentClass));
                 }
             }
 
