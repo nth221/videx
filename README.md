@@ -51,9 +51,10 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 
 
 - Dataflow Diagram
-![DFD_VIDEX-Page-1 drawio (1)](https://github.com/nth221/videx/assets/64348852/1b2c750e-78f4-4e87-90c1-9bdfd08a9c97)
+![DFD_VIDEX-Page-1 drawio (2)](https://github.com/nth221/videx/assets/64348852/55096cea-5e56-423f-a33f-e0eda9d43480)
 
   The figure above is a dataflow diagram of videx. Follow the flow to find out the functions of videx.
+
 
 
 -----
