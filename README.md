@@ -19,7 +19,8 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 
 - Initial Screen
 
-![image](https://github.com/nth221/videx/assets/64348852/23e03dff-d96d-4993-90ff-72729e4f9352)
+![image](https://github.com/nth221/videx/assets/64348852/c305d2f8-b7be-446a-a128-590806ff6be7)
+
 
 
 - Object Detection Result Screen
