@@ -46,6 +46,8 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 
   In VIDEX, interface consisted of C# WPF M-V-VM pattern. The model plays a role in storing and importing data, and declares and uses classes of data to be stored in the database. View is a place that displays the screen that the user sees and processes user input. VIDEX includes SettingView, where users import videos and set up settings, ObjectDetectionView, and AnomalyDetectionView, which show results for object detection and anomaly detection. ViewModel detects events occurring in View and performs business logic suitable for those events. In VIDEX, most of the major tasks are performed in viewmodel, and the data necessary for logic is retrieved from the model and updated to view. 
 
+</br>
+
 - Multi-Thread Pipeline     
 ![image](https://github.com/nth221/videx/assets/64348852/d49d0a61-2f4e-4a9e-b7f3-5e394660ec80)
 
@@ -56,13 +58,15 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 
   In the process for anomaly detection, we allocate threads as many as the number of detection methods to parallelize the process. Initially, we segment the input video into segments, which serve as detection units, and obtain spatio-temporal feature embeddings using a pre-trained 3D-CNN (also called through ONNX) on large-scale action recognition data. Then, each thread distinguishes anomaly embeddings from the entire embeddings using assigned non-parametric outlier detection methods. Through this approach, VIDEX leverages multithreading to maintain process parallelism and achieve improvements in speed.
 
+</br>
 
 - Dataflow Diagram
-![DFD_VIDEX-Page-1 drawio (2)](https://github.com/nth221/videx/assets/64348852/55096cea-5e56-423f-a33f-e0eda9d43480)
+![DFD_VIDEX-Page-1 drawio (6)](https://github.com/nth221/videx/assets/64348852/5f48ef87-811f-4e09-a813-3875a4a2e3db)
+
 
   The figure above is a dataflow diagram of videx. Follow the flow to find out the functions of videx.
 
-
+</br>
 
 -----
 
