@@ -19,20 +19,23 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 
 - Initial Screen
 
-![image](https://github.com/nth221/videx/assets/64348852/c305d2f8-b7be-446a-a128-590806ff6be7)
+![Initial_Screen](https://github.com/nth221/videx/assets/125935704/592af790-275a-4154-a6ce-401a6bb0803e)
 
+(White mode)  
+
+![Initial_Screen_White](https://github.com/nth221/videx/assets/125935704/f1ff86c4-583f-4c3a-acc2-ad315f379605)
 
 
 - Object Detection Result Screen
 
-![image](https://github.com/nth221/videx/assets/64348852/3b038c31-4d7c-428c-ad82-f1360764e28b)
+![Object_Result](https://github.com/nth221/videx/assets/125935704/2fe02f1a-c315-47ae-88e6-7673111c8a09)
 
 
 - Outlier Detection Result Screen
 
-![image](https://github.com/nth221/videx/assets/64348852/045a89ea-3067-484e-ad29-21746bf6edf0)
+![Outlier_Result](https://github.com/nth221/videx/assets/125935704/ac737543-b85d-4bd0-9ad5-bad381bb5b7f)
 
-  
+
 
 -----
 
@@ -70,11 +73,13 @@ VIDEX is a novel video indexing tool designed to streamline the surveillance vid
 </br>
 
 - Object Filter On/Off  
-![Filter ONOFF2](https://github.com/nth221/videx/assets/125935704/860a8e2a-03dc-4eec-8c01-ca0986c65b4e)
+![ObjectOn-off](https://github.com/nth221/videx/assets/125935704/0afa0559-1ddd-415f-8fee-44556bf022b5)
+
 </br>
 
 - Outlier Checking View  
-![Outlier_check_](https://github.com/nth221/videx/assets/125935704/bfb9fa1a-4d87-473e-bde4-839049b77b94)
+![outlier](https://github.com/nth221/videx/assets/125935704/3a95d118-2abd-4517-862b-ec4229128029)
+
 </br>
 
 
