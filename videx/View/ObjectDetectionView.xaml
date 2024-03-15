@@ -197,7 +197,7 @@ TextDecorations="Underline" FontWeight="Bold"  HorizontalAlignment="Left" Margin
                         <ColumnDefinition Width="18*"/>
                         <ColumnDefinition Width="215*"/>
                     </Grid.ColumnDefinitions>
-                    <oxy:PlotView Model="{Binding PlotModel}" Background="LightGray" Margin="0,10,0,10" HorizontalAlignment="Center" Width="478" Grid.ColumnSpan="2"/>
+                    <oxy:PlotView  Model="{Binding PlotModel}" Background="LightGray" Margin="0,10,0,10" HorizontalAlignment="Center" Width="478" Grid.ColumnSpan="2"/>
                 </Grid>
             </Grid>
             <RadioButton x:Name="DarkMode" Content="Dark Mode" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" IsChecked="True" GroupName="modesSelection" Checked="DarkMode_Checked"/>

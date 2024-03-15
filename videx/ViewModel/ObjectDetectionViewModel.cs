@@ -19,10 +19,11 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.Legends;
+using OxyPlot.Wpf;
 using System.Diagnostics;
 using System.Windows.Media.Animation;
 using Microsoft.Win32;
-using OxyPlot.Wpf;
+
 using System.Data.SQLite;
 using Dapper;
 
@@ -31,8 +32,6 @@ namespace videx.ViewModel
 {
     public class ObjectDetectionViewModel : INotifyPropertyChanged
     {
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -57,8 +56,7 @@ namespace videx.ViewModel
 
         public ObjectDetectionViewModel()
         {
-
-            Analysis(timer);
+            YoloAnalysis(timer);
             SelectedOptions = new ObservableCollection<string>();
             videoObject = new MediaElement();
             playCommand = new RelayCommand(ExecutePlayCommand);
@@ -80,7 +78,7 @@ namespace videx.ViewModel
 
             media_start();
 
-            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Interval = TimeSpan.FromSeconds(0.3);
             timer.Tick += Timer_Tick;
             timer.Start();
 
@@ -95,7 +93,7 @@ namespace videx.ViewModel
             ReloadPlot();
         }
 
-        private async void Analysis(System.Windows.Threading.DispatcherTimer timer)
+        private async void YoloAnalysis(System.Windows.Threading.DispatcherTimer timer)
         {
             string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
             string outputPath = System.IO.Path.Combine(desktopPath, "edited.mp4");

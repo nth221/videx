@@ -67,20 +67,20 @@ namespace videx.Model.YOLOv5
             // DB Connection & Create Table
             CreateTable();
 
-            //var detector = new YoloDetector("C:\\Users\\psy\\Desktop\\yolov5s.onnx");
-
             string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
             string yolov5sPath = System.IO.Path.Combine(desktopPath, "yolov5s.onnx");
+            string s3dPath = "C:\\Users\\VODE-IDX\\Desktop\\videx\\videx\\ONNX\\S3D.onnx";
+
             var detector = new YoloDetector(yolov5sPath);
 
             List<string> outputFilePaths = new List<string>();
-
-            //string final_path = "C:\\Users\\psy\\Desktop\\output\\Thread1\\output_video.avi";
 
             string output_path = System.IO.Path.Combine(desktopPath, "output", "Thread");
             string final_path = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
 
             int maxThreadCount = Environment.ProcessorCount;
+            //int maxThreadCount = 12;
+
 
             var capture = new VideoCapture(inputFilePath);
 
@@ -88,8 +88,6 @@ namespace videx.Model.YOLOv5
                         videoData.VideoFrame = (int)capture.Get(VideoCaptureProperties.FrameCount);*/
 
             totalFrames = (int)capture.Get(VideoCaptureProperties.FrameCount) + 1;
-
-            //int maxThreadCount = totalFrames;
 
             int segmentSize = totalFrames / maxThreadCount;
 
@@ -152,8 +150,6 @@ namespace videx.Model.YOLOv5
 
             using (var videoCapture = new VideoCapture(inputFilePath))
             {
-
-
                 if (!videoCapture.IsOpened())
                 {
                     Console.WriteLine("Can not open video.");
@@ -167,6 +163,7 @@ namespace videx.Model.YOLOv5
                 videoCapture.Set(VideoCaptureProperties.PosFrames, startFrame);
 
                 VideoWriter videoWriter = new VideoWriter(outputFileName, FourCC.XVID, fps, new OpenCvSharp.Size(width, height));
+
                 if (!videoWriter.IsOpened())
                 {
                     Console.WriteLine("VideoWriter open failed!");
@@ -175,7 +172,6 @@ namespace videx.Model.YOLOv5
 
                 for (int frameNumber = startFrame; frameNumber < endFrame; frameNumber++)
                 {
-
                     using (var frame = new Mat())
                     {
                         videoCapture.Read(frame);
@@ -207,7 +203,6 @@ namespace videx.Model.YOLOv5
 
                                         allObj = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable").ToList();
                                         selectedObj = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
-                                        //SelectImage();
                                     }
                                 }
                             }
@@ -215,12 +210,8 @@ namespace videx.Model.YOLOv5
                         }
                     }
                 }
-
                 videoWriter.Release();
-                //Console.WriteLine($"Video splitting completed for frames {startFrame} to {endFrame}.");
                 outputFilePaths.Add(outputFileName);
-                
-                //Console.WriteLine($"Video file created: {outputFileName}");
             }
         }
 
@@ -250,14 +241,14 @@ namespace videx.Model.YOLOv5
         {
             using (SQLiteConnection connection = new SQLiteConnection(strConn))
             {
-
                 try
                 {
                     connection.Open();
 
                     connection.Execute("DROP TABLE IF EXISTS ImageTable");
                     connection.Execute("CREATE TABLE ImageTable (Id INTEGER PRIMARY KEY AUTOINCREMENT,Class TEXT, Frame INTEGER, ImageBytes BLOB)");
-                    connection.Execute("CREATE INDEX idx_frame ON ImageTable(Frame)");
+                    //connection.Execute("CREATE INDEX idx_frame ON ImageTable(Frame)");
+
 
                     Console.WriteLine("DB Connection and Create ImageTable and Create Index");
 
@@ -299,30 +290,6 @@ namespace videx.Model.YOLOv5
 
             return imageList;
         }
-
-        /*        public static List<ImageData> SelectImage(SQLiteConnection connection)
-                {
-                    List<ImageData> imageList = new List<ImageData>();
-                    string[] targetClasses = LabelMap.test_Labels;
-
-                    imageList = connection.Query<ImageData>("SELECT Id, Class, Frame, ImageBytes FROM ImageTable WHERE Class IN @TargetClasses", new { TargetClasses = targetClasses }).ToList();
-
-                    foreach (var imageData in imageList)
-                    {
-                        using (var stream = new MemoryStream(imageData.ImageBytes))
-                        {
-                            var bitmapImage = new BitmapImage();
-                            bitmapImage.BeginInit();
-                            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                            bitmapImage.StreamSource = stream;
-                            bitmapImage.EndInit();
-
-                            imageData.Bitmap = bitmapImage;
-                        }
-                    }
-
-                    return imageList;
-                }*/
 
         public static void CombineVideo(List<string> inputVideoPaths, string outputDirectory)
         {

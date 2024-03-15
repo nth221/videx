@@ -130,6 +130,20 @@
                 </Style.Triggers>
             </Style>
 
+            <Style TargetType="{x:Type oxy:PlotView}" x:Key="plot">
+                <Style.Triggers>
+                    <!-- Dark Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
+                        <Setter Property="TextBlock.Foreground" Value="Black"/>
+                    </DataTrigger>
+
+                    <!-- Light Mode -->
+                    <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="White">
+                        <Setter Property="TextBlock.Foreground" Value="Black"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
             <Style TargetType="{x:Type Border}">
                 <Style.Triggers>
                     <!-- Dark Mode -->

@@ -42,6 +42,7 @@
     <PackageReference Include="AForge.Video" Version="2.2.5" />
     <PackageReference Include="BusyIndicators" Version="2.1.2" />
     <PackageReference Include="Dapper" Version="2.1.28" />
+    <PackageReference Include="Microsoft.ML" Version="3.0.1" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.16.3" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime.Extensions" Version="0.9.0" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu" Version="1.16.3" />
@@ -54,6 +55,7 @@
     <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.8.0.20230708" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.8.0.20230708" />
     <PackageReference Include="OxyPlot.Wpf" Version="2.1.2" />
+    <PackageReference Include="ScottPlot" Version="5.0.21" />
     <PackageReference Include="System.AppContext" Version="4.3.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.0" />

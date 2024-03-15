@@ -1,5 +1,4 @@
 ﻿using Microsoft.ML.OnnxRuntime;
-
 using Microsoft.ML.OnnxRuntime.Tensors;
 using OpenCvSharp;
 using OpenCvSharp.Dnn;
@@ -11,7 +10,6 @@ using System.Linq;
 
 namespace videx.Model.YOLOv5
 {
-
     public class YoloDetector : IDisposable
     {
         private InferenceSession? sess = null;
@@ -22,7 +20,7 @@ namespace videx.Model.YOLOv5
         private float maxWH = 4096;
         public Size imgSize = new Size(640, 384);
         private Scalar padColor = new Scalar(114, 114, 114);
-
+        
         /// <summary>
         /// Initialize
         /// </summary>

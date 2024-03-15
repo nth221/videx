@@ -1,29 +1,23 @@
 ﻿using OpenCvSharp;
-using OxyPlot.Axes;
-using OxyPlot.Legends;
-using OxyPlot.Series;
 using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using OxyPlot.Legends;
+using OxyPlot.Wpf;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows;
-using videx.Model.YOLOv5;
-using videx.Model;
-using static videx.ViewModel.ObjectDetectionViewModel;
-using System.Text.RegularExpressions;
-using videx.View;
 using Microsoft.Win32;
-using OxyPlot.Wpf;
+using videx.Model.AnomalyDetection;
+using videx.Model.YOLOv5;
+using static videx.ViewModel.ObjectDetectionViewModel;
+using System.Collections.Generic;
+using videx.Model;
 
 namespace videx.ViewModel
 {
@@ -44,14 +38,18 @@ namespace videx.ViewModel
         public bool sldrDragStart = false;
         string StartT, EndT;
 
+        public System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+
         public OutlierDetectionViewModel()
         {
+            OutlierAnalysis(timer);
+
             videoObject = new MediaElement();
             playCommand = new RelayCommand(ExecutePlayCommand);
             pauseCommand = new RelayCommand(ExecutePauseCommand);
             stopCommand = new RelayCommand(ExecuteStopCommand);
 
-            VideoObject.Source = new Uri(inputFilePath);
+            VideoObject.Source = new Uri(SettingViewModel.filePath);
             VideoObject.LoadedBehavior = MediaState.Manual;
             VideoObject.UnloadedBehavior = MediaState.Manual;
 
@@ -61,7 +59,31 @@ namespace videx.ViewModel
             
             media_start();
 
-            InitializePlot();
+            timer.Interval = TimeSpan.FromSeconds(0.3);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+
+            // InitializePlot();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+           // ReloadPlot();
+        }
+
+        private async void OutlierAnalysis(System.Windows.Threading.DispatcherTimer timer)
+        {
+            string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
+            string outputPath = System.IO.Path.Combine(desktopPath, "edited.mp4");
+
+            await Task.Run(() => AnomalyDetection.Detection(SettingViewModel.filePath, SettingViewModel.ST));
+
+            if (AnomalyDetection.endFlag == 1)
+            {
+                VideoReady();
+                timer.Stop();
+                InitializePlot();
+            }
         }
 
         private ICommand saveGraph;
@@ -98,7 +120,6 @@ namespace videx.ViewModel
                     {
                         exporter.Export(PlotModel, stream);
                     }
-
                     MessageBox.Show("Outlier Chart exported successfully.", "Export Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
@@ -325,75 +346,23 @@ namespace videx.ViewModel
 
         private void InitializePlot()
         {
-            var dataPoints = GenerateDataPoints();
+            var dataPoints = AnomalyDetection.lofValues;
 
             var model = new PlotModel();
             var lineSeries = new LineSeries();
-            lineSeries.Points.AddRange(dataPoints);
-            model.Series.Add(lineSeries);
 
-            model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "Second" });
-            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Outlier" });
-
-            PlotModel = model;
-        }
-
-        private DataPoint[] GenerateDataPoints()
-        {
-            var capture = new VideoCapture(inputFilePath);
-            var totalFrame = (int)capture.Get(VideoCaptureProperties.FrameCount);
-
-            var random = new Random();
-            var dataPoints = new DataPoint[totalFrame];
-
-            var section = totalFrame / 10;
-            for (int i = 0; i < totalFrame; i++)
+            // Extracting data from transformedFeatures and adding to lineSeries
+            for (int i = 0; i < dataPoints.Count; i++)
             {
-                double time = GetTimeAtFrame(i, fps);
-                double yValue;
-
-                // Determine the current section
-                int currentSection = i / section;
-
-                // Determine the base value for the current section
-                double baseValue = random.NextDouble();
-
-                // Specify yValue based on the current section
-                switch (currentSection)
-                {
-                    case 0:
-                    case 1:
-                    case 4:
-                    case 7:
-                        // Linearly increase
-                        yValue = baseValue + (i % section) * 0.05; // Adjust the slope as needed
-                        break;
-
-                    case 2:
-                    case 3:
-                    case 5:
-                    case 6:
-                        // Quadratically increase (smooth rise)
-                        yValue = baseValue + Math.Pow((i % section) / (double)section, 2) * 0.1; // Adjust the coefficient as needed
-                        break;
-
-                    case 8:
-                    case 9:
-                        // Cubically increase with a peak in the middle
-                        int middle = section / 2;
-                        yValue = baseValue + Math.Pow(Math.Abs((i % section) - middle) / (double)middle, 3) * 0.2; // Adjust the coefficient as needed
-                        break;
-
-                    default:
-                        yValue = baseValue;
-                        break;
-                }
-
-                dataPoints[i] = new DataPoint(time, yValue * 50); // Scale the result as needed
+                lineSeries.Points.Add(new DataPoint(i + 1,dataPoints[i]));
             }
 
+            model.Series.Add(lineSeries);
 
-            return dataPoints;
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "First PCA Component" });
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Second PCA Component", Minimum = 0.8, Maximum = 1.3 });
+
+            PlotModel = model;
         }
 
         private RelayCommand _plotClickCommand;
@@ -428,5 +397,71 @@ namespace videx.ViewModel
             VideoObject.Pause();
         }
 
+
+        private Visibility loading;
+
+        public Visibility Loading
+        {
+            get { return loading; }
+            set
+            {
+                if (loading != value)
+                {
+                    loading = value;
+                    OnPropertyChanged(nameof(Loading));
+                }
+            }
+        }
+
+        public void VideoReady()
+        {
+            Loading = Visibility.Collapsed;
+        }
+
+        List<OxyColor> predefinedColors;
+
+        private void ReloadPlot()
+        {
+            var dataPoints = AnomalyDetection.lofValues;
+
+            var model = new PlotModel();
+            var lineSeries = new LineSeries();
+
+            // Extracting data from transformedFeatures and adding to lineSeries
+            for (int i = 0; i < dataPoints.Count; i++)
+            {
+                lineSeries.Points.Add(new DataPoint(i + 1, dataPoints[i]));
+            }
+
+            model.Series.Add(lineSeries);
+
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "First PCA Component" });
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Second PCA Component" });
+
+            PlotModel = model;
+        }
+
+        private static Random random = new Random();
+
+        private static OxyColor GetRandomColor()
+        {
+            byte[] color = new byte[3];
+            random.NextBytes(color);
+            return OxyColor.FromRgb(color[0], color[1], color[2]);
+        }
+
+        public class DataPointWithClass
+        {
+            public double XValue { get; set; }
+            public double YValue { get; set; }
+            public string Class { get; set; }
+
+            public DataPointWithClass(double xValue, double yValue, string className)
+            {
+                XValue = xValue;
+                YValue = yValue;
+                Class = className;
+            }
+        }
     }
 }

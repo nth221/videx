@@ -26,11 +26,11 @@ namespace videx.ViewModel
         }
 
         public string[] SelectedLabels { get; set; }
-        string filePath; 
+        public static string filePath; 
         public bool sldrDragStart = false; 
         public bool check_time = false;
         bool edit_check = false;
-        public TimeSpan ST, ET;
+        public static TimeSpan ST, ET;
         Stopwatch videoEdit_time = new Stopwatch();
         private System.Windows.Window currentWindow;
 
@@ -577,8 +577,7 @@ namespace videx.ViewModel
             //string outputPath = System.IO.Path.GetDirectoryName(filePath) + "\\edited.mp4";
             string outputPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory) + "\\edited.mp4";
 
-            CutAndSaveVideo(filePath, outputPath, ST, ET);
-
+            // CutAndSaveVideo(filePath, outputPath, ST, ET);
 
             currentWindow.Visibility = Visibility.Collapsed;
 
