@@ -577,7 +577,7 @@ namespace videx.ViewModel
             //string outputPath = System.IO.Path.GetDirectoryName(filePath) + "\\edited.mp4";
             string outputPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory) + "\\edited.mp4";
 
-            // CutAndSaveVideo(filePath, outputPath, ST, ET);
+            CutAndSaveVideo(filePath, outputPath, ST, ET);
 
             currentWindow.Visibility = Visibility.Collapsed;
 
