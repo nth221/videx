@@ -26,8 +26,8 @@ namespace videx.ViewModel
         }
 
         public string[] SelectedLabels { get; set; }
-        public static string filePath; 
-        public bool sldrDragStart = false; 
+        public static string filePath;
+        public bool sldrDragStart = false;
         public bool check_time = false;
         bool edit_check = false;
         public static TimeSpan ST, ET;
@@ -41,7 +41,7 @@ namespace videx.ViewModel
 
         public ObservableCollection<string> CheckedItems { get; set; }
         public ObservableCollection<CheckBoxItem> CheckBoxItems { get; set; }
-        
+
 
 
         public SettingViewModel()
@@ -58,7 +58,7 @@ namespace videx.ViewModel
 
             InitializeCheckBoxItems();
 
-            VideoObject.LoadedBehavior = MediaState.Manual; 
+            VideoObject.LoadedBehavior = MediaState.Manual;
             VideoObject.UnloadedBehavior = MediaState.Manual;
 
             VideoObject.MediaOpened += VideoObject_MediaOpened;
@@ -577,7 +577,7 @@ namespace videx.ViewModel
             //string outputPath = System.IO.Path.GetDirectoryName(filePath) + "\\edited.mp4";
             string outputPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory) + "\\edited.mp4";
 
-            // CutAndSaveVideo(filePath, outputPath, ST, ET);
+            CutAndSaveVideo(filePath, outputPath, ST, ET);
 
             currentWindow.Visibility = Visibility.Collapsed;
 

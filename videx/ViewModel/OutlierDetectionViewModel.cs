@@ -23,7 +23,7 @@ namespace videx.ViewModel
 {
     public class OutlierDetectionViewModel : INotifyPropertyChanged
     {
-    public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -56,7 +56,7 @@ namespace videx.ViewModel
             VideoObject.MediaOpened += VideoObject_MediaOpened;
             VideoObject.MediaEnded += VideoObject_MediaEnded;
             VideoObject.MediaFailed += VideoObject_MediaFailed;
-            
+
             media_start();
 
             timer.Interval = TimeSpan.FromSeconds(0.3);
@@ -68,7 +68,7 @@ namespace videx.ViewModel
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-           // ReloadPlot();
+            // ReloadPlot();
         }
 
         private async void OutlierAnalysis(System.Windows.Threading.DispatcherTimer timer)
@@ -354,7 +354,7 @@ namespace videx.ViewModel
             // Extracting data from transformedFeatures and adding to lineSeries
             for (int i = 0; i < dataPoints.Count; i++)
             {
-                lineSeries.Points.Add(new DataPoint(i + 1,dataPoints[i]));
+                lineSeries.Points.Add(new DataPoint(i + 1, dataPoints[i]));
             }
 
             model.Series.Add(lineSeries);
