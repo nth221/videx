@@ -69,7 +69,6 @@ namespace videx.Model.YOLOv5
 
             string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
             string yolov5sPath = System.IO.Path.Combine(desktopPath, "yolov5s.onnx");
-            string s3dPath = "C:\\Users\\VODE-IDX\\Desktop\\videx\\videx\\ONNX\\S3D.onnx";
 
             var detector = new YoloDetector(yolov5sPath);
 

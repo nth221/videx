@@ -31,7 +31,7 @@ namespace videx.ViewModel
         }
 
         private static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
-        private static string inputFilePath = System.IO.Path.Combine(desktopPath, "\\edited.mp4");
+        private static string inputFilePath = System.IO.Path.Combine(desktopPath, "edited.mp4");
 
         private static double fps = GetVideoFPS(inputFilePath);
 
@@ -39,9 +39,13 @@ namespace videx.ViewModel
         string StartT, EndT;
 
         public System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+        public ICommand ShowGraphCommand { get; set; }
 
+        private static List<double> dataPoints;
         public OutlierDetectionViewModel()
         {
+            ShowGraphCommand = new RelayCommand(ShowGraph);
+
             OutlierAnalysis(timer);
 
             videoObject = new MediaElement();
@@ -344,6 +348,32 @@ namespace videx.ViewModel
             }
         }
 
+        private void ShowGraph(object parameter)
+        {
+            if (parameter is string algorithm)
+            {
+
+                switch (algorithm)
+                {
+                    case "LOF":
+                        Console.WriteLine("LOF");
+                        dataPoints = AnomalyDetection.lofValues;
+                        ReloadPlot(dataPoints);
+                        break;
+                    case "cbLOF":
+                        Console.WriteLine("cbLOF");
+                        dataPoints = AnomalyDetection.cblofValues;
+                        ReloadPlot(dataPoints);
+                        break;
+                    case "iForest":
+                        Console.WriteLine("iForest");
+                        dataPoints = AnomalyDetection.iForestValues;
+                        ReloadPlot(dataPoints);
+                        break;
+                }
+            }
+        }
+
         private void InitializePlot()
         {
             var dataPoints = AnomalyDetection.lofValues;
@@ -352,7 +382,7 @@ namespace videx.ViewModel
             var lineSeries = new LineSeries();
 
             // Extracting data from transformedFeatures and adding to lineSeries
-            for (int i = 0; i < dataPoints.Count; i++)
+            for (int i = 0; i < dataPoints.Count-1; i++)
             {
                 lineSeries.Points.Add(new DataPoint(i + 1, dataPoints[i]));
             }
@@ -420,15 +450,13 @@ namespace videx.ViewModel
 
         List<OxyColor> predefinedColors;
 
-        private void ReloadPlot()
+        private void ReloadPlot(List<double> dataPoints)
         {
-            var dataPoints = AnomalyDetection.lofValues;
-
             var model = new PlotModel();
             var lineSeries = new LineSeries();
 
             // Extracting data from transformedFeatures and adding to lineSeries
-            for (int i = 0; i < dataPoints.Count; i++)
+            for (int i = 0; i < dataPoints.Count-1; i++)
             {
                 lineSeries.Points.Add(new DataPoint(i + 1, dataPoints[i]));
             }

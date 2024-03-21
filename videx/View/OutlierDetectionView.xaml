@@ -31,7 +31,7 @@ Title="Videx" Height="800" Width="1280">
                 </Grid.RowDefinitions>
 
                 <Border Margin="10,0,10,10">
-                    <Grid Margin="0,6,0,0" Style="{StaticResource ForeGroundGrid}">
+                    <Grid Margin="0,6,0,0" Style="{StaticResource ForeGroundGrid}" Height="528" VerticalAlignment="Top">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="126*"/>
                             <RowDefinition Height="5*"/>
@@ -63,6 +63,9 @@ Title="Videx" Height="800" Width="1280">
             </Border>
             <RadioButton x:Name="DarkMode" Content="Dark Mode" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" IsChecked="True" GroupName="modesSelection" Checked="DarkMode_Checked"/>
             <RadioButton x:Name="LightMode" Content="Light Mode" HorizontalAlignment="Left" Margin="95,0,0,0" VerticalAlignment="Center" GroupName="modesSelection" Checked="LightMode_Checked"/>
+            <RadioButton x:Name="LOF" Content="LOF" HorizontalAlignment="Left" Margin="475,0,0,0" VerticalAlignment="Center" IsChecked="True" Command="{Binding ShowGraphCommand}" CommandParameter="LOF"/>
+            <RadioButton x:Name="cbLOF" Content="cbLOF" HorizontalAlignment="Left" Margin="554,0,0,0" VerticalAlignment="Center" Command="{Binding ShowGraphCommand}" CommandParameter="cbLOF"/>
+            <RadioButton x:Name="iForest" Content="iForest" HorizontalAlignment="Left" Margin="640,0,0,0" VerticalAlignment="Center" Command="{Binding ShowGraphCommand}" CommandParameter="iForest"/>
         </Grid>
     </Border>
 </Window>

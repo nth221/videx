@@ -577,13 +577,14 @@ namespace videx.ViewModel
             //string outputPath = System.IO.Path.GetDirectoryName(filePath) + "\\edited.mp4";
             string outputPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory) + "\\edited.mp4";
 
-            CutAndSaveVideo(filePath, outputPath, ST, ET);
+
+            await Task.Run(() => CutAndSaveVideo(filePath, outputPath, ST, ET));
 
             currentWindow.Visibility = Visibility.Collapsed;
-
+/*
             UpdateTestLabels();
             ObjectDetectionView ObjectDetectionView = new ObjectDetectionView();
-            ObjectDetectionView.Show();
+            ObjectDetectionView.Show();*/
 
             OutlierDetectionView outlierDetectionView = new OutlierDetectionView();
             outlierDetectionView.Show();
