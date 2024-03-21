@@ -20,30 +20,30 @@ namespace videx.Model.AnomalyDetection
         public static IEnumerable<OutputData> transformedFeatures;
         public static List<double> lofValues;
         public static int endFlag = 0;
-        public static void Detection(string inputFilePath, TimeSpan ST)
+        private static int framesPerBatch = 32;
+        private static int frameCount;
+
+        public static void Detection()
         {
             Size imgSize = new Size(224, 224);
 
             string modelPath = "C:\\Users\\VODE-IDX\\Desktop\\AnomalyDetection\\AnomalyDetection\\jm_1.onnx";
-            // string videoPath = "C:\\Users\\VODE-IDX\\Desktop\\input video\\car.mp4";
+            string videoPath = "C:\\Users\\VODE-IDX\\Desktop\\edited.mp4";
 
             // 4:54 ~ 5:00  seg 275 ~ 283
 
-            using (var videoCapture = new VideoCapture(inputFilePath))
+            using (var videoCapture = new VideoCapture(videoPath))
             { 
-                int frameCount = (int)videoCapture.Get(VideoCaptureProperties.FrameCount);
+                frameCount = (int)videoCapture.Get(VideoCaptureProperties.FrameCount);
                 int fps = (int)videoCapture.Fps;
-                Console.WriteLine(frameCount);
-
-                int framesPerBatch = 32;
-                int cnt = 1;
+                // Console.WriteLine(frameCount);
 
                 mlcontext = new MLContext();
                 List<AnomalyData> dataList = new List<AnomalyData>();
 
                 using (var session = new InferenceSession(modelPath))
                 {
-                    for (int startFrame = (int)ST.TotalSeconds * fps; startFrame < frameCount; startFrame += framesPerBatch)
+                    for (int startFrame = 0; startFrame < frameCount; startFrame += framesPerBatch)
                     {
                         int currentBatchSize = Math.Min(framesPerBatch, frameCount - startFrame);
 
@@ -82,7 +82,6 @@ namespace videx.Model.AnomalyDetection
 
                             dataList.Add(new AnomalyData { Features = features });
                         }
-                        cnt++;
                     }
                     ReduceDimension(dataList);
                 }
@@ -105,9 +104,9 @@ namespace videx.Model.AnomalyDetection
             var transformedData = pcaTransformer.Fit(trainData).Transform(trainData);
             transformedFeatures = mlcontext.Data.CreateEnumerable<OutputData>(transformedData, reuseRowObject: false);
 
-            // LOF
-            int k = 3;
-            lofValues = LOF.CalculateLOF(data, k);
+            /*            // LOF
+                        int k = 3;
+                        lofValues = LOF.CalculateLOF(data, k);*/
 
             /*            // CBLOF
                         int k = 3;
@@ -115,12 +114,12 @@ namespace videx.Model.AnomalyDetection
                         CbLOF cblof = new CbLOF(k, threshold);
                         lofValues = cblof.Fit(data);*/
 
-/*            // Isolation Forest
-            int numTrees = 100;
+            // Isolation Forest
+            int numTrees = frameCount / framesPerBatch;
             int maxTreeDepth = 10;
 
             IsolationForest iforest = new IsolationForest(numTrees, maxTreeDepth);
-            lofValues = iforest.Train(data);*/
+            lofValues = iforest.Train(data);
 
 
 
@@ -151,7 +150,7 @@ namespace videx.Model.AnomalyDetection
             scatterPlot.XLabel("Data Point");
             scatterPlot.YLabel("LOF Value");
 
-            scatterPlot.Axes.SetLimits(0, lofValues.Count - 1, 0, 1.5);
+            // scatterPlot.Axes.SetLimits(0, lofValues.Count - 1, 0, 1.5);
 
             // Save the plot to a file or display it
             scatterPlot.SavePng("C:\\Users\\VODE-IDX\\Desktop\\LOF_ScatterPlot.png", 600, 400);

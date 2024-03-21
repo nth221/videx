@@ -31,7 +31,7 @@ namespace videx.ViewModel
         }
 
         private static string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
-        private static string inputFilePath = System.IO.Path.Combine(desktopPath, "edited.mp4");
+        private static string inputFilePath = System.IO.Path.Combine(desktopPath, "\\edited.mp4");
 
         private static double fps = GetVideoFPS(inputFilePath);
 
@@ -49,7 +49,7 @@ namespace videx.ViewModel
             pauseCommand = new RelayCommand(ExecutePauseCommand);
             stopCommand = new RelayCommand(ExecuteStopCommand);
 
-            VideoObject.Source = new Uri(SettingViewModel.filePath);
+            VideoObject.Source = new Uri(inputFilePath);
             VideoObject.LoadedBehavior = MediaState.Manual;
             VideoObject.UnloadedBehavior = MediaState.Manual;
 
@@ -76,7 +76,7 @@ namespace videx.ViewModel
             string desktopPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.DesktopDirectory);
             string outputPath = System.IO.Path.Combine(desktopPath, "edited.mp4");
 
-            await Task.Run(() => AnomalyDetection.Detection(SettingViewModel.filePath, SettingViewModel.ST));
+            await Task.Run(() => AnomalyDetection.Detection());
 
             if (AnomalyDetection.endFlag == 1)
             {
@@ -360,7 +360,7 @@ namespace videx.ViewModel
             model.Series.Add(lineSeries);
 
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Title = "First PCA Component" });
-            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Second PCA Component", Minimum = 0.8, Maximum = 1.3 });
+            model.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Title = "Second PCA Component"});
 
             PlotModel = model;
         }
