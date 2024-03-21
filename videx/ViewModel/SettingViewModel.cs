@@ -581,10 +581,10 @@ namespace videx.ViewModel
             await Task.Run(() => CutAndSaveVideo(filePath, outputPath, ST, ET));
 
             currentWindow.Visibility = Visibility.Collapsed;
-/*
+
             UpdateTestLabels();
             ObjectDetectionView ObjectDetectionView = new ObjectDetectionView();
-            ObjectDetectionView.Show();*/
+            ObjectDetectionView.Show();
 
             OutlierDetectionView outlierDetectionView = new OutlierDetectionView();
             outlierDetectionView.Show();
