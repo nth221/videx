@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Media.Imaging;
 using OpenCvSharp;
 using System.Drawing;
-using System.Diagnostics;
 using System.Data.SQLite;
 using Image = System.Drawing.Image;
 using Point = OpenCvSharp.Point;
@@ -13,10 +12,7 @@ using System.IO;
 using OpenCvSharp.Extensions;
 using Dapper;
 using System.Threading;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
-using videx.Model;
 
 
 namespace videx.Model.YOLOv5
@@ -77,9 +73,7 @@ namespace videx.Model.YOLOv5
             string output_path = System.IO.Path.Combine(desktopPath, "output", "Thread");
             string final_path = System.IO.Path.Combine(desktopPath, "output", "Thread", "output_video.avi");
 
-            int maxThreadCount = Environment.ProcessorCount;
-            //int maxThreadCount = 12;
-
+            int maxThreadCount = Environment.ProcessorCount; 
 
             var capture = new VideoCapture(inputFilePath);
 
@@ -92,7 +86,6 @@ namespace videx.Model.YOLOv5
 
             Console.WriteLine($"Maximum thread count for this system: {maxThreadCount}, totalFrames : {totalFrames}");
 
-
             SharedConnectionManager connectionManager = new SharedConnectionManager(strConn);
             Thread[] threads = new Thread[maxThreadCount];
 
@@ -104,7 +97,6 @@ namespace videx.Model.YOLOv5
                 {
                     connectionManager.ExecuteReadOperation(connection =>
                     {
-                        //Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} - Connection Hash: {connection.GetHashCode()}");
                         DoSomething(connection, output_path, detector, inputFilePath, outputFilePaths, startFrame, endFrame);
                     });
                 });
@@ -132,8 +124,6 @@ namespace videx.Model.YOLOv5
 
             CombineVideo(outputFilePath, final_path);
         }
-
-
 
         private static void DoSomething(SQLiteConnection connection, string ouput_path, YoloDetector detector, string inputFilePath, List<string> outputFilePaths, int startFrame, int endFrame)
         {

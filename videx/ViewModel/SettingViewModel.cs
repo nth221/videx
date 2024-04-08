@@ -594,22 +594,37 @@ namespace videx.ViewModel
 
         static void CutAndSaveVideo(string inputPath, string outputPath, TimeSpan startTime, TimeSpan endTime)
         {
-            using (var videoCapture = new VideoCapture(inputPath))
-            using (var videoWriter = new VideoWriter(outputPath, FourCC.XVID, videoCapture.Fps, new OpenCvSharp.Size(videoCapture.FrameWidth, videoCapture.FrameHeight)))
-            {
-                var frame = new Mat();
-                var frameIndex = (int)(videoCapture.Fps * startTime.TotalSeconds);
+            string ffmpegPath = "C:\\Users\\VODE-IDX\\Desktop\\ffmpeg\\bin\\ffmpeg.exe";
+            string arguments = $"-i \"{inputPath}\" -ss {startTime} -t {endTime - startTime} -c:v copy -c:a copy \"{outputPath}\"";
 
-                videoCapture.Set(VideoCaptureProperties.PosFrames, frameIndex);
+            Process process = new Process();
+            process.StartInfo.FileName = ffmpegPath;
+            process.StartInfo.Arguments = arguments;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+/*
+            process.ErrorDataReceived += (s, e) => Console.WriteLine("Error: " + e.Data);
+            process.OutputDataReceived += (s, e) => Console.WriteLine("Output: " + e.Data);*/
 
-                while (videoCapture.Read(frame))
-                {
-                    if (videoCapture.PosFrames >= (int)(videoCapture.Fps * endTime.TotalSeconds))
-                        break;
+            process.Start();
+            process.WaitForExit();
+            /*            using (var videoCapture = new VideoCapture(inputPath))
+                        using (var videoWriter = new VideoWriter(outputPath, FourCC.XVID, videoCapture.Fps, new OpenCvSharp.Size(videoCapture.FrameWidth, videoCapture.FrameHeight)))
+                        {
+                            var frame = new Mat();
+                            var frameIndex = (int)(videoCapture.Fps * startTime.TotalSeconds);
 
-                    videoWriter.Write(frame);
-                }
-            }
+                            videoCapture.Set(VideoCaptureProperties.PosFrames, frameIndex);
+
+                            while (videoCapture.Read(frame))
+                            {
+                                if (videoCapture.PosFrames >= (int)(videoCapture.Fps * endTime.TotalSeconds))
+                                    break;
+
+                                videoWriter.Write(frame);
+                            }
+                        }*/
         }
 
         public void SetCurrentWindow(System.Windows.Window window)
