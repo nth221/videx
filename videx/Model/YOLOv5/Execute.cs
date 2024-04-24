@@ -178,7 +178,7 @@ namespace videx.Model.YOLOv5
                             {
                                 if (obj.Label != null)
                                 {
-                                    Cv2.Rectangle(dispImage, new Point(obj.Box.Xmin, obj.Box.Ymin), new Point(obj.Box.Xmax, obj.Box.Ymax), new Scalar(0, 0, 255), 1);
+                                    Cv2.Rectangle(dispImage, new Point(obj.Box.Xmin, obj.Box.Ymin), new Point(obj.Box.Xmax, obj.Box.Ymax), new Scalar(0, 0, 255), 2);
                                     Cv2.PutText(dispImage, obj.Label, new Point(obj.Box.Xmin, obj.Box.Ymin - 5), HersheyFonts.HersheySimplex, 0.5, new Scalar(0, 0, 255), 1);
                                     Cv2.PutText(dispImage, obj.Confidence.ToString("F2"), new Point(obj.Box.Xmin, obj.Box.Ymin + 8), HersheyFonts.HersheySimplex, 0.5, new Scalar(255, 0, 0), 1);
 

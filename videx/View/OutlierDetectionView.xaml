@@ -54,7 +54,9 @@ Title="Videx" Height="800" Width="1280">
                     </Grid>
                 </Border>
                 <Grid Style="{StaticResource BackGroundGrid}" Margin="0,10,0,10" HorizontalAlignment="Center" Grid.Row="1" Width="1208">
-                    <oxy:PlotView x:Name="plot" Model="{Binding PlotModel}" MouseDown="PlotView_MouseDown" HorizontalAlignment="Center" Width="1211" Background="#e7e3e3"/>
+                    <oxy:PlotView x:Name="plot" Model="{Binding PlotModel}" MouseDown="PlotView_MouseDown" 
+               HorizontalAlignment="Center" Width="1211" Background="#e7e3e3"
+               Style="{StaticResource plot}"/>
                 </Grid>
             </Grid>
 

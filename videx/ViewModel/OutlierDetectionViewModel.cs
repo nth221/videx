@@ -409,11 +409,11 @@ namespace videx.ViewModel
             // 여기에서 클릭한 지점의 시간을 계산하고 동영상을 이동하는 로직 추가
             if (PlotModel != null && PlotModel.Axes.Count == 2)
             {
-                var xAxis = PlotModel.Axes[0] as DateTimeAxis;
+                var xAxis = PlotModel.Axes[0];
                 if (xAxis != null)
                 {
                     double xValue = xAxis.InverseTransform(e.GetPosition(null).X);
-                    TimeSpan clickedTime = TimeSpan.FromMilliseconds(xValue);
+                    TimeSpan clickedTime = TimeSpan.FromSeconds(xValue);
 
                     Console.WriteLine(xValue);
                     MoveVideoToTime(clickedTime);
@@ -425,6 +425,7 @@ namespace videx.ViewModel
         {
             VideoObject.Position = time;
             VideoObject.Pause();
+            VideoObject.Play();
         }
 
 

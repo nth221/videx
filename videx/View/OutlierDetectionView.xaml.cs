@@ -70,7 +70,15 @@ namespace videx.View
             double xCoordinate = position.X;
 
             Console.WriteLine($"Clicked at X-coordinate: {xCoordinate}");
+
+            OutlierDetectionViewModel vm = DataContext as OutlierDetectionViewModel;
+            if (vm != null)
+            {
+                vm.PlotClickCommand.Execute(e);
+            }
+
         }
+
 
         private void DarkMode_Checked(object sender, RoutedEventArgs e)
         {

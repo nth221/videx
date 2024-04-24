@@ -56,7 +56,7 @@ namespace videx.ViewModel
 
         public ObjectDetectionViewModel()
         {
-            YoloAnalysis(timer);
+            //YoloAnalysis(timer);
             SelectedOptions = new ObservableCollection<string>();
             videoObject = new MediaElement();
             playCommand = new RelayCommand(ExecutePlayCommand);

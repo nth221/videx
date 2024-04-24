@@ -13,7 +13,10 @@
         <vm:ObjectDetectionViewModel/>
     </Window.DataContext>
 
-    <Border Background="#272537">
+    <Border  Background="#282D33"
+    BorderBrush="#3A4149"
+    BorderThickness="5"
+    CornerRadius="8,8,0,8">
 
         <Grid  Style="{StaticResource BackGroundGrid}">
             <Grid.ColumnDefinitions>
@@ -63,7 +66,7 @@
                         <ColumnDefinition Width="0*"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Margin="0,0,582,7" DataContext="{Binding}" Grid.ColumnSpan="2">
+                    <StackPanel Margin="0,0,573,7" DataContext="{Binding}" Grid.ColumnSpan="2">
                         <ScrollViewer Height="667" Width="186">
                             <StackPanel DataContext="{Binding}">
                                 <StackPanel Margin="0,0,0,0">

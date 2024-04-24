@@ -9,7 +9,7 @@
         <ResourceDictionary>
             <Style TargetType="{x:Type Window}" x:Key="WindowStyle">
                 <Style.Triggers>
-                    
+
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
                         <Setter Property="Foreground" Value="White"/>
@@ -27,7 +27,7 @@
 
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="#272537"/>
+                        <Setter Property="Background" Value="#282D33"/>
                     </DataTrigger>
 
                     <!-- Light Mode -->
@@ -42,7 +42,7 @@
 
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="#323345"/>
+                        <Setter Property="Background" Value="#373E46"/>
                     </DataTrigger>
 
                     <!-- Light Mode -->
@@ -56,7 +56,7 @@
                 <Style.Triggers>
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="#272537"/>
+                        <Setter Property="Background" Value="#373E46"/>
                     </DataTrigger>
 
                     <!-- Light Mode -->
@@ -71,7 +71,7 @@
                 <Style.Triggers>
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="#323345"/>
+                        <Setter Property="Background" Value="#282D33"/>
                     </DataTrigger>
 
                     <!-- Light Mode -->
@@ -86,7 +86,7 @@
                 <Style.Triggers>
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="#272537"/>
+                        <Setter Property="Background" Value="#282D33"/>
                         <Setter Property="BorderThickness" Value="0"/>
                     </DataTrigger>
 
@@ -103,7 +103,7 @@
                 <Style.Triggers>
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="#323345"/>
+                        <Setter Property="Background" Value="#373E46"/>
                         <Setter Property="BorderThickness" Value="0"/>
                     </DataTrigger>
 
@@ -148,8 +148,8 @@
                 <Style.Triggers>
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="#323345"/>
-                        <Setter Property="BorderBrush" Value="#272537"/>
+                        <Setter Property="Background" Value="#373E46"/>
+                        <Setter Property="BorderBrush" Value="#3A4149"/>
                     </DataTrigger>
 
                     <!-- Light Mode -->
@@ -166,7 +166,7 @@
                 <Style.Triggers>
                     <!-- Dark Mode -->
                     <DataTrigger Binding="{Binding Source={x:Static properties:Settings.Default}, Path=ColorMode}" Value="Black">
-                        <Setter Property="Background" Value="#323345"/>
+                        <Setter Property="Background" Value="#373E46"/>
                     </DataTrigger>
 
                     <!-- Light Mode -->

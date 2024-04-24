@@ -594,7 +594,7 @@ namespace videx.ViewModel
 
         static async Task CutAndSaveVideo(string inputPath, string outputPath, TimeSpan startTime, TimeSpan endTime)
         {
-            string ffmpegPath = "C:\\Users\\VODE-IDX\\Desktop\\ffmpeg\\bin\\ffmpeg.exe";
+            string ffmpegPath = "C:\\ffmpeg\\bin\\ffmpeg.exe";
             string arguments = $"-i \"{inputPath}\" -ss {startTime} -t {endTime - startTime} -c:v copy -c:a copy \"{outputPath}\"";
 
             Process process = new Process();

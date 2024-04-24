@@ -96,25 +96,25 @@ namespace videx.Model.AnomalyDetection
             mlcontext = new MLContext();
 
             AnomalyData[] data = inputList.ToArray();
-            /*            trainData = mlcontext.Data.LoadFromEnumerable(data);
+            trainData = mlcontext.Data.LoadFromEnumerable(data);
 
-                        // Perform PCA transformation
-                        var pcaTransformer = mlcontext.Transforms.Conversion.MapValueToKey("Features")
-                            .Append(mlcontext.Transforms.Conversion.MapKeyToValue("Features"))
-                            .Append(mlcontext.Transforms.NormalizeMinMax("FeaturesNormalized", "Features"))
-                            .Append(mlcontext.Transforms.ProjectToPrincipalComponents("PCA", "FeaturesNormalized", rank: 2));
+            /*// Perform PCA transformation
+            var pcaTransformer = mlcontext.Transforms.Conversion.MapValueToKey("Features")
+                .Append(mlcontext.Transforms.Conversion.MapKeyToValue("Features"))
+                .Append(mlcontext.Transforms.NormalizeMinMax("FeaturesNormalized", "Features"))
+                .Append(mlcontext.Transforms.ProjectToPrincipalComponents("PCA", "FeaturesNormalized", rank: 2));
 
-                        var transformedData = pcaTransformer.Fit(trainData).Transform(trainData);
-                        transformedFeatures = mlcontext.Data.CreateEnumerable<OutputData>(transformedData, reuseRowObject: false);*/
+            var transformedData = pcaTransformer.Fit(trainData).Transform(trainData);
+            transformedFeatures = mlcontext.Data.CreateEnumerable<OutputData>(transformedData, reuseRowObject: false);*/
 
             // LOF
-            int k = 3;
+            int k = 20;
             lofValues = LOF.CalculateLOF(data, k);
             DrawLOFGraph(lofValues);
 
             // CBLOF
             // int k = 3;
-            double threshold = 1.5;
+            double threshold = 0.5; // 1.5;
             CbLOF cblof = new CbLOF(k, threshold);
             cblofValues = cblof.Fit(data);
             DrawcbLOFGraph(cblofValues);
@@ -131,46 +131,46 @@ namespace videx.Model.AnomalyDetection
 
             endFlag = 1;
 
-            /*        Console.WriteLine("LOF Values:");
-                    for (int i = 0; i < lofValues.Count; i++)
-                    {
-                        Console.WriteLine($"Point {i + 1}: {lofValues[i]}");
-                    }
-            */
+            /*Console.WriteLine("LOF Values:");
+            for (int i = 0; i < lofValues.Count; i++)
+            {
+                Console.WriteLine($"Point {i + 1}: {lofValues[i]}");
+            }*/
 
 
 
-            /* Console.WriteLine("Transformed Data:");
-             foreach (var item in transformedFeatures)
-             {
-                 Console.WriteLine(string.Join(", ", item.PCA));
-             }*/
 
-            /*            var xData = transformedFeatures.Select(item => item.PCA[0]).ToArray();
-                        var yData = transformedFeatures.Select(item => item.PCA[1]).ToArray();
-                        var frameNumbers = Enumerable.Range(1, transformedFeatures.Count()).ToArray();
+            /*Console.WriteLine("Transformed Data:");
+            foreach (var item in transformedFeatures)
+            {
+                Console.WriteLine(string.Join(", ", item.PCA));
+            }
 
-                        double maxX = xData.Max();
-                        double maxY = yData.Max();
-                        double minX = xData.Min();
-                        double minY = yData.Min();
+            var xData = transformedFeatures.Select(item => item.PCA[0]).ToArray();
+            var yData = transformedFeatures.Select(item => item.PCA[1]).ToArray();
+            var frameNumbers = Enumerable.Range(1, transformedFeatures.Count()).ToArray();
 
-                        // Create a scatter plot
-                        ScottPlot.Plot pcaPlot = new();
-                        for (int i = 0; i < xData.Length; i++)
-                        {
-                            pcaPlot.Add.Marker(x: xData[i], y: yData[i]);
+            double maxX = xData.Max();
+            double maxY = yData.Max();
+            double minX = xData.Min();
+            double minY = yData.Min();
 
-                            var txt = pcaPlot.Add.Text(frameNumbers[i].ToString(), xData[i] + 0.001, yData[i] + 0.001);
-                            txt.Label.Rotation = -90;
-                            txt.Label.Alignment = Alignment.MiddleLeft;
-                        }
+            // Create a scatter plot
+            ScottPlot.Plot pcaPlot = new();
+            for (int i = 0; i < xData.Length; i++)
+            {
+                pcaPlot.Add.Marker(x: xData[i], y: yData[i]);
 
-                        pcaPlot.Axes.SetLimits(minX, maxX, minY, maxY);
+                var txt = pcaPlot.Add.Text(frameNumbers[i].ToString(), xData[i] + 0.001, yData[i] + 0.001);
+                txt.Label.Rotation = -90;
+                txt.Label.Alignment = Alignment.MiddleLeft;
+            }
 
-                        // Save the plot to a file or display it
-                        pcaPlot.SavePng("C:\\Users\\VODE-IDX\\Desktop\\pca_scatter.png", 400, 300);
-                        Console.WriteLine("Scatter plot saved as pca_scatter.png");*/
+            pcaPlot.Axes.SetLimits(minX, maxX, minY, maxY);
+
+            // Save the plot to a file or display it
+            pcaPlot.SavePng("C:\\Users\\psy\\Desktop\\pca_scatter.png", 400, 300);
+            Console.WriteLine("Scatter plot saved as pca_scatter.png");*/
         }
 
         public class OutputData
@@ -216,9 +216,9 @@ namespace videx.Model.AnomalyDetection
             scatterPlot.XLabel("Data Point");
             scatterPlot.YLabel("LOF Value");
 
-            scatterPlot.Axes.SetLimits(0, lofValues.Count - 1, 0, 1.5);
+            scatterPlot.Axes.SetLimits(0, lofValues.Count - 1, 0.8, 1.5);
 
-            scatterPlot.SavePng("C:\\Users\\VODE-IDX\\Desktop\\LOF_ScatterPlot.png", 600, 400);
+            scatterPlot.SavePng("C:\\Users\\psy\\Desktop\\LOF_ScatterPlot.png", 600, 400);
             Console.WriteLine("Scatter plot saved as LOF_ScatterPlot.png");
         }
 
@@ -245,9 +245,9 @@ namespace videx.Model.AnomalyDetection
             scatterPlot.XLabel("Data Point");
             scatterPlot.YLabel("cbLOF Value");
 
-            scatterPlot.Axes.SetLimits(0, cblofValues.Count - 1, 0, 1.5);
+            scatterPlot.Axes.SetLimits(0, cblofValues.Count - 1, 0.8, 1.5);
 
-            scatterPlot.SavePng("C:\\Users\\VODE-IDX\\Desktop\\cbLOF_ScatterPlot.png", 600, 400);
+            scatterPlot.SavePng("C:\\Users\\psy\\Desktop\\cbLOF_ScatterPlot.png", 600, 400);
             Console.WriteLine("Scatter plot saved as cbLOF_ScatterPlot.png");
         }
 
@@ -276,8 +276,8 @@ namespace videx.Model.AnomalyDetection
 
             scatterPlot.Axes.SetLimits(0, iForestValues.Count - 1, 0, 1.5);
 
-            scatterPlot.SavePng("C:\\Users\\VODE-IDX\\Desktop\\iForest_ScatterPlot.png", 600, 400);
-            Console.WriteLine("Scatter plot saved as cbLOF_ScatterPlot.png");
+            scatterPlot.SavePng("C:\\Users\\psy\\Desktop\\iForest_ScatterPlot.png", 600, 400); // User names -> VODE-IDX
+            Console.WriteLine("Scatter plot saved as iForest_ScatterPlot.png");
         }
     }
 }
