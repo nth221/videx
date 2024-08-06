@@ -16,6 +16,7 @@ namespace videx.View
     /// </summary>
     public partial class SettingView : Window
     {
+
         public SettingView()
         {
             InitializeComponent();
@@ -23,8 +24,8 @@ namespace videx.View
             // ViewModel --> View : Currentview 종료 명령
             SettingViewModel viewModel = new SettingViewModel();
             viewModel.SetCurrentWindow(this);
-
             DataContext = viewModel;
+
         }
 
 
@@ -77,6 +78,40 @@ namespace videx.View
             Properties.Settings.Default.ColorMode = "White";
 
             Properties.Settings.Default.Save();
+        }
+
+        private void OnScrollToItem(object sender, SettingViewModel.ScrollEventArgs e)
+        {
+            /*// Find the container for the item and bring it into view
+            var container = CheckBoxList1.ItemContainerGenerator.ContainerFromItem(e.Item) as FrameworkElement;
+            container?.BringIntoView();*/
+        }
+
+        private void SearchTextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            SettingViewModel vm = DataContext as SettingViewModel;
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                if (SuggestionListBox.SelectedItem != null)
+                {
+                    vm.SelectedCheckBoxItem = SuggestionListBox.SelectedItem as CheckBoxItem;
+                }
+            }
+        }
+
+        private void SuggestionListBox_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            SettingViewModel vm = DataContext as SettingViewModel;
+            if (SuggestionListBox.SelectedItem != null)
+            {
+                var selectedItem = SuggestionListBox.SelectedItem as CheckBoxItem;
+                if (selectedItem != null)
+                {
+                    selectedItem.IsChecked = true;
+                    vm.SelectedCheckBoxItem = selectedItem;
+                    vm.IsPopupOpen = false;
+                }
+            }
         }
 
 

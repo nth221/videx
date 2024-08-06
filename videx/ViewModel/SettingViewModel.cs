@@ -11,8 +11,12 @@ using videx.View;
 using Microsoft.Win32;
 using System.Linq;
 using System.Threading.Tasks;
+using MetadataExtractor;
+using MetadataExtractor.Formats.QuickTime;
 using OpenCvSharp;
 using videx.Model.YOLOv5;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace videx.ViewModel
 {
@@ -27,6 +31,7 @@ namespace videx.ViewModel
 
         public string[] SelectedLabels { get; set; }
         public static string filePath;
+        public static string meta1;
         public bool sldrDragStart = false;
         public bool check_time = false;
         bool edit_check = false;
@@ -41,8 +46,22 @@ namespace videx.ViewModel
 
         public ObservableCollection<string> CheckedItems { get; set; }
         public ObservableCollection<CheckBoxItem> CheckBoxItems { get; set; }
+        public ObservableCollection<CheckBoxItem> FilteredCheckBoxItems { get; set; }
 
-
+        private CheckBoxItem selectedCheckBoxItem;
+        public CheckBoxItem SelectedCheckBoxItem
+        {
+            get { return selectedCheckBoxItem; }
+            set
+            {
+                if (selectedCheckBoxItem != value)
+                {
+                    selectedCheckBoxItem = value;
+                    OnPropertyChanged(nameof(SelectedCheckBoxItem));
+                    ScrollToSelectedItem();
+                }
+            }
+        }
 
         public SettingViewModel()
         {
@@ -199,6 +218,7 @@ namespace videx.ViewModel
         private void InitializeCheckBoxItems()
         {
             CheckBoxItems = new ObservableCollection<CheckBoxItem>();
+            FilteredCheckBoxItems = new ObservableCollection<CheckBoxItem>();
 
             for (int i = 0; i < 80; i++)
             {
@@ -209,6 +229,7 @@ namespace videx.ViewModel
                 };
                 checkBoxItem.PropertyChanged += CheckBoxItem_PropertyChanged;
                 CheckBoxItems.Add(checkBoxItem);
+                FilteredCheckBoxItems.Add(checkBoxItem);
             }
         }
 
@@ -219,6 +240,75 @@ namespace videx.ViewModel
                 SelectedLabels = CheckBoxItems.Where(item => item.IsChecked).Select(item => item.Content).ToArray();
                 OnPropertyChanged(nameof(SelectedLabels));
                 OnSelectedLabelsChanged();
+            }
+        }
+
+        private void FilterCheckBoxItems()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                FilteredCheckBoxItems.Clear();
+                foreach (var item in CheckBoxItems)
+                {
+                    FilteredCheckBoxItems.Add(item);
+                }
+                IsPopupOpen = false;
+            }
+            else
+            {
+                var filteredItems = CheckBoxItems.Where(i => i.Content.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
+                FilteredCheckBoxItems.Clear();
+                foreach (var item in filteredItems)
+                {
+                    FilteredCheckBoxItems.Add(item);
+                }
+                IsPopupOpen = FilteredCheckBoxItems.Any();
+            }
+        }
+
+        private void ScrollToSelectedItem()
+        {
+            ScrollToItem?.Invoke(this, new ScrollEventArgs(SelectedCheckBoxItem));
+        }
+
+        public event EventHandler<ScrollEventArgs> ScrollToItem;
+
+        public class ScrollEventArgs : EventArgs
+        {
+            public CheckBoxItem Item { get; }
+
+            public ScrollEventArgs(CheckBoxItem item)
+            {
+                Item = item;
+            }
+        }
+
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+                if (searchText != value)
+                {
+                    searchText = value;
+                    OnPropertyChanged(nameof(SearchText));
+                    FilterCheckBoxItems();
+                }
+            }
+        }
+
+        private bool isPopupOpen;
+        public bool IsPopupOpen
+        {
+            get { return isPopupOpen; }
+            set
+            {
+                if (isPopupOpen != value)
+                {
+                    isPopupOpen = value;
+                    OnPropertyChanged(nameof(IsPopupOpen));
+                }
             }
         }
 
@@ -525,6 +615,21 @@ namespace videx.ViewModel
             VideoObject.Visibility = Visibility.Hidden;
         }
 
+        public static string GetMetaData(string filePath, string directoryName, string tagName)
+        {
+            IEnumerable<MetadataExtractor.Directory> directories = ImageMetadataReader.ReadMetadata(filePath);
+            MetadataExtractor.Directory directory = directories.Where(s => string.Equals(s.Name, directoryName)).FirstOrDefault();
+
+            if (directory == null)
+                return string.Empty;
+
+            MetadataExtractor.Tag tag = directory.Tags.Where(s => string.Equals(s.Name, tagName)).FirstOrDefault();
+
+            if (tag == null)
+                return string.Empty;
+
+            return tag.Description;
+        }
 
         private void BtnSelectFile()
         {
@@ -539,6 +644,20 @@ namespace videx.ViewModel
             {
                 filePath = dlg.FileName;
                 Videofilename = filePath.Substring(filePath.LastIndexOf('\\') + 1);
+                meta1 = GetMetaData(filePath, "QuickTime Movie Header", "Created");
+
+                DateTime parsedDate;
+                if (DateTime.TryParseExact(meta1, "ddd MMM dd HH:mm:ss yyyy", new CultureInfo("ko-KR"), DateTimeStyles.None, out parsedDate))
+                {
+                    meta1 = parsedDate.ToString("dddd, MMMM dd, yyyy hh:mm:ss tt", new CultureInfo("en-US"));
+                }
+                else
+                {
+                    Console.WriteLine("Failed to parse date");
+                }
+
+
+                Console.WriteLine(meta1);
                 CheckBoxVisibility = Visibility.Visible;
 
                 OnPropertyChanged(nameof(SelectedOptions));
@@ -630,7 +749,7 @@ namespace videx.ViewModel
             SlderPlayTime = VideoObject.Position.TotalSeconds;
 
             Videofile = "Video : " + filePath;
-            VideoInfo = "Video Length : " + VideoObject.NaturalDuration.TimeSpan + "\n" + "Resolution : " + VideoObject.NaturalVideoWidth + "x" + VideoObject.NaturalVideoHeight;
+            VideoInfo = "Video date: " + meta1 + "\nVideo Length : " + VideoObject.NaturalDuration.TimeSpan + "\n" + "Resolution : " + VideoObject.NaturalVideoWidth + "x" + VideoObject.NaturalVideoHeight;
         }
 
         private void VideoObject_MediaOpened(object sender, RoutedEventArgs e)

@@ -95,7 +95,13 @@ Maximum="1" LargeChange="0.1" Value="0.5" Grid.Row="1" />
                             FontSize="14"
                             TextDecorations="Underline"
                             FontWeight="Bold" Height="27" Width="74" Margin="0,15,0,0"/>
-                        <TextBox Margin="75,35,30,30" Width="145" Height="20"/>
+                        <TextBox x:Name="SearchTextBox" Margin="75,35,30,30" Width="145" Height="20" 
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                             KeyUp="SearchTextBox_KeyUp"/>
+                        <Popup x:Name="SearchPopup" PlacementTarget="{Binding ElementName=SearchTextBox}" IsOpen="{Binding IsPopupOpen}" StaysOpen="False">
+                            <ListBox x:Name="SuggestionListBox" ItemsSource="{Binding FilteredCheckBoxItems}" DisplayMemberPath="Content" 
+                                 MouseLeftButtonUp="SuggestionListBox_MouseLeftButtonUp"/>
+                        </Popup>
                     </StackPanel>
                 </Border>
                 <Grid Style="{StaticResource ForeGroundGrid}" Margin="21,519,44,10">
