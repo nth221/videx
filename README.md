@@ -1,5 +1,5 @@
 # VIDEX
-Video Indexing Tool with Object and Outlier detection (IJCAI-24)
+Video Indexing Tool with Object and Outlier detection (IJCAI-24 Demo)
 ![스크린샷 2024-02-14 12 15 47](https://github.com/nth221/videx/assets/64348852/bee72b86-5916-4980-9834-c460de7a00a1)
 
 ![js](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
